@@ -1,0 +1,7 @@
+# include: package:flutter_lints/flutter.yaml
+include: package:very_good_analysis/analysis_options.yaml
+
+linter:
+  rules:
+    literal_only_boolean_expressions: false
+    avoid_positional_boolean_parameters: false
