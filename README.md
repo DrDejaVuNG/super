@@ -1,8 +1,8 @@
 <p align="center" height="100">
-![](screenshots/logo.png)
+<img src="https://github.com/DrDejaVuNG/flutter_super/blob/main/screenshots/logo.png?raw=true" height="120" alt="Super" />
 </p>
 <p align="center">
-[![style: very good analysis](https://img.shields.io/badge/style-very_good_analysis-B22C89.svg)](https://pub.dev/packages/very_good_analysis)
+<a href="https://pub.dev/packages/very_good_analysis"><img src="https://img.shields.io/badge/style-very_good_analysis-B22C89.svg" alt="verygoodanalysis"></a>
 </p>
 
 ---
