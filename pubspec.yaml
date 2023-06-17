@@ -3,8 +3,8 @@ description: Reactive state management framework for scalable flutter applicatio
 version: 1.0.0
 repository: https://github.com/DrDejaVuNG/flutter_super
 issue_tracker: https://github.com/DrDejaVuNG/flutter_super/issues
-homepage: https://drdejavu.dev
-documentation: https://super.drdejavu.dev
+homepage: https://drdejavu.ng
+documentation: https://super.drdejavu.ng
 
 # publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
