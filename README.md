@@ -3,11 +3,14 @@
 </p>
 
 <p align="center">
-<a href="https://pub.dev/packages/flutter_super"><img src="https://img.shields.io/pub/v/flutter_super.svg" alt="Pub"></a>
+<a href="https://pub.dev/packages/flutter_super"><img src="https://img.shields.io/pub/v/flutter_super.svg?label=flutter_super&color=blue" alt="Pub"></a>
+<a href="https://pub.dev/packages/flutter_super/score"><img src="https://img.shields.io/pub/points/flutter_super?logo=dart" alt="Pub points"></a>
 <a href="https://github.com/DrDejaVuNG/flutter_super/actions"><img src="https://github.com/DrDejaVuNG/flutter_super/workflows/build/badge.svg" alt="build"></a>
 <a href="https://codecov.io/gh/DrDejaVuNG/flutter_super"><img src="https://codecov.io/gh/DrDejaVuNG/flutter_super/branch/main/graph/badge.svg" alt="codecov"></a>
 <a href="https://pub.dev/packages/very_good_analysis"><img src="https://img.shields.io/badge/style-very_good_analysis-B22C89.svg" alt="verygoodanalysis"></a>
+<a href="https://pub.dev/packages/flutter_super/score"><img src="https://img.shields.io/pub/popularity/flutter_super?logo=dart" alt="Popularity"></a>
 <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/license-MIT-purple.svg" alt="License: MIT"></a>
+<a href="https://t.me/+-40kXv4jcPhlNWQ8><img src="https://img.shields.io/badge/chat-on%20Telegram-blue.svg" alt="Telegram"></a>
 </p>
 
 ---
@@ -25,6 +28,8 @@ and streamline the development of reactive and scalable applications.
 - Widget builders for building reactive UI components
 - Intuitive testing (no setup/teardown required), dedicated testing library [super_test](https://pub.dev/packages/super_test)
 
+<br>
+
 ## Getting started
 
 Add Super to your pubspec.yaml file:
@@ -40,6 +45,8 @@ Import the Super package into your project:
 import 'package:flutter_super/flutter_super.dart';
 ```
 
+<br>
+
 ## Usage
 
 ### Counter App
@@ -49,6 +56,8 @@ import 'package:flutter_super/flutter_super.dart';
 ### Counter App Test
 
 ![](https://github.com/DrDejaVuNG/images/blob/main/images/flutter_super/counter_app_test.png?raw=true)
+
+<br>
 
 Lets break down the Counter App Example.
 
@@ -140,6 +149,8 @@ class HomeView extends SuperWidget<HomeController> { // Step 4
 ```
 By separating the logic into the `HomeController` and the UI into the `HomeView`, the application achieves a clear separation of concerns between the business logic layer and the presentational layer. The `HomeView` widget is responsible for rendering the UI based on the state provided by the `HomeController`, while the `HomeController` handles the underlying logic and state management for the counter functionality.
 
+<br>
+
 ## Super Framework APIs
 
 ### SuperApp
@@ -151,7 +162,7 @@ The [mocks] parameter is an optional list of objects used for mocking dependenci
 The `mocks` property provides a way to inject mock objects into the application's dependency graph during testing.
 These mock objects can replace real dependencies, such as database connections or network clients, allowing for controlled and predictable testing scenarios.
 
-**Note:** When using the `mocks` property, make sure to provide instantiated mock objects, not just their types.
+**Important:** When using the `mocks` property, make sure to provide instantiated mock objects, not just their types.
 For example, instead of `[MockAuthRepo]`, use `[MockAuthRepo()]` to ensure that the mock object is used.
 Adding the type without instantiating the mock object will result in the mock not being utilized.
 
@@ -176,6 +187,8 @@ SuperApp(
   child: const MyApp(),
 );
 ```
+
+<br>
 
 ### SuperController
 
@@ -210,8 +223,10 @@ class CounterController extends SuperController {
 
 In the example above, `CounterController` extends `SuperController` and defines a `count` variable that is managed by an `Rx` object. The `increment()` method is used to increment the count value. The `onDisable()` method is overridden to dispose of the `Rx` object when the controller is disabled.
 
-**Note:** It is recommended to define Rx objects as private and only provide a getter for accessing the state.
+**Important:** It is recommended to define Rx objects as private and only provide a getter for accessing the state.
 This helps prevent the state from being changed outside of the controller, ensuring that the state is only modified through defined methods within the controller (e.g., `increment()` in the example).
+
+<br>
 
 ### SuperModel
 
@@ -237,6 +252,8 @@ final user2 = UserModel(1, 'Paul');
 _user.value = user2; // Will not trigger a rebuild
 ```
 
+<br>
+
 ## Widgets in the Super Framework
 
 ### SuperWidget
@@ -257,9 +274,11 @@ class MyWidget extends SuperWidget<MyController> {
 }
 ```
 
-**Note:** It is recommended to use one controller per widget to ensure proper encapsulation and separation of concerns. Each widget should have its own dedicated controller for managing its state and lifecycle. This approach promotes clean and modular code by keeping the responsibilities of each widget and its associated controller separate.
+**Important:** It is recommended to use one controller per widget to ensure proper encapsulation and separation of concerns. Each widget should have its own dedicated controller for managing its state and lifecycle. This approach promotes clean and modular code by keeping the responsibilities of each widget and its associated controller separate.
 
 If you have a widget that doesn't require state management or interaction with a controller, it is best to use a vanilla [StatelessWidget] instead. Using a controller in a widget that doesn't have any state could add unnecessary complexity and overhead.
+
+<br>
 
 ### SuperBuilder
 
@@ -278,6 +297,7 @@ SuperBuilder(
   }
 )
 ```
+**Important:** You need to make use of an [Rx] object value in the builder method, otherwise it will result in an error.
 
 **Note:** If you'd prefer to specify the `Rx` object outside the builder method, i.e you opted to make your `Rx` objects non-private then make use of the `SuperConsumer` widget.
 
@@ -294,6 +314,8 @@ SuperBuilder(
   }
 )
 ```
+
+<br>
 
 ### SuperConsumer
 
@@ -317,6 +339,8 @@ SuperConsumer<int>(
 ```
 
 In the above example, a [SuperConsumer] widget is created and given a `CounterNotifier` object called counter. Whenever the state of counter changes, the  builder function is called with the latest state, and it returns a [Text] widget displaying the count.
+
+<br>
 
 ### SuperListener
 
@@ -347,8 +371,9 @@ SuperListener<int>(
 )
 ```
 
-**Note:** You need to make use of an [Rx] object value in the listen parameter,
-otherwise, it will result in an error.
+**Important:** You need to make use of an [Rx] object value in the listen parameter, otherwise it will result in an error.
+
+<br>
 
 ### AsyncBuilder
 
@@ -371,7 +396,9 @@ AsyncBuilder(
 ),
 ```
 
-**Note:** Either a future or a stream should be used at a time, using both at the same time will result in an error.
+**Important:** Either a future or a stream should be used at a time, using both at the same time will result in an error.
+
+<br>
 
 ## Rx Types
 
@@ -402,6 +429,8 @@ It is best used for local state i.e state used in a single controller.
 
 **Note:** When using the RxT class, it is important to call the `dispose()` method on the object when it is no longer needed to prevent memory leaks. This can be done using the onDisable method of your controller.
 
+<br>
+
 ### RxNotifier
 
 An abstract base class for creating reactive notifiers that manage a state of type `T`.
@@ -429,30 +458,48 @@ It is best used for global state i.e state used in multiple controllers but it c
 
 **Note:** When using the RxNotifier class, it is important to call the `dispose()` method on the object when it is no longer needed to prevent memory leaks. This can be done using the onDisable method of your controller.
 
+<br>
+
 ### Rx Collections
 
-These are similar to RxT but do not require the use of .value
+These are similar to RxT but do not require the use of .value, they extend the functionality of the regular dart collections by being reactive.
 
 - RxMap
 - RxSet
 - RxList
 
+<br>
+
 ## Dependency Injection
+
+### of
 
 Retrieves the instance of a dependency from the manager and starts the controller if the dependency extends `SuperController`.
 ```dart
 Super.of<T>();
 ```
 
+<br>
+
+### init
+
 Initializes and retrieves the instance of a dependency, or creates a new instance if it doesn't exist.
 ```dart
 Super.init<T>(T instance);
 ```
 
+<br>
+
+### create
+
 Creates a singleton instance of a dependency and registers it with the manager.
 ```dart
 Super.create<T>(T instance, {bool lazy = false});
 ```
+
+<br>
+
+### delete
 
 Deletes the instance of a dependency from the manager.
 If autoDispose is set to false, [force] must be set to true to delete resources.
@@ -460,11 +507,17 @@ If autoDispose is set to false, [force] must be set to true to delete resources.
 Super.delete<T>({String? key, bool force = false});
 ```
 
+<br>
+
+### deleteAll
+
 Deletes all instances of dependencies from the manager.
 If autoDispose is set to false, [force] must be set to true to delete resources.
 ```dart
 Super.deleteAll({bool force = false});
 ```
+
+<br>
 
 ## Useful APIs
 
@@ -507,6 +560,8 @@ void main() {
 }
 ```
 
+<br>
+
 ### context.read
 
 Works exactly like `Super.of<T>()` but with BuildContext and is familiar
@@ -514,21 +569,31 @@ Works exactly like `Super.of<T>()` but with BuildContext and is familiar
 context.read<T>();
 ```
 
+<br>
+
 ## Additional Information
 
 ### Super Structure
 
 For a clean way to structure your  projects, check out [Super Structure](/SuperStructure.md).
 
+<br>
+
 For more information on all the APIs and more, check out the [API reference](https://pub.dev/documentation/flutter_super/latest).
+
+<br>
 
 ## Requirements
 
 - Dart 3: >= 3.0.0
 
+<br>
+
 ## Maintainers
 
 - [Seyon Anko](https://github.com/DrDejaVuNG)
+
+<br>
 
 ## Dev Note
 
@@ -552,6 +617,8 @@ improvement, please don't hesitate to reach out. Happy coding!
 
 Best regards,
 DrDejaVu
+
+<br>
 
 ## Credits
 
