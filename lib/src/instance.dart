@@ -51,7 +51,7 @@ class InstanceManager {
         throw FlutterError('Instance of "$T" is not registered.');
       }
       if (inst is T Function()) {
-        // register S instance and return it
+        // register T instance and return it
         inst = inst();
         _register(instance: inst, key: key);
         return of<T>();
