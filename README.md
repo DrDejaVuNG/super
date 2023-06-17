@@ -49,6 +49,8 @@ Lets break down the Counter App Example.
 
 ### main.dart
 
+The `main.dart` file serves as the entry point for the application. It sets up the necessary framework for the project by wrapping the root widget with `SuperApp`, which enables the  `Super` framework.
+
 ```dart
 void main() {
   runApp(
@@ -57,6 +59,8 @@ void main() {
   );
 }
 ```
+
+`MyApp` is the root widget of the application. It is a stateless widget that returns a `MaterialApp` as its child. The `MaterialApp` sets the home view of the application to be `HomeView`.
 
 ```dart
 // Define the root widget of the application
@@ -69,6 +73,8 @@ class MyApp extends StatelessWidget {
   }
 }
 ```
+
+`HomeController` is a controller class that extends `SuperController`. It manages the state and logic for the counter functionality in the application. It declares an `RxInt` object _count to represent the count value and provides a getter method `count` to access the current count value. It also defines an `increment` method to increase the count value by 1. The onDisable method is overridden to dispose of the `_count` object when the controller is disabled.
 
 ```dart
 /// The SuperController mixin class allows you to define the 
@@ -91,13 +97,9 @@ class HomeController extends SuperController { // Step 2
 }
 ```
 
+`HomeView` is a widget that displays the counter and provides an increment button. It extends `SuperWidget<HomeController>` to initialize the `HomeController` as its controller. It overrides the `initController` method to create an instance of `HomeController`.
+
 ```dart
-/// The home view widget that displays the counter and provides an
-/// increment button.
-///
-/// This widget extends [SuperWidget] to initialize the [HomeController].
-/// It utilizes [SuperBuilder] to listen to the state changes in the controller
-/// and update the UI accordingly.
 class HomeView extends SuperWidget<HomeController> { // Step 4
   const HomeView({super.key});
 
@@ -131,7 +133,7 @@ class HomeView extends SuperWidget<HomeController> { // Step 4
   }
 }
 ```
-Now, we have achieved the separation of our user interface (presentational layer) and the underlying logic of our application (business logic layer). It's important to note that the `HomeView` widget is unaware of the specific actions triggered when a user interacts with the floating action button. The widget's responsibility is simply to inform the `HomeController` that the button has been pressed, and then the controller takes care of the necessary logic to handle the increment operation.
+By separating the logic into the `HomeController` and the UI into the `HomeView`, the application achieves a clear separation of concerns between the business logic layer and the presentational layer. The `HomeView` widget is responsible for rendering the UI based on the state provided by the `HomeController`, while the `HomeController` handles the underlying logic and state management for the counter functionality.
 
 ## Super Framework APIs
 
