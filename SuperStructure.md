@@ -108,7 +108,9 @@ Designed By: [Seyon Anko](https://github.com/DrDejaVuNG)
         
         - /modules
         # A module is a bundle of tools required to create an interface, this includes views, components, controllers, etc.
-        # You can think of a module as a section of our app, which could have several views, components etc which are all related to each other like an e.g an account module could have a bookmarks view, friends view, notifications view, etc, all things related to an account. Here's an example for authentication:
+        # You can think of a module as a section of our app, which could have several views, components etc which are all
+        # related to each other like an e.g an account module could have a bookmarks view, friends view, notifications view, 
+        # etc, all things related to an account. Here's an example for authentication:
 
             - /auth
             # Using auth as an example, the views it could contain include, login, signup, forgot password, enter otp etc.
