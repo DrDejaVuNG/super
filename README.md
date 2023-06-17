@@ -205,6 +205,7 @@ class CounterController extends SuperController {
 
   int get count => _count.value;
 
+  @override
   void onAlive() {
     context.showTextSnackBar('Controller Alive');
   }
