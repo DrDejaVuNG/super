@@ -140,7 +140,7 @@ Designed By: [Seyon Anko](https://github.com/DrDejaVuNG)
                     - login_view.dart
                     - signup_view.dart
                     # This is useful as they could interact with a single controller which will contain the functions to 
-                    # update our state e.g currentUser, however we can also have different controllers and bindings for each.
+                    # update our state e.g currentUser, however we can also have different controllers for each.
                     
         - /shared
             - /notifiers
