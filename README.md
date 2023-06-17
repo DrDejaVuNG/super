@@ -516,6 +516,10 @@ context.read<T>();
 
 ## Additional Information
 
+### Super Structure
+
+For a clean way to structure your  projects, check out [Super Structure](/SuperStructure.md).
+
 For more information on all the APIs and more, check out the [API reference](https://pub.dev/documentation/flutter_super/latest).
 
 ## Requirements
