@@ -1,8 +1,12 @@
 <p align="center" height="100">
 <img src="https://github.com/DrDejaVuNG/flutter_super/blob/main/screenshots/logo.png?raw=true" height="150" alt="Super" />
 </p>
+
 <p align="center">
+<a href="https://pub.dev/packages/flutter_super"><img src="https://img.shields.io/pub/v/flutter_super.svg" alt="Pub"></a>
+<a href="https://github.com/DrDejaVuNG/flutter_super/actions"><img src="https://github.com/DrDejaVuNG/flutter_super/workflows/build/badge.svg" alt="build"></a>
 <a href="https://pub.dev/packages/very_good_analysis"><img src="https://img.shields.io/badge/style-very_good_analysis-B22C89.svg" alt="verygoodanalysis"></a>
+<a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/license-MIT-purple.svg" alt="License: MIT"></a>
 </p>
 
 ---
