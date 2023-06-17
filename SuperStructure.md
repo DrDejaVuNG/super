@@ -61,7 +61,8 @@ Designed By: [Seyon Anko](https://github.com/DrDejaVuNG)
             - dependencies.dart
             # Could contain dependencies to be initialized on app start
             # e.g void init() async {await Hive.initFlutter(); await Hive.openBox('Box');}
-            # all dependencies would be placed in the init method, then used in main function e.g main() async {init(); runApp();}
+            # all dependencies would be placed in the init method, then used in main function 
+            # e.g main() async {init(); runApp();}
             
         - /locales
         # Directory containing language translation files
@@ -102,7 +103,8 @@ Designed By: [Seyon Anko](https://github.com/DrDejaVuNG)
 
     - /interface
     # The interface is the bridge between the user and the data, it enables the user to interact with the app.
-    # For example if a user wanted to access a list of products, they could click a button on a view which fires an event in a controller which then fetches the data and displays it on the view.
+    # For example if a user wanted to access a list of products, they could click a button on a view 
+    # which fires an event in a controller which then fetches the data and displays it on the view.
         
         - /modules
         # A module is a bundle of tools required to create an interface, this includes views, components, controllers, etc.
