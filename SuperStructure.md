@@ -139,7 +139,8 @@ Designed By: [Seyon Anko](https://github.com/DrDejaVuNG)
                 # Assuming it contains two files, login and signup
                     - login_view.dart
                     - signup_view.dart
-                    # This is useful as they could interact with a single controller which will contain the functions to update our state e.g currentUser, however we can also have different controllers and bindings for each.
+                    # This is useful as they could interact with a single controller which will contain the functions to 
+                    # update our state e.g currentUser, however we can also have different controllers and bindings for each.
                     
         - /shared
             - /notifiers
