@@ -381,10 +381,15 @@ SuperListener<int>(
 A stateful widget that builds itself based on the state of an asynchronous computation.
 
 The [builder] parameter is a required callback function that returns the widget to be built.
+
 The [future] parameter represents an asynchronous computation that will trigger a rebuild when completed.
+
 The [stream] parameter represents an asynchronous data stream that will trigger a rebuild when new data is available.
+
 The [loading] parameter represents a widget to display while the asynchronous computation is in progress.
+
 The [error] parameter represents a widget builder that constructs an error widget when an error occurs in the asynchronous computation.
+
 The [initialData] parameter represents the initial data that will be used to create the snapshots until a non-null [future] or [stream] has completed.
 
 Example usage:
