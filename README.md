@@ -237,7 +237,7 @@ Classes that extend this class should implement the `props` getter, which return
 Example usage:
 
 ```dart
-class UserModel extends SuperModel {
+class UserModel with SuperModel {
   UserModel(this.id, this.name);
 
   final int id;
