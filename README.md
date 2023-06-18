@@ -582,7 +582,7 @@ context.read<T>();
 
 ### Super Structure
 
-For a clean way to structure your  projects, check out [Super Structure](/SuperStructure.md).
+For a clean way to structure your  projects, check out [Super Structure](https://github.com/DrDejaVuNG/flutter_super/blob/main/SuperStructure.md).
 
 <br>
 
@@ -611,7 +611,7 @@ with the high standards set by the Flutter Team, who have done an
 incredible job of documenting the Flutter framework.
 
 While developing with Super, you may notice similarities in
-API names with other state management solutions such as Bloc, and others.
+API names with other state management solutions such as Bloc and others.
 This is because I have drawn inspiration from these solutions and leveraged
 my previous experience with them to create Super. By adopting familiar concepts 
 and naming conventions, I aimed to make the learning curve smoother for 
