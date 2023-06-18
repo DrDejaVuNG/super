@@ -2,7 +2,7 @@
 
 Designed By: [Seyon Anko](https://github.com/DrDejaVuNG)
 
-- /lib
+- /lib:
     - /app:  This directory contains all the main application directories.
         - /config:  Directory containing all configuration files.
             - /core:  Core configuration directory.
@@ -11,9 +11,9 @@ Designed By: [Seyon Anko](https://github.com/DrDejaVuNG)
             - /routes:  Directory for storing routes and paths.
             
         - /data:  Directory containing everything related to the app's data.
-              - /api:  Directory for API services.
-              - /database:  Directory for local databases.
-              - /json:  Directory containing local JSON data.
+            - /api:  Directory for API services.
+            - /database:  Directory for local databases.
+            - /json:  Directory containing local JSON data.
               
         - /interface:  Directory for the interface, which enables user interaction with the app's data.
             - /modules:  Directory for modules, which are bundles of tools required to create an interface.
