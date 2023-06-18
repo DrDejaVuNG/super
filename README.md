@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-<a href="https://pub.dev/packages/flutter_super"><img src="https://img.shields.io/pub/v/flutter_super.svg?label=flutter_super&color=blue" alt="Pub"></a>
+<a href="https://pub.dev/packages/flutter_super"><img src="https://img.shields.io/pub/v/flutter_super.svg?logo=dart&label=pub&color=blue" alt="Pub"></a>
 <a href="https://pub.dev/packages/flutter_super/score"><img src="https://img.shields.io/pub/points/flutter_super?logo=dart" alt="Pub points"></a>
 <a href="https://github.com/DrDejaVuNG/flutter_super/actions"><img src="https://github.com/DrDejaVuNG/flutter_super/workflows/build/badge.svg" alt="build"></a>
 <a href="https://codecov.io/gh/DrDejaVuNG/flutter_super"><img src="https://codecov.io/gh/DrDejaVuNG/flutter_super/branch/main/graph/badge.svg" alt="codecov"></a>
