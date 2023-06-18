@@ -6,7 +6,7 @@
 <a href="https://pub.dev/packages/flutter_super"><img src="https://img.shields.io/pub/v/flutter_super.svg?logo=dart&label=pub&color=blue" alt="Pub"></a>
 <a href="https://pub.dev/packages/flutter_super/score"><img src="https://img.shields.io/pub/points/flutter_super?logo=dart" alt="Pub points"></a>
 <a href="https://github.com/DrDejaVuNG/flutter_super/actions"><img src="https://github.com/DrDejaVuNG/flutter_super/workflows/build/badge.svg" alt="build"></a>
-<a href="https://codecov.io/gh/DrDejaVuNG/flutter_super"><img src="https://codecov.io/gh/DrDejaVuNG/flutter_super/branch/main/graph/badge.svg" alt="codecov"></a>
+<a href="https://codecov.io/gh/DrDejaVuNG/flutter_super"><img src="https://codecov.io/gh/DrDejaVuNG/flutter_super/branch/main/graph/badge.svg?color=green" alt="codecov"></a>
 <a href="https://pub.dev/packages/very_good_analysis"><img src="https://img.shields.io/badge/style-very_good_analysis-B22C89.svg" alt="verygoodanalysis"></a>
 <a href="https://pub.dev/packages/flutter_super/score"><img src="https://img.shields.io/pub/popularity/flutter_super?logo=dart" alt="Popularity"></a>
 <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/license-MIT-purple.svg" alt="License: MIT"></a>
@@ -610,13 +610,12 @@ understandable manner. I wanted to create a framework that aligns
 with the high standards set by the Flutter Team, who have done an
 incredible job of documenting the Flutter framework.
 
-While developing with Super, you may notice similarities in syntax,
-API names, code practices and more with other state management solutions
-such as Bloc, GetX, Riverpod, and others. This is because I have drawn
-inspiration from these solutions and leveraged my previous experience
-with them to create Super. By adopting familiar concepts and naming
-conventions, I aimed to make the learning curve smoother for developers
-already familiar with these state management solutions.
+While developing with Super, you may notice similarities in
+API names with other state management solutions such as Bloc, and others.
+This is because I have drawn inspiration from these solutions and leveraged
+my previous experience with them to create Super. By adopting familiar concepts 
+and naming conventions, I aimed to make the learning curve smoother for 
+developers already familiar with these state management solutions.
 
 I hope you find the Super framework as pleasing and easy to work with
 as I intended it to be. If you have any feedback or suggestions for

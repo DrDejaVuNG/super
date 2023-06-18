@@ -21,10 +21,15 @@ dev_dependencies:
   flutter_lints: ^2.0.0
   flutter_test:
     sdk: flutter
-  super_test:
+  # super_test:
 
   very_good_analysis: ^5.0.0+1
 
 screenshots:
   - description: Flutter Super Logo.
     path: screenshots/logo.png
+
+topics:
+  - state
+  - widgets
+  - reactive

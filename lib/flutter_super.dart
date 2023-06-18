@@ -27,13 +27,13 @@
 /// with the high standards set by the Flutter Team, who have done an
 /// incredible job of documenting the Flutter framework.
 ///
-/// While developing with Super, you may notice similarities in syntax,
-/// API names, code practices and more with other state management solutions
-/// such as Bloc, GetX, Riverpod, and others. This is because I have drawn
-/// inspiration from these solutions and leveraged my previous experience
-/// with them to create Super. By adopting familiar concepts and naming
-/// conventions, I aimed to make the learning curve smoother for developers
-/// already familiar with these state management solutions.
+/// While developing with Super, you may notice similarities in
+/// API names with other state management solutions such as Bloc, and others.
+/// This is because I have drawn inspiration from these solutions and leveraged
+/// my previous experience with them to create Super. By adopting familiar
+/// concepts and naming conventions, I aimed to make the learning curve
+/// smoother for developers already familiar with these state management
+/// solutions.
 ///
 /// I hope you find the Super framework as pleasing and easy to work with
 /// as I intended it to be. If you have any feedback or suggestions for
