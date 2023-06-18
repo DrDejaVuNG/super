@@ -250,6 +250,7 @@ class UserModel extends SuperModel {
 final _user = UserModel(1, 'Paul').rx;
 final user2 = UserModel(1, 'Paul');
 
+_user.value == user2; // true
 _user.value = user2; // Will not trigger a rebuild
 ```
 
