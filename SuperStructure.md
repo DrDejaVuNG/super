@@ -138,8 +138,8 @@ Designed By: [Seyon Anko](https://github.com/DrDejaVuNG)
                 - /views
                 # Contains view files for the authentication module.
                 # Assuming it contains two files: login_view.dart and signup_view.dart.
-                # These views can interact with a single controller that updates the module state.
-                # However, separate controllers for each view can also be used.
+                # These views could interact with a single controller that updates the module state e.g currentUser.
+                # However, separate controllers for each view could also be used.
                     
         - /shared
         # Contains files shared across multiple modules.
