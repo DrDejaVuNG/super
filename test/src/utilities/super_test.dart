@@ -11,7 +11,7 @@ void main() {
         autoDispose: true,
       );
     });
-    
+
     test('SuperExt - create', () {
       Super.create<String>('Hello');
 

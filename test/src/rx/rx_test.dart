@@ -18,11 +18,11 @@ void main() {
       final rx = RxT<int>(5);
       var listenerCalled = false;
 
-      rx..addListener(() {
-        listenerCalled = true;
-      })
-
-      ..value = 10;
+      rx
+        ..addListener(() {
+          listenerCalled = true;
+        })
+        ..value = 10;
 
       expect(listenerCalled, true);
     });
@@ -43,11 +43,11 @@ void main() {
       final rx = RxString('Hello');
       var listenerCalled = false;
 
-      rx..addListener(() {
-        listenerCalled = true;
-      })
-
-      ..value = 'World';
+      rx
+        ..addListener(() {
+          listenerCalled = true;
+        })
+        ..value = 'World';
 
       expect(listenerCalled, true);
     });
@@ -68,11 +68,11 @@ void main() {
       final rx = RxInt(5);
       var listenerCalled = false;
 
-      rx..addListener(() {
-        listenerCalled = true;
-      })
-
-      ..value = 10;
+      rx
+        ..addListener(() {
+          listenerCalled = true;
+        })
+        ..value = 10;
 
       expect(listenerCalled, true);
     });
@@ -93,11 +93,11 @@ void main() {
       final rx = RxDouble(3.14);
       var listenerCalled = false;
 
-      rx..addListener(() {
-        listenerCalled = true;
-      })
-
-      ..value = 2.71;
+      rx
+        ..addListener(() {
+          listenerCalled = true;
+        })
+        ..value = 2.71;
 
       expect(listenerCalled, true);
     });
@@ -118,53 +118,53 @@ void main() {
       final rx = RxBool(true);
       var listenerCalled = false;
 
-      rx..addListener(() {
-        listenerCalled = true;
-      })
-
-      ..value = false;
+      rx
+        ..addListener(() {
+          listenerCalled = true;
+        })
+        ..value = false;
 
       expect(listenerCalled, true);
     });
   });
 
   group('MergeRx', () {
-  //   test('should merge Rx objects', () {
-  //     final rx1 = RxInt(10);
-  //     final rx2 = RxString('Hello');
+    //   test('should merge Rx objects', () {
+    //     final rx1 = RxInt(10);
+    //     final rx2 = RxString('Hello');
 
-  //     final mergedRx = MergeRx([rx1, rx2]);
+    //     final mergedRx = MergeRx([rx1, rx2]);
 
-  //     expect(mergedRx.children, [RxInt(10), RxString('Hello')]);
+    //     expect(mergedRx.children, [RxInt(10), RxString('Hello')]);
 
-  //     var listenerCalled = false;
+    //     var listenerCalled = false;
 
-  //     mergedRx.addListener(() {
-  //       listenerCalled = true;
-  //     });
+    //     mergedRx.addListener(() {
+    //       listenerCalled = true;
+    //     });
 
-  //     rx1.value = 20;
-  //     rx2.value = 'World';
+    //     rx1.value = 20;
+    //     rx2.value = 'World';
 
-  //     expect(mergedRx.children, ['$rx1', '$rx2']);
-  //     expect(listenerCalled, true);
-  //   });
-  // });
+    //     expect(mergedRx.children, ['$rx1', '$rx2']);
+    //     expect(listenerCalled, true);
+    //   });
+    // });
 
-  // group('RxListener', () {
-  //   test('should capture Rx objects', () {
-  //     RxInt rx1() => RxInt(10);
-  //     RxString rx2() => RxString('Hello');
+    // group('RxListener', () {
+    //   test('should capture Rx objects', () {
+    //     RxInt rx1() => RxInt(10);
+    //     RxString rx2() => RxString('Hello');
 
-  //     RxListener.listen();
+    //     RxListener.listen();
 
-  //     rx1();
-  //     rx2();
+    //     rx1();
+    //     rx2();
 
-  //     final capturedRx = RxListener.listenedRx();
+    //     final capturedRx = RxListener.listenedRx();
 
-  //     expect(capturedRx.children, [RxInt(10), RxString('Hello')]);
-  //   });
+    //     expect(capturedRx.children, [RxInt(10), RxString('Hello')]);
+    //   });
 
     test('should throw an error if no Rx objects are captured', () {
       expect(RxListener.getRxList, throwsA(isA<FlutterError>()));

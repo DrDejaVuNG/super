@@ -139,9 +139,9 @@ void main() {
       expect(rxList[4], equals(3));
     });
 
-    test('should set multiple elements starting from a specific index in the '
-    'list',
-        () {
+    test(
+        'should set multiple elements starting from a specific index in the '
+        'list', () {
       rxList
         ..addAll([1, 2, 3])
         ..setAll(1, [4, 5]);

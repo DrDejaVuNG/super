@@ -31,9 +31,9 @@ extension FutureExt on Future<dynamic> {
   ///
   /// void main() {
   ///   fetchNumber().result(handleError, handleSuccess);
-  /// 
+  ///
   ///   // or
-  /// 
+  ///
   ///   final request = fetchNumber();
   ///   request.result<Failure, int>(
   ///     (e) => print('Error occurred: ${e.message}');  // could replace `e` with error

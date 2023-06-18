@@ -18,7 +18,6 @@ void main() {
       expect(testModel.props, [1, 'John Doe']);
     });
 
-
     test('identical objects return true when compared', () {
       final testModel1 = TestModel(1, 'John Doe');
       final testModel2 = TestModel(1, 'John Doe');
@@ -32,7 +31,6 @@ void main() {
 
       expect(testModel1 == testModel2, false);
     });
-
 
     test('toString() returns the correct string representation', () {
       final testModel = TestModel(1, 'John Doe');

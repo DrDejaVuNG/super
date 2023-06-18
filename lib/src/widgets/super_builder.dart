@@ -39,7 +39,7 @@ import 'package:flutter_super/src/rx/rx.dart';
 /// }
 /// ```
 ///
-/// **Note:** You need to make use of an [Rx] object value in the 
+/// **Note:** You need to make use of an [Rx] object value in the
 /// builder method, otherwise, it will result in an error.
 class SuperBuilder extends StatefulWidget {
   /// Creates a SuperBuilder widget.

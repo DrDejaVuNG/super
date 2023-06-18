@@ -45,7 +45,7 @@ void main() {
 
       expect(find.byType(Container), findsOneWidget);
     });
-    
+
     testWidgets('Disposes the controller', (WidgetTester tester) async {
       const widget = MySuperWidget();
       await tester.pumpWidget(const SuperApp(child: widget));
