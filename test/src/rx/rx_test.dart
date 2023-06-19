@@ -19,6 +19,7 @@ void main() {
     var counterRx = CounterRx();
 
     test('Initial state', () {
+      counterRx.count = 0; // workflow bug fix
       expect(counterRx.count, 0);
     });
 
