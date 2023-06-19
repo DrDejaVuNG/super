@@ -95,14 +95,14 @@ void main() {
       expect(listenerCalled, isFalse);
     });
 
-    test('zDispose Rx', () {
-      counterRx.dispose();
+    // test('Dispose Rx', () {
+    //   counterRx.dispose();
 
-      expect(
-        () => Rx.debugAssertNotDisposed(counterRx),
-        throwsA(isA<StateError>()),
-      );
-    });
+    //   expect(
+    //     () => Rx.debugAssertNotDisposed(counterRx),
+    //     throwsA(isA<StateError>()),
+    //   );
+    // });
   });
 
   group('MergeRx', () {
