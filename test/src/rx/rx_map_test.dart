@@ -62,5 +62,11 @@ void main() {
       expect(rxMap.length, equals(2));
       expect(rxMap.containsKey('b'), isFalse);
     });
+
+    test('should create an `RxMap` with the given `map`', () {
+      final map = {'name': 'John Doe', 'age': '30'};
+      final myMap = RxMap.of(map);
+      expect(myMap == map, false);
+    });
   });
 }

@@ -283,5 +283,92 @@ void main() {
       expect(rxList[0], equals(1));
       expect(rxList[1], equals(2));
     });
+
+    test('should create an `RxList` with the given `list`', () {
+      final list = ['apple', 'banana', 'orange'];
+      final myList = RxList.of<String>(list);
+      expect(myList == list, false);
+    });
+
+    test('should invoke [action] on each element of this list', () {
+      final numbers = <int>[1, 2, 6, 7];
+      final list = <int>[];
+      numbers.forEach(list.add);
+      expect(numbers.length == list.length, true);
+    });
+
+    test('should invoke [action] on each element of this rxlist', () {
+      final numbers = <int>[1, 2, 6, 7].rx;
+      final list = <int>[];
+      numbers.forEach(list.add);
+      expect(numbers.length == list.length, true);
+    });
+
+    test('should create a list that iterates over a range of elements', () {
+      final colors = <String>['red', 'green', 'blue', 'orange', 'pink'];
+      final firstRange = colors.getRange(0, 3);
+      expect(firstRange.join(', ') == 'red, green, blue', true);
+    });
+
+    test('should create a list that iterates over a range of elements rxList',
+        () {
+      final colors = <String>['red', 'green', 'blue', 'orange', 'pink'].rx;
+      final firstRange = colors.getRange(0, 3);
+      expect(firstRange.join(', ') == 'red, green, blue', true);
+    });
+
+    test('should check that this list has only one element,', () {
+      final colors = <String>['red'];
+      expect(colors.single == 'red', true);
+    });
+
+    test('should check that this rxlist has only one element,', () {
+      final colors = <String>['red'].rx;
+      expect(colors.single == 'red', true);
+    });
+
+    test('should check whether this list has at least one element,', () {
+      final colors = <String>['red'];
+      expect(colors.isNotEmpty, true);
+    });
+
+    test('should check whether this rxlist has at least one element,', () {
+      final colors = <String>['red'].rx;
+      expect(colors.isNotEmpty, true);
+    });
+
+    test('should create a list with of the objects in this list in reverse',
+        () {
+      final numbers = <String>['two', 'three', 'four'];
+      final reverseOrder = numbers.reversed;
+      expect(reverseOrder.toList(), ['four', 'three', 'two']);
+    });
+
+    test('should create a rxlist with of the objects in this list in reverse',
+        () {
+      final numbers = <String>['two', 'three', 'four'].rx;
+      final reverseOrder = numbers.reversed;
+      expect(reverseOrder.toList(), ['four', 'three', 'two']);
+    });
+
+    test('should get the last element', () {
+      final numbers = <String>['two', 'three', 'four'];
+      expect(numbers.last, 'four');
+    });
+
+    test('should get the last element rxlist', () {
+      final numbers = <String>['two', 'three', 'four'].rx;
+      expect(numbers.last, 'four');
+    });
+
+    test('should get the first element', () {
+      final numbers = <String>['two', 'three', 'four'];
+      expect(numbers.first, 'two');
+    });
+
+    test('should get the first element rxlist', () {
+      final numbers = <String>['two', 'three', 'four'].rx;
+      expect(numbers.first, 'two');
+    });
   });
 }

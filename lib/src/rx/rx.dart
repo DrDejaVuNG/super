@@ -2,8 +2,6 @@ import 'dart:collection';
 import 'dart:math';
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_super/flutter_super.dart';
 
 part 'rx_list.dart';
 part 'rx_map.dart';
@@ -322,8 +320,7 @@ class RxListener {
   /// Returns a list of [Rx] objects that have been captured while
   /// the listener was active.
   /// If no [Rx] objects have been captured, a [FlutterError] is thrown.
-  static List<Rx> getRxList([BuildContext? context]) {
-    final widget = context?.findAncestorWidgetOfExactType<SuperWidget>();
+  static List<Rx> getRxList() {
     isListening = false;
     final newRxList = List.of(_rxList);
     _rxList.clear();
@@ -331,8 +328,8 @@ class RxListener {
       return newRxList;
     }
     throw FlutterError(
-      "Couldn't find any Rx object in ${widget.runtimeType}, you need to use "
-      ' the value of an Rx object in the SuperBuilder or SuperListener '
+      "Couldn't find any Rx object, you need to use "
+      'the value of an Rx object in the SuperBuilder or SuperListener '
       'i.e RxT or RxNotifier.',
     );
   }
@@ -341,8 +338,8 @@ class RxListener {
   ///
   /// Returns a [MergeRx] instance that merges all the captured
   /// [Rx] objects into a single [Rx].
-  static MergeRx listenedRx([BuildContext? context]) {
-    final rx = MergeRx(getRxList(context));
+  static MergeRx listenedRx() {
+    final rx = MergeRx(getRxList());
     return rx;
   }
 

@@ -200,10 +200,12 @@ It provides methods that are called at specific points in the widget lifecycle, 
 Example usage:
 
 ```dart
-class CounterController extends SuperController {
+class SampleController extends SuperController {
   final _count = 0.rx; // RxInt(0);
+  final _loading = false.rx; // RxBool(false);
 
   int get count => _count.value;
+  bool get loading => _loading.value;
 
   @override
   void onAlive() {
@@ -214,15 +216,21 @@ class CounterController extends SuperController {
     _count.value++;
   }
 
+  void toggleLoading() {
+    _loading.value = !_loading.value;
+  }
+
   @override
   void onDisable() {
     _count.dispose(); // Dispose Rx object.
+    _loading.dispose();
     super.onDisable();
   }
 }
 ```
 
-In the example above, `CounterController` extends `SuperController` and defines a `count` variable that is managed by an `Rx` object. The `increment()` method is used to increment the count value. The `onDisable()` method is overridden to dispose of the `Rx` object when the controller is disabled.
+In the example above, `SampleController` extends `SuperController` and defines a `count` variable that is managed by an `Rx` object. The `increment()` method is used to increment the count value. The `onDisable()` method is overridden to dispose of the `Rx` object when the controller is disabled. <br>
+As seen in the `SampleController` above, a controller may contain multiple states required by it's corresponding widget, however, for the sake of keeping a controller clean and focused, if there exists a state with multiple events, it is recommended to define an `RxNotifier` for that state.
 
 **Important:** It is recommended to define Rx objects as private and only provide a getter for accessing the state.
 This helps prevent the state from being changed outside of the controller, ensuring that the state is only modified through defined methods within the controller (e.g., `increment()` in the example).
@@ -461,7 +469,7 @@ class CounterNotifier extends RxNotifier<int> {
 final counter = CounterNotifier();
 ```
 
-It is best used for global state i.e state used in multiple controllers but it could also be used for a single controller to abstract a state and its events e.g if a state has a lot events, rather than complicating your controller, you could use an RxNotifier for that singular state instead.
+It is best used for global state i.e state used in multiple controllers but it could also be used for a single controller to abstract a state and its events e.g if a state has a lot of events, rather than complicating your controller, you could use an RxNotifier for that singular state instead.
 
 **Note:** When using the RxNotifier class, it is important to call the `dispose()` method on the object when it is no longer needed to prevent memory leaks. This can be done using the onDisable method of your controller.
 
@@ -613,9 +621,7 @@ incredible job of documenting the Flutter framework.
 While developing with Super, you may notice similarities in
 API names with other state management solutions such as Bloc and others.
 This is because I have drawn inspiration from these solutions and leveraged
-my previous experience with them to create Super. By adopting familiar concepts 
-and naming conventions, I aimed to make the learning curve smoother for 
-developers already familiar with these state management solutions.
+my previous experience with them to create Super. By adopting familiar concepts and naming conventions, I aimed to make the learning curve smoother for developers already familiar with these state management solutions.
 
 I hope you find the Super framework as pleasing and easy to work with
 as I intended it to be. If you have any feedback or suggestions for

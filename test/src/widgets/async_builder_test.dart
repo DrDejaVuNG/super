@@ -81,7 +81,7 @@ void main() {
         ),
       );
 
-      // Verify that the subscription is active
+      // Verify that the subscription is not active
       expect(stream.isBroadcast, isFalse);
     });
   });

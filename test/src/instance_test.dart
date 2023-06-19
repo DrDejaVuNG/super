@@ -80,7 +80,7 @@ void main() {
       expect(mockInstance, instance);
     });
 
-    test('of() should throw an error if instance is not registered', () {
+    test('of() should throw an error if type T is not found', () {
       expect(
         () => InstanceManager.of<String>(),
         throwsA(isA<FlutterError>()),

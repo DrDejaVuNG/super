@@ -9,6 +9,12 @@ void main() {
       rxSet = RxSet<int>();
     });
 
+    test('should create an `RxSet` with the given `set`', () {
+      final set = {'apple', 'banana', 'orange'};
+      final mySet = RxSet.of<String>(set);
+      expect(mySet == set, false);
+    });
+
     test('should initialize an empty set', () {
       expect(rxSet.isEmpty, isTrue);
       expect(rxSet.length, equals(0));

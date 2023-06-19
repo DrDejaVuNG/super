@@ -37,7 +37,7 @@ part of 'rx.dart';
 /// This can be done using the onDisable method of your controller.
 /// {@endtemplate}
 final class RxList<T> extends Rx with ListMixin<T> {
-  /// {@macro rx_map}
+  /// {@macro rx_list}
   RxList([List<T>? list]) {
     if (kFlutterMemoryAllocationsEnabled && !_creationDispatched) {
       MemoryAllocations.instance.dispatchObjectCreated(

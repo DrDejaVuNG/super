@@ -2,7 +2,15 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_super/flutter_super.dart';
+import 'package:flutter_super/src/core/logger.dart';
 import 'package:flutter_test/flutter_test.dart';
+
+class CounterNotifier extends RxNotifier<int> {
+  @override
+  int watch() {
+    return 0; // Initial state
+  }
+}
 
 void main() {
   group('SuperConsumer', () {
@@ -21,6 +29,23 @@ void main() {
 
       // Verify that the builder function is called with the initial value
       expect(find.text('Value: 7'), findsOneWidget);
+    });
+
+    testWidgets('Calls builder function with initial RxNotidier value',
+        (WidgetTester tester) async {
+      final rx = CounterNotifier();
+
+      await tester.pumpWidget(
+        MaterialApp(
+          home: SuperConsumer<int>(
+            rx: rx,
+            builder: (context, state) => Text('Value: $state'),
+          ),
+        ),
+      );
+      Super.log('Value: 0', logType: LogType.success);
+      // Verify that the builder function is called with the initial value
+      expect(find.text('Value: 0'), findsOneWidget);
     });
 
     testWidgets('Calls builder function with updated value',

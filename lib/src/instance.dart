@@ -47,9 +47,7 @@ class InstanceManager {
     final key = _instKey<T>();
     if (_instances.containsKey(key)) {
       var inst = _instances[key];
-      if (inst == null) {
-        throw FlutterError('Instance of "$T" is not registered.');
-      }
+
       if (inst is T Function()) {
         // register T instance and return it
         inst = inst();
@@ -57,9 +55,8 @@ class InstanceManager {
         return of<T>();
       }
 
-      final i = inst as T;
-      if (i is SuperController) i.start();
-      return i;
+      if (inst is SuperController) inst.start();
+      return inst as T;
     } else {
       throw FlutterError(
         '"$T" not found. You have to invoke "Super.init($T())".',
@@ -123,25 +120,12 @@ class InstanceManager {
 
     final inst = _instances[newKey];
 
-    if (inst == null) {
-      Super.log(
-        'Instance "$newKey" is not registered.',
-        logType: LogType.error,
-      );
-    }
+    if (inst is SuperController) inst.stop();
 
-    final i = inst;
-
-    if (i is SuperController) i.stop();
-
-    if (i is Rx) i.dispose();
+    if (inst is Rx) inst.dispose();
 
     _instances.remove(newKey);
-    if (_instances.containsKey(newKey)) {
-      Super.log('Error deleting object "$newKey".', logType: LogType.error);
-    } else {
-      Super.log('"$newKey" has been terminated.', logType: LogType.warning);
-    }
+    Super.log('"$newKey" has been terminated.', logType: LogType.warning);
   }
 
   /// Deletes all instances of dependencies from the manager.

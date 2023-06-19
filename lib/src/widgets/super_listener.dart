@@ -98,7 +98,7 @@ class _SuperListenerState<T> extends State<SuperListener<T>> {
     RxListener.listen();
     _listen = widget.listen();
 
-    _rx = RxListener.listenedRx(context);
+    _rx = RxListener.listenedRx();
     _rx?.addListener(_handleChange);
     if (widget.child != null) {
       return widget.child!;

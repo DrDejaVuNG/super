@@ -1,8 +1,17 @@
 import 'package:flutter_super/flutter_super.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+class User {}
+
 void main() {
   group('RxTExt', () {
+    test('RxTExt - T', () {
+      final value = User();
+      final rxValue = value.rx;
+
+      expect(rxValue.value, equals(value));
+    });
+
     test('RxTExt - String', () {
       const value = 'Hello';
       final rxValue = value.rx;

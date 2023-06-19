@@ -48,7 +48,8 @@ abstract class SuperWidget<T extends SuperController> extends Widget {
   T initController();
 
   @override
-  SuperElement<T> createElement() => SuperElement<T>(this, controller);
+  // ignore: library_private_types_in_public_api
+  _SuperElement<T> createElement() => _SuperElement<T>(this, controller);
 
   /// The controller for the widget.
   ///
@@ -69,10 +70,10 @@ abstract class SuperWidget<T extends SuperController> extends Widget {
 
 /// An element that represents a [SuperWidget] and associates it with
 /// a [SuperController].
-class SuperElement<T extends SuperController> extends ControllerElement<T> {
+class _SuperElement<T extends SuperController> extends _ControllerElement<T> {
   /// Creates an element that uses the given widget as its configuration
   /// and associates it with a controller.
-  SuperElement(SuperWidget super.widget, super.controller);
+  _SuperElement(SuperWidget super.widget, super.controller);
 
   @override
   Widget build() => (widget as SuperWidget).build(this);
@@ -86,11 +87,11 @@ class SuperElement<T extends SuperController> extends ControllerElement<T> {
 }
 
 /// An abstract class that represents an element with a [SuperController].
-abstract class ControllerElement<T extends SuperController>
+abstract class _ControllerElement<T extends SuperController>
     extends ComponentElement {
   /// Creates an element that uses the given widget as its configuration
   /// and associates it with a controller.
-  ControllerElement(super.widget, this.controller);
+  _ControllerElement(super.widget, this.controller);
 
   /// The controller for the widget.
   @protected

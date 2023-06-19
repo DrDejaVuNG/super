@@ -92,7 +92,7 @@ class _SuperBuilderState extends State<SuperBuilder> {
     RxListener.listen();
     final child = widget.builder(context);
 
-    _rx = RxListener.listenedRx(context);
+    _rx = RxListener.listenedRx();
     _rx?.addListener(_handleChange);
     return child;
   }

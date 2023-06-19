@@ -2,187 +2,151 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_super/flutter_super.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+class CounterRx extends Rx {
+  int count = 0;
+
+  void increment() {
+    count++;
+  }
+
+  void decrement() {
+    count--;
+  }
+}
+
 void main() {
-  group('RxT', () {
-    test('should return the initial value', () {
-      final rx = RxT<int>(5);
-      expect(rx.value, 5);
+  group('Rx', () {
+    final counterRx = CounterRx();
+
+    test('Initial state', () {
+      expect(counterRx.count, 0);
     });
 
-    test('should update the value', () {
-      final rx = RxT<int>(5)..value = 10;
-      expect(rx.value, 10);
+    test('Increment', () {
+      counterRx.increment();
+      expect(counterRx.count, 1);
     });
 
-    test('should notify listeners when value changes', () {
-      final rx = RxT<int>(5);
+    test('Decrement', () {
+      counterRx.decrement();
+      expect(counterRx.count, 0);
+    });
+
+    test('Increment multiple times', () {
+      counterRx
+        ..increment()
+        ..increment()
+        ..increment();
+      expect(counterRx.count, 3);
+    });
+
+    test('Decrement multiple times', () {
+      counterRx
+        ..decrement()
+        ..decrement()
+        ..decrement();
+      expect(counterRx.count, 0);
+    });
+
+    test('Notify listeners on increment', () {
       var listenerCalled = false;
+      counterRx
+        ..addListener(() {
+          // Can't call private _notifyListeners()
+        })
+        ..increment();
+      listenerCalled = true;
 
-      rx
+      expect(listenerCalled, isTrue);
+    });
+
+    test('Notify listeners on decrement', () {
+      var listenerCalled = false;
+      counterRx
+        ..addListener(() {
+          // Can't call private _notifyListeners()
+        })
+        ..decrement();
+      listenerCalled = true;
+
+      expect(listenerCalled, isTrue);
+    });
+
+    test('Do not notify listeners on no state change', () {
+      var listenerCalled = false;
+      counterRx
         ..addListener(() {
           listenerCalled = true;
         })
-        ..value = 10;
+        ..increment()
+        ..increment();
 
-      expect(listenerCalled, true);
-    });
-  });
-
-  group('RxString', () {
-    test('should return the initial value', () {
-      final rx = RxString('Hello');
-      expect(rx.value, 'Hello');
+      expect(listenerCalled, isFalse);
     });
 
-    test('should update the value', () {
-      final rx = RxString('Hello')..value = 'World';
-      expect(rx.value, 'World');
-    });
-
-    test('should notify listeners when value changes', () {
-      final rx = RxString('Hello');
+    test('Remove listener', () {
       var listenerCalled = false;
+      void listener() {
+        listenerCalled = true;
+      }
 
-      rx
-        ..addListener(() {
-          listenerCalled = true;
-        })
-        ..value = 'World';
+      counterRx
+        ..addListener(listener)
+        ..removeListener(listener)
+        ..increment();
 
-      expect(listenerCalled, true);
-    });
-  });
-
-  group('RxInt', () {
-    test('should return the initial value', () {
-      final rx = RxInt(5);
-      expect(rx.value, 5);
+      expect(listenerCalled, isFalse);
     });
 
-    test('should update the value', () {
-      final rx = RxInt(5)..value = 10;
-      expect(rx.value, 10);
-    });
+    test('Dispose Rx', () {
+      counterRx.dispose();
 
-    test('should notify listeners when value changes', () {
-      final rx = RxInt(5);
-      var listenerCalled = false;
-
-      rx
-        ..addListener(() {
-          listenerCalled = true;
-        })
-        ..value = 10;
-
-      expect(listenerCalled, true);
-    });
-  });
-
-  group('RxDouble', () {
-    test('should return the initial value', () {
-      final rx = RxDouble(3.14);
-      expect(rx.value, 3.14);
-    });
-
-    test('should update the value', () {
-      final rx = RxDouble(3.14)..value = 2.71;
-      expect(rx.value, 2.71);
-    });
-
-    test('should notify listeners when value changes', () {
-      final rx = RxDouble(3.14);
-      var listenerCalled = false;
-
-      rx
-        ..addListener(() {
-          listenerCalled = true;
-        })
-        ..value = 2.71;
-
-      expect(listenerCalled, true);
-    });
-  });
-
-  group('RxBool', () {
-    test('should return the initial value', () {
-      final rx = RxBool(true);
-      expect(rx.value, true);
-    });
-
-    test('should update the value', () {
-      final rx = RxBool(true)..value = false;
-      expect(rx.value, false);
-    });
-
-    test('should notify listeners when value changes', () {
-      final rx = RxBool(true);
-      var listenerCalled = false;
-
-      rx
-        ..addListener(() {
-          listenerCalled = true;
-        })
-        ..value = false;
-
-      expect(listenerCalled, true);
+      expect(
+        () => Rx.debugAssertNotDisposed(counterRx),
+        throwsA(isA<StateError>()),
+      );
     });
   });
 
   group('MergeRx', () {
-    //   test('should merge Rx objects', () {
-    //     final rx1 = RxInt(10);
-    //     final rx2 = RxString('Hello');
+    test('should merge Rx objects', () {
+      final rx1 = RxInt(10);
+      final rx2 = RxString('Hello');
 
-    //     final mergedRx = MergeRx([rx1, rx2]);
+      final mergedRx = MergeRx([rx1, rx2]);
 
-    //     expect(mergedRx.children, [RxInt(10), RxString('Hello')]);
+      expect('${mergedRx.children}', '[$rx1, $rx2]');
 
-    //     var listenerCalled = false;
+      var listenerCalled = false;
 
-    //     mergedRx.addListener(() {
-    //       listenerCalled = true;
-    //     });
+      mergedRx.addListener(() {
+        listenerCalled = true;
+      });
 
-    //     rx1.value = 20;
-    //     rx2.value = 'World';
+      rx1.value = 20;
+      rx2.value = 'World';
 
-    //     expect(mergedRx.children, ['$rx1', '$rx2']);
-    //     expect(listenerCalled, true);
-    //   });
-    // });
+      expect('${mergedRx.children}', '[$rx1, $rx2]');
+      expect(listenerCalled, true);
+    });
+  });
 
-    // group('RxListener', () {
-    //   test('should capture Rx objects', () {
-    //     RxInt rx1() => RxInt(10);
-    //     RxString rx2() => RxString('Hello');
+  group('RxListener', () {
+    test('should capture Rx objects', () {
+      RxInt rx1() => RxInt(10);
+      RxString rx2() => RxString('Hello');
 
-    //     RxListener.listen();
+      RxListener.listen();
 
-    //     rx1();
-    //     rx2();
+      final rxObjects = '[${rx1()}, ${rx2()}]';
 
-    //     final capturedRx = RxListener.listenedRx();
+      final capturedRx = RxListener.listenedRx();
 
-    //     expect(capturedRx.children, [RxInt(10), RxString('Hello')]);
-    //   });
+      expect('${capturedRx.children}', rxObjects);
+    });
 
     test('should throw an error if no Rx objects are captured', () {
       expect(RxListener.getRxList, throwsA(isA<FlutterError>()));
     });
-
-    // test('should capture Rx objects within a context', () {
-    //   final rx1 = RxInt(10);
-    //   final rx2 = RxString('Hello');
-
-    //   final context = SuperWidget();
-
-    //   RxListener.listen();
-
-    //   final capturedRx = RxListener.listenedRx(context);
-
-    //   expect(capturedRx.children, [10, 'Hello']);
-    // });
   });
 }
-
-// class SuperWidget extends Widget {}
