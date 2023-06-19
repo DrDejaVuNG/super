@@ -1,10 +1,10 @@
 name: flutter_super
 description: Reactive state management framework for scalable flutter applications.
-version: 1.0.0
+version: 1.0.1
 repository: https://github.com/DrDejaVuNG/flutter_super
 issue_tracker: https://github.com/DrDejaVuNG/flutter_super/issues
-homepage: https://drdejavu.ng
-documentation: https://super.drdejavu.ng
+# homepage: https://drdejavu.ng
+# documentation: https://super.drdejavu.ng
 
 # publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
