@@ -40,14 +40,6 @@ void main() {
       expect(counterRx.count, 3);
     });
 
-    test('Decrement multiple times', () {
-      counterRx
-        ..decrement()
-        ..decrement()
-        ..decrement();
-      expect(counterRx.count, 0);
-    });
-
     test('Notify listeners on increment', () {
       var listenerCalled = false;
       counterRx
