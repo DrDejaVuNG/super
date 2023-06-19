@@ -43,6 +43,7 @@
 /// DrDejaVu
 library flutter_super;
 
+/// Flutter Super Exports
 export 'src/controller.dart';
 export 'src/core/interface.dart' show Super;
 export 'src/framework.dart';

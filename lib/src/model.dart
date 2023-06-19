@@ -31,7 +31,7 @@ mixin SuperModel {
   // in order to determine if there exists a difference between both Objects.
   @override
   @nonVirtual
-  bool operator ==(Object other) {
+  bool operator ==(dynamic other) {
     return (toString() == other.toString());
   }
 

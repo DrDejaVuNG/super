@@ -16,7 +16,7 @@ class CounterRx extends Rx {
 
 void main() {
   group('Rx', () {
-    final counterRx = CounterRx();
+    var counterRx = CounterRx();
 
     test('Initial state', () {
       expect(counterRx.count, 0);
@@ -95,14 +95,18 @@ void main() {
       expect(listenerCalled, isFalse);
     });
 
-    // test('Dispose Rx', () {
-    //   counterRx.dispose();
+    test('Dispose Rx', () {
+      counterRx.dispose();
 
-    //   expect(
-    //     () => Rx.debugAssertNotDisposed(counterRx),
-    //     throwsA(isA<StateError>()),
-    //   );
-    // });
+      expect(
+        () => Rx.debugAssertNotDisposed(counterRx),
+        throwsA(isA<StateError>()),
+      );
+      // Temporary solution to very good workflow bug,
+      // can't figure out the issue but it keeps running the
+      // dispose test before the others above which depend on the object.
+      counterRx = CounterRx();
+    });
   });
 
   group('MergeRx', () {

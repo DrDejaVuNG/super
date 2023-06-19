@@ -31,6 +31,9 @@ void main() {
   );
 }
 
+/// MyApp is the root widget of the application. 
+/// It is a stateless widget that returns a MaterialApp as its child. 
+/// The MaterialApp sets the home view of the application to be HomeView.
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -40,6 +43,9 @@ class MyApp extends StatelessWidget {
   }
 }
 
+/// HomeController is a controller class that extends SuperController. 
+/// It manages the state and logic for the counter functionality in the 
+/// application.
 class HomeController extends SuperController { // Step 2
   // Declare Rx object as `final` for Immutability
   final _count = 0.rx; // RxInt(0);
