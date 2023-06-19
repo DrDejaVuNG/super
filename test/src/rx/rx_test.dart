@@ -23,17 +23,22 @@ void main() {
     });
 
     test('Increment', () {
-      counterRx.increment();
+      counterRx
+        ..count = 0
+        ..increment();
       expect(counterRx.count, 1);
     });
 
     test('Decrement', () {
-      counterRx.decrement();
+      counterRx
+        ..count = 1
+        ..decrement();
       expect(counterRx.count, 0);
     });
 
     test('Increment multiple times', () {
       counterRx
+        ..count = 0
         ..increment()
         ..increment()
         ..increment();
