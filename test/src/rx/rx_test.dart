@@ -95,7 +95,7 @@ void main() {
       expect(listenerCalled, isFalse);
     });
 
-    test('Dispose Rx', () {
+    test('zDispose Rx', () {
       counterRx.dispose();
 
       expect(
