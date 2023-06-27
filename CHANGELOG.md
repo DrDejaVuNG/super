@@ -1,3 +1,7 @@
+## 1.1.1
+
+- Update README.md
+
 ## 1.1.0
 
 - Removed initialData property from AsyncBuilder.
