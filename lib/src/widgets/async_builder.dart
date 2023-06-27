@@ -39,6 +39,7 @@ class AsyncBuilder<T> extends StatefulWidget {
   const AsyncBuilder({
     required this.builder,
     super.key,
+    this.initialData,
     this.future,
     this.stream,
     this.loading,
@@ -49,6 +50,8 @@ class AsyncBuilder<T> extends StatefulWidget {
         );
 
   /// The asynchronous computation to which this builder is currently connected.
+  /// If no future has completed yet, the data provided to the [builder]
+  /// will be set to [initialData].
   final Future<T>? future;
 
   /// The asynchronous data stream to which this builder is currently
@@ -61,12 +64,17 @@ class AsyncBuilder<T> extends StatefulWidget {
   final AsyncDataBuilder<T> builder;
 
   /// A widget to display while the asynchronous computation is in
-  /// progress.
+  /// progress. Note: The [loading] widget will not be displayed if
+  /// [initialData] is not null.
   final Widget? loading;
 
   /// A widget builder that constructs an error widget when an error
   /// occurs in the asynchronous computation.
   final AsyncErrorBuilder? error;
+
+  /// The initial data that will be used to create the snapshots until
+  /// a non-null [future] or [stream] has completed.
+  final T? initialData;
 
   /// Whether the latest error received by the asynchronous computation
   /// should be rethrown or swallowed.
@@ -74,7 +82,9 @@ class AsyncBuilder<T> extends StatefulWidget {
   static bool debugRethrowError = false;
 
   /// Returns the initial snapshot based on the initial data.
-  AsyncSnapshot<T> initial() => AsyncSnapshot<T>.nothing();
+  AsyncSnapshot<T> initial() => initialData == null
+      ? AsyncSnapshot<T>.nothing()
+      : AsyncSnapshot<T>.withData(ConnectionState.none, initialData as T);
 
   /// Returns the snapshot after the connection to the asynchronous
   /// computation is established.
@@ -126,7 +136,8 @@ class _AsyncBuilderState<T> extends State<AsyncBuilder<T>> {
 
   @override
   Widget build(BuildContext context) {
-    if (_snapshot.connectionState == ConnectionState.waiting) {
+    if (_snapshot.connectionState == ConnectionState.waiting &&
+        widget.initialData == null) {
       return widget.loading != null
           ? widget.loading!
           : const CircularProgressIndicator.adaptive();

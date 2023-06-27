@@ -6,7 +6,6 @@
 <a href="https://pub.dev/packages/flutter_super"><img src="https://img.shields.io/pub/v/flutter_super.svg?logo=dart&label=pub&color=blue" alt="Pub"></a>
 <a href="https://pub.dev/packages/flutter_super/score"><img src="https://img.shields.io/pub/points/flutter_super?logo=dart" alt="Pub points"></a>
 <a href="https://pub.dev/packages/very_good_analysis"><img src="https://img.shields.io/badge/style-very_good_analysis-B22C89.svg" alt="verygoodanalysis"></a>
-<a href="https://pub.dev/packages/flutter_super/score"><img src="https://img.shields.io/pub/popularity/flutter_super?logo=dart" alt="Popularity"></a>
 <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/license-MIT-purple.svg" alt="License: MIT"></a>
 <img src="https://github.com/DrDejaVuNG/flutter_super/raw/main/coverage_badge.svg" alt="Coverage" />
 </p>
@@ -393,14 +392,17 @@ The [future] parameter represents an asynchronous computation that will trigger 
 
 The [stream] parameter represents an asynchronous data stream that will trigger a rebuild when new data is available.
 
-The [loading] parameter represents a widget to display while the asynchronous computation is in progress.
+The [loading] parameter represents a widget to display while the asynchronous computation is in progress. Note: The [loading] widget will not be displayed if [initialData] is not null.
 
 The [error] parameter represents a widget builder that constructs an error widget when an error occurs in the asynchronous computation.
+
+The [initialData] parameter represents the initial data that will be used to create the snapshots until a non-null [future] or [stream] has completed.
 
 Example usage:
 
 ```dart
 AsyncBuilder<int>(
+  initialData: 5,
   future: Future.delayed(const Duration(seconds: 2), () => 10),
   builder: (data) => Text('Data: $data'),
   error: (error, stackTrace) => Text('Error: $error'),
@@ -588,8 +590,6 @@ context.read<T>();
 ### Super Structure
 
 For a clean way to structure your  projects, check out [Super Structure](https://github.com/DrDejaVuNG/flutter_super/blob/main/SuperStructure.md).
-
-<br>
 
 For more information on all the APIs and more, check out the [API reference](https://pub.dev/documentation/flutter_super/latest).
 

@@ -71,7 +71,7 @@ class SuperBuilder extends StatefulWidget {
 }
 
 class _SuperBuilderState extends State<SuperBuilder> {
-  MergeRx? _rx;
+  RxMerge? _rx;
 
   @override
   void dispose() {

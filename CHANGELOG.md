@@ -1,10 +1,14 @@
+## 1.1.2
+
+- Minor code optimizations.
+- Added more tests for AsyncBuilder widget.
+
 ## 1.1.1
 
 - Update README.md
 
 ## 1.1.0
 
-- Removed initialData property from AsyncBuilder.
 - Add mounted property to Rx Types to validate if dispose method was called or not.
 - Completed tests for SuperController, MergeRx, RxListener.
 - Increased code coverage to 99%.

@@ -3,12 +3,12 @@ import 'package:flutter_super/flutter_super.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  group('MergeRx', () {
+  group('RxMerge', () {
     test('should merge Rx objects', () {
       final rx1 = RxInt(10);
       final rx2 = RxString('Hello');
 
-      final mergedRx = MergeRx([rx1, rx2]);
+      final mergedRx = RxMerge([rx1, rx2]);
 
       expect('${mergedRx.children}', '[$rx1, $rx2]');
 
@@ -26,7 +26,7 @@ void main() {
       });
 
       expect('${mergedRx.children}', '[$rx1, $rx2]');
-      expect(mergedRx.toString(), '${MergeRx([rx1, rx2])}');
+      expect(mergedRx.toString(), '${RxMerge([rx1, rx2])}');
       expect(listenerCalled, true);
     });
   });

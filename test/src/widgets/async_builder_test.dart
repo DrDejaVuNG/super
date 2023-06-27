@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_super/flutter_super.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -26,6 +28,29 @@ void main() {
       expect(find.text('10'), findsOneWidget);
     });
 
+    testWidgets('Displays initialData when initialData is available',
+        (WidgetTester tester) async {
+      final completer = Completer<int>();
+      await tester.pumpWidget(
+        MaterialApp(
+          home: AsyncBuilder<int>(
+            initialData: 5,
+            future: completer.future,
+            builder: (data) => Text('Data: $data'),
+          ),
+        ),
+      );
+
+      completer.completeError('An Error');
+
+      // Verify that initialData text is displayed
+      expect(find.text('Data: 5'), findsOneWidget);
+
+      await tester.pumpAndSettle();
+
+      expect(find.text('An Error'), findsOneWidget);
+    });
+
     testWidgets('Displays data widget when data is available',
         (WidgetTester tester) async {
       await tester.pumpWidget(
@@ -42,6 +67,27 @@ void main() {
 
       // Verify that data text is displayed
       expect(find.text('Data: 10'), findsOneWidget);
+    });
+
+    testWidgets('Displays error widget when error is available',
+        (WidgetTester tester) async {
+      final completer = Completer<dynamic>();
+      await tester.pumpWidget(
+        MaterialApp(
+          home: AsyncBuilder(
+            future: completer.future,
+            builder: (data) => Text('Data: $data'),
+            error: (error, stackTrace) => Text('Error: $error'),
+          ),
+        ),
+      );
+
+      completer.completeError('An Error');
+
+      await tester.pumpAndSettle();
+
+      // Verify that error text is displayed
+      expect(find.text('Error: An Error'), findsOneWidget);
     });
 
     testWidgets('Updates data widget when new data is available',

@@ -252,18 +252,18 @@ abstract class Rx {
 }
 // coverage:ignore-end
 
-/// MergeRx
+/// RxMerge
 ///
 /// **Not Intended For Use Outside The Super Library.**
 ///
 /// **Unauthorised Usage Could Create Interference With Other APIs
 /// In The Library**
-final class MergeRx extends Rx {
-  /// Creates a MergeRx instance with the specified list of [Rx] objects.
+final class RxMerge extends Rx {
+  /// Creates a RxMerge instance with the specified list of [Rx] objects.
   ///
   /// The children parameter is a list of [Rx] objects that will be
   /// merged together to act as a single [Rx].
-  MergeRx(this.children);
+  RxMerge(this.children);
 
   /// The children parameter is a list of [Rx] objects that will be
   /// merged together to act as a single [Rx].
@@ -271,7 +271,7 @@ final class MergeRx extends Rx {
 
   /// Adds the specified [listener] to all the merged [Rx] objects.
   ///
-  /// The [listener] will be called whenever any of the merged
+  /// The [listener] will be called whenevwer any of the merged
   /// [Rx] objects notify
   /// about a change.
   @override
@@ -295,7 +295,7 @@ final class MergeRx extends Rx {
 
   @override
   String toString() {
-    return 'MergeRx([${children.join(", ")}])';
+    return 'RxMerge([${children.join(", ")}])';
   }
 }
 
@@ -339,12 +339,12 @@ final class RxListener {
     );
   }
 
-  /// Creates a [MergeRx] instance with the captured [Rx] objects.
+  /// Creates a [RxMerge] instance with the captured [Rx] objects.
   ///
-  /// Returns a [MergeRx] instance that merges all the captured
+  /// Returns a [RxMerge] instance that merges all the captured
   /// [Rx] objects into a single [Rx].
-  static MergeRx listenedRx() {
-    final rx = MergeRx(getRxList());
+  static RxMerge listenedRx() {
+    final rx = RxMerge(getRxList());
     return rx;
   }
 
