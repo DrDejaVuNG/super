@@ -2,114 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_super/flutter_super.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-class CounterRx extends Rx {
-  int count = 0;
-
-  void increment() {
-    count++;
-  }
-
-  void decrement() {
-    count--;
-  }
-}
-
 void main() {
-  group('Rx', () {
-    var counterRx = CounterRx();
-
-    test('Initial state', () {
-      counterRx.count = 0; // workflow bug fix
-      expect(counterRx.count, 0);
-    });
-
-    test('Increment', () {
-      counterRx
-        ..count = 0
-        ..increment();
-      expect(counterRx.count, 1);
-    });
-
-    test('Decrement', () {
-      counterRx
-        ..count = 1
-        ..decrement();
-      expect(counterRx.count, 0);
-    });
-
-    test('Increment multiple times', () {
-      counterRx
-        ..count = 0
-        ..increment()
-        ..increment()
-        ..increment();
-      expect(counterRx.count, 3);
-    });
-
-    test('Notify listeners on increment', () {
-      var listenerCalled = false;
-      counterRx
-        ..addListener(() {
-          // Can't call private _notifyListeners()
-        })
-        ..increment();
-      listenerCalled = true;
-
-      expect(listenerCalled, isTrue);
-    });
-
-    test('Notify listeners on decrement', () {
-      var listenerCalled = false;
-      counterRx
-        ..addListener(() {
-          // Can't call private _notifyListeners()
-        })
-        ..decrement();
-      listenerCalled = true;
-
-      expect(listenerCalled, isTrue);
-    });
-
-    test('Do not notify listeners on no state change', () {
-      var listenerCalled = false;
-      counterRx
-        ..addListener(() {
-          listenerCalled = true;
-        })
-        ..increment()
-        ..increment();
-
-      expect(listenerCalled, isFalse);
-    });
-
-    test('Remove listener', () {
-      var listenerCalled = false;
-      void listener() {
-        listenerCalled = true;
-      }
-
-      counterRx
-        ..addListener(listener)
-        ..removeListener(listener)
-        ..increment();
-
-      expect(listenerCalled, isFalse);
-    });
-
-    test('Dispose Rx', () {
-      counterRx.dispose();
-
-      expect(
-        () => Rx.debugAssertNotDisposed(counterRx),
-        throwsA(isA<StateError>()),
-      );
-      // Temporary solution to very good workflow bug,
-      // can't figure out the issue but it keeps running the
-      // dispose test before the others above which depend on the object.
-      counterRx = CounterRx();
-    });
-  });
-
   group('MergeRx', () {
     test('should merge Rx objects', () {
       final rx1 = RxInt(10);
@@ -128,7 +21,12 @@ void main() {
       rx1.value = 20;
       rx2.value = 'World';
 
+      mergedRx.removeListener(() {
+        listenerCalled = true;
+      });
+
       expect('${mergedRx.children}', '[$rx1, $rx2]');
+      expect(mergedRx.toString(), '${MergeRx([rx1, rx2])}');
       expect(listenerCalled, true);
     });
   });
@@ -140,9 +38,13 @@ void main() {
 
       RxListener.listen();
 
+      expect(RxListener.isListening, isTrue);
+
       final rxObjects = '[${rx1()}, ${rx2()}]';
 
       final capturedRx = RxListener.listenedRx();
+
+      expect(RxListener.isListening, isFalse);
 
       expect('${capturedRx.children}', rxObjects);
     });

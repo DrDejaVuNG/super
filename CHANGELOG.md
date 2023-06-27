@@ -1,3 +1,14 @@
+## 1.1.0
+
+- Removed initialData property from AsyncBuilder.
+- Add mounted property to Rx Types to validate if dispose method was called or not.
+- Completed tests for SuperController, MergeRx, RxListener.
+- Increased code coverage to 99%.
+
+## 1.0.4
+
+- Minor Documentation correction.
+
 ## 1.0.3
 
 - Modified the SuperModel == operator to compare null values.

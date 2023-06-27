@@ -8,7 +8,7 @@
 <a href="https://pub.dev/packages/very_good_analysis"><img src="https://img.shields.io/badge/style-very_good_analysis-B22C89.svg" alt="verygoodanalysis"></a>
 <a href="https://pub.dev/packages/flutter_super/score"><img src="https://img.shields.io/pub/popularity/flutter_super?logo=dart" alt="Popularity"></a>
 <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/license-MIT-purple.svg" alt="License: MIT"></a>
-<a href="https://t.me/+-40kXv4jcPhlNWQ8"><img src="https://img.shields.io/badge/chat-on%20Telegram-blue.svg" alt="Telegram"></a>
+<img src="coverage_badge.svg" alt="Coverage" />
 </p>
 
 ---
@@ -21,7 +21,7 @@ and streamline the development of reactive and scalable applications.
 ## Features
 
 - Reactive state management
-- Effective dependency injection
+- Simple dependency injection
 - Lifecycle management for widget controllers
 - Widget builders for building reactive UI components
 - Intuitive testing (no setup/teardown required), dedicated testing library [super_test](https://pub.dev/packages/super_test)
@@ -397,15 +397,14 @@ The [loading] parameter represents a widget to display while the asynchronous co
 
 The [error] parameter represents a widget builder that constructs an error widget when an error occurs in the asynchronous computation.
 
-The [initialData] parameter represents the initial data that will be used to create the snapshots until a non-null [future] or [stream] has completed.
-
 Example usage:
 
 ```dart
-AsyncBuilder(
-    builder: (data) => ,
-    error: (error, stackTrace) => ,
-    loading: ,
+AsyncBuilder<int>(
+  future: Future.delayed(const Duration(seconds: 2), () => 10),
+  builder: (data) => Text('Data: $data'),
+  error: (error, stackTrace) => Text('Error: $error'),
+  loading: const CircularProgressIndicator.adaptive(),
 ),
 ```
 

@@ -92,10 +92,10 @@ mixin class SuperController {
   }
 
   /// Initializes the [BuildContext] associated with the controller.
+  @nonVirtual
   void initContext(BuildContext? context) {
     if (_context != null) return;
     _context = context;
-    // print(context.mounted);
   }
 
   /// This method is called when the controller is removed from memory.

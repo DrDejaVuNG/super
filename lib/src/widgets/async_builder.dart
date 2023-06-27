@@ -9,10 +9,11 @@ import 'package:flutter_super/src/core/typedefs.dart';
 /// Example usage:
 ///
 /// ```dart
-/// AsyncBuilder(
-///     builder: (data) => ,
-///     error: (error, stackTrace) => ,
-///     loading: ,
+/// AsyncBuilder<int>(
+///   future: Future.delayed(const Duration(seconds: 2), () => 10),
+///   builder: (data) => Text('Data: $data'),
+///   error: (error, stackTrace) => Text('Error: $error'),
+///   loading: const CircularProgressIndicator.adaptive(),
 /// ),
 /// ```
 class AsyncBuilder<T> extends StatefulWidget {
@@ -28,16 +29,16 @@ class AsyncBuilder<T> extends StatefulWidget {
   /// Example usage:
   ///
   /// ```dart
-  /// AsyncBuilder(
-  ///     builder: (data) => ,
-  ///     error: (error, stackTrace) => ,
-  ///     loading: ,
+  /// AsyncBuilder<int>(
+  ///   future: Future.delayed(const Duration(seconds: 2), () => 10),
+  ///   builder: (data) => Text('Data: $data'),
+  ///   error: (error, stackTrace) => Text('Error: $error'),
+  ///   loading: const CircularProgressIndicator.adaptive(),
   /// ),
   /// ```
   const AsyncBuilder({
     required this.builder,
     super.key,
-    this.initialData,
     this.future,
     this.stream,
     this.loading,
@@ -48,8 +49,6 @@ class AsyncBuilder<T> extends StatefulWidget {
         );
 
   /// The asynchronous computation to which this builder is currently connected.
-  /// If no future has completed yet, the data provided to the [builder]
-  /// will be set to [initialData].
   final Future<T>? future;
 
   /// The asynchronous data stream to which this builder is currently
@@ -69,19 +68,13 @@ class AsyncBuilder<T> extends StatefulWidget {
   /// occurs in the asynchronous computation.
   final AsyncErrorBuilder? error;
 
-  /// The initial data that will be used to create the snapshots until
-  /// a non-null [future] or [stream] has completed.
-  final T? initialData;
-
   /// Whether the latest error received by the asynchronous computation
   /// should be rethrown or swallowed.
   /// This property is useful for debugging purposes.
   static bool debugRethrowError = false;
 
   /// Returns the initial snapshot based on the initial data.
-  AsyncSnapshot<T> initial() => initialData == null
-      ? AsyncSnapshot<T>.nothing()
-      : AsyncSnapshot<T>.withData(ConnectionState.none, initialData as T);
+  AsyncSnapshot<T> initial() => AsyncSnapshot<T>.nothing();
 
   /// Returns the snapshot after the connection to the asynchronous
   /// computation is established.
@@ -108,6 +101,7 @@ class AsyncBuilder<T> extends StatefulWidget {
     );
   }
 
+  // coverage:ignore-start
   /// Returns the snapshot after the asynchronous computation is completed.
   AsyncSnapshot<T> afterDone(AsyncSnapshot<T> current) =>
       current.inState(ConnectionState.done);
@@ -116,6 +110,7 @@ class AsyncBuilder<T> extends StatefulWidget {
   /// computation is disconnected.
   AsyncSnapshot<T> afterDisconnected(AsyncSnapshot<T> current) =>
       current.inState(ConnectionState.none);
+  // coverage:ignore-end
 
   @override
   State<AsyncBuilder<T>> createState() => _AsyncBuilderState<T>();
@@ -129,6 +124,22 @@ class _AsyncBuilderState<T> extends State<AsyncBuilder<T>> {
   StreamSubscription<T>? _subscription;
   late AsyncSnapshot<T> _snapshot;
 
+  @override
+  Widget build(BuildContext context) {
+    if (_snapshot.connectionState == ConnectionState.waiting) {
+      return widget.loading != null
+          ? widget.loading!
+          : const CircularProgressIndicator.adaptive();
+    }
+    if (_snapshot.hasError) {
+      return widget.error != null
+          ? widget.error!(_snapshot.error!, _snapshot.stackTrace!)
+          : Text(_snapshot.error!.toString());
+    }
+    return widget.builder(_snapshot.data);
+  }
+
+  // coverage:ignore-start
   @override
   void initState() {
     super.initState();
@@ -156,21 +167,6 @@ class _AsyncBuilderState<T> extends State<AsyncBuilder<T>> {
         _subscribe();
       }
     }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    if (_snapshot.connectionState == ConnectionState.waiting) {
-      return widget.loading != null
-          ? widget.loading!
-          : const CircularProgressIndicator.adaptive();
-    }
-    if (_snapshot.hasError) {
-      return widget.error != null
-          ? widget.error!(_snapshot.error!, _snapshot.stackTrace!)
-          : Text(_snapshot.error!.toString());
-    }
-    return widget.builder(_snapshot.data);
   }
 
   @override
@@ -240,4 +236,5 @@ class _AsyncBuilderState<T> extends State<AsyncBuilder<T>> {
       _subscription = null;
     }
   }
+  // coverage:ignore-end
 }

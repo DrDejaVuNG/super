@@ -28,7 +28,7 @@ import 'package:flutter_super/src/rx/rx.dart';
 ///
 ///   @override
 ///   Widget build(BuildContext context) {
-///     final counter = 0.rx; // RxValue<int>(0);
+///     final counter = 0.rx; // RxT<int>(0);
 ///     return SuperBuilder(
 ///       builder: (context) => Text(
 ///         "${counter.value}",

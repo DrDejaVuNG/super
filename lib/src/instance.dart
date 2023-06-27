@@ -80,14 +80,12 @@ class InstanceManager {
     required T instance,
     required String key,
   }) {
-    if (_testMode) {
-      if (_mocks.isNotEmpty) {
-        for (final item in _mocks) {
-          final mock = _registerMock<T>(item);
-          if (mock != null) {
-            _instances[key] = mock;
-            return;
-          }
+    if (_testMode && _mocks.isNotEmpty) {
+      for (final item in _mocks) {
+        final mock = _registerMock<T>(item);
+        if (mock != null) {
+          _instances[key] = mock;
+          return;
         }
       }
     }
@@ -112,7 +110,7 @@ class InstanceManager {
 
     if (!_instances.containsKey(newKey)) {
       Super.log(
-        'Instance "$newKey" already removed.',
+        '$newKey has already been removed.',
         logType: LogType.warning,
       );
       return;
@@ -125,7 +123,7 @@ class InstanceManager {
     if (inst is Rx) inst.dispose();
 
     _instances.remove(newKey);
-    Super.log('"$newKey" has been terminated.', logType: LogType.warning);
+    Super.log('$newKey has been terminated.', logType: LogType.warning);
   }
 
   /// Deletes all instances of dependencies from the manager.

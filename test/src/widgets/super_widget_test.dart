@@ -1,3 +1,5 @@
+// ignore_for_file: invalid_override_of_non_virtual_member
+
 import 'package:flutter/material.dart';
 import 'package:flutter_super/flutter_super.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -5,14 +7,31 @@ import 'package:flutter_test/flutter_test.dart';
 class MyController extends SuperController {
   bool initContextCalled = false;
   bool stopCalled = false;
+  BuildContext? buildContext1;
+  BuildContext? buildContext2;
 
   @override
   void initContext(BuildContext? context) {
+    super.initContext(context);
     initContextCalled = true;
   }
 
   @override
-  // ignore: invalid_override_of_non_virtual_member
+  void onEnable() {
+    super.onEnable();
+    try {
+      buildContext1 = context;
+    } catch (e) {
+      return;
+    }
+  }
+
+  @override
+  void onAlive() {
+    buildContext2 = context;
+  }
+
+  @override
   void stop() {
     stopCalled = true;
     super.stop();
@@ -36,6 +55,8 @@ void main() {
 
       final controller = widget.controller;
       expect(controller, isNotNull);
+      expect(controller.buildContext1, isNull);
+      expect(controller.buildContext2, isNotNull);
       expect(controller.initContextCalled, isTrue);
     });
 

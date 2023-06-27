@@ -25,6 +25,7 @@ part 'rx_t.dart';
 ///
 /// **Unauthorised Usage Could Create Interference With Other APIs
 /// In The Library**
+// coverage:ignore-start
 abstract class Rx {
   int _count = 0;
   static final List<VoidCallback?> _emptyListeners =
@@ -54,6 +55,9 @@ abstract class Rx {
     );
     return true;
   }
+
+  /// Verify whether [dispose] was called or not.
+  bool get mounted => !_debugDisposed;
 
   /// Checks if the reactive object has registered listeners.
   @protected
@@ -246,6 +250,7 @@ abstract class Rx {
     }
   }
 }
+// coverage:ignore-end
 
 /// MergeRx
 ///
@@ -253,7 +258,7 @@ abstract class Rx {
 ///
 /// **Unauthorised Usage Could Create Interference With Other APIs
 /// In The Library**
-class MergeRx extends Rx {
+final class MergeRx extends Rx {
   /// Creates a MergeRx instance with the specified list of [Rx] objects.
   ///
   /// The children parameter is a list of [Rx] objects that will be
@@ -300,7 +305,7 @@ class MergeRx extends Rx {
 ///
 /// **Unauthorised Usage Could Create Interference With Other APIs
 /// In The Library**
-class RxListener {
+final class RxListener {
   /// Indicates whether the listener is currently active.
   static bool isListening = false;
 

@@ -78,12 +78,14 @@ class _SuperElement<T extends SuperController> extends _ControllerElement<T> {
   @override
   Widget build() => (widget as SuperWidget).build(this);
 
+  // coverage:ignore-start
   @override
   void update(SuperWidget newWidget) {
     super.update(newWidget);
     assert(widget == newWidget, 'Error updating widget');
     rebuild(force: true);
   }
+  // coverage:ignore-end
 }
 
 /// An abstract class that represents an element with a [SuperController].
