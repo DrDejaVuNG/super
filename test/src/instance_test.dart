@@ -16,9 +16,7 @@ void main() {
       TestWidgetsFlutterBinding.ensureInitialized();
     });
 
-    tearDown(() {
-      InstanceManager.deactivate('super');
-    });
+    tearDown(InstanceManager.deactivate);
 
     test('create() should register a singleton instance', () {
       final instance = MockRx();
@@ -34,7 +32,7 @@ void main() {
     });
 
     test('create() should throw an error if SuperApp is not found', () {
-      InstanceManager.deactivate('super');
+      InstanceManager.deactivate();
 
       expect(
         () => InstanceManager.create<String>('example'),
@@ -201,7 +199,7 @@ void main() {
     });
 
     test('deactivate() should reset the scoped state', () {
-      InstanceManager.deactivate('super');
+      InstanceManager.deactivate();
 
       expect(InstanceManager.scoped, false);
     });

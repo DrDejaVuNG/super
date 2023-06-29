@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_super/flutter_super.dart';
 import 'package:flutter_super/src/instance.dart';
 
 /// A stateful widget that represents the root of the Super framework.
@@ -60,6 +61,7 @@ final class SuperApp extends StatefulWidget {
     required this.child,
     super.key,
     this.mocks,
+    this.enableLog = false,
     this.testMode = false,
     this.autoDispose = true,
   });
@@ -69,6 +71,10 @@ final class SuperApp extends StatefulWidget {
 
   /// An optional list of objects used for mocking dependencies during testing.
   final List<Object>? mocks;
+
+  /// An optional boolean value that enables or disables logging
+  /// in the Super framework.
+  final bool enableLog;
 
   /// An optional boolean value that enables or disables test mode
   /// for the Super framework.
@@ -115,6 +121,7 @@ class _SuperAppState extends State<SuperApp> {
   void initState() {
     super.initState();
     // Activate the Super framework
+    Super.activate(enableLog: widget.enableLog);
     InstanceManager.activate(
       autoDispose: widget.autoDispose,
       mocks: widget.mocks,
@@ -125,7 +132,7 @@ class _SuperAppState extends State<SuperApp> {
   @override
   void dispose() {
     // Deactivate the Super framework
-    InstanceManager.deactivate('super');
+    InstanceManager.deactivate();
     super.dispose();
   }
 

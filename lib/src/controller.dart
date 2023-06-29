@@ -127,7 +127,7 @@ mixin class SuperController {
   @mustCallSuper
   @visibleForTesting
   void onEnable() {
-    Super.log('$runtimeType has been enabled.');
+    Super.log('$runtimeType was enabled.');
     WidgetsBinding.instance.addPostFrameCallback((_) => onAlive());
   }
 
@@ -162,7 +162,7 @@ mixin class SuperController {
   @visibleForTesting
   void onDisable() {
     _context = null;
-    Super.log('$runtimeType has been disabled.');
+    Super.log('$runtimeType was disabled.');
     final key = runtimeType;
     InstanceManager.delete<void>(key: key.toString());
   }

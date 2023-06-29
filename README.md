@@ -6,7 +6,7 @@
 <a href="https://pub.dev/packages/flutter_super"><img src="https://img.shields.io/pub/v/flutter_super.svg?logo=dart&label=pub&color=blue" alt="Pub"></a>
 <a href="https://pub.dev/packages/flutter_super/score"><img src="https://img.shields.io/pub/points/flutter_super?logo=dart" alt="Pub points"></a>
 <a href="https://pub.dev/packages/very_good_analysis"><img src="https://img.shields.io/badge/style-very_good_analysis-B22C89.svg" alt="verygoodanalysis"></a>
-<a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/license-MIT-purple.svg" alt="License: MIT"></a>
+<a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/github/license/DrDejaVuNG/flutter_super" alt="License: MIT"></a>
 <img src="https://github.com/DrDejaVuNG/flutter_super/raw/main/coverage_badge.svg" alt="Coverage" />
 </p>
 
@@ -85,9 +85,13 @@ class MyApp extends StatelessWidget {
 }
 ```
 
-`HomeController` is a controller class that extends `SuperController`. It manages the state and logic for the counter functionality in the application. It declares an `RxInt` object _count to represent the count value and provides a getter method `count` to access the current count value. It also defines an `increment` method to increase the count value by 1. The onDisable method is overridden to dispose of the `_count` object when the controller is disabled.
+`HomeController` is a controller class that extends `SuperController`. It manages the state and logic for the counter functionality in the application. It declares an `RxInt` object _count to represent the count value and provides a getter method `count` to access the current count value. It also defines an `increment` method to increase the count value by 1. The onDisable method is overridden to dispose of the `_count` object when the controller is disabled.<br>
+After the `HomeController` is defined, we define a getter to inject the dependency so that it can be accessed globally and be mocked easily during testing.
 
 ```dart
+/// Inject Dependency for global access (It can easily be mocked later).
+HomeController get homeController => Super.init(HomeController()); 
+
 /// The SuperController mixin class allows you to define the 
 /// lifecycle of your controller classes based on a [SuperWidget].
 class HomeController extends SuperController { // Step 2
@@ -96,9 +100,8 @@ class HomeController extends SuperController { // Step 2
 
   int get count => _count.value;
 
-  void increment() { // Step 3
-    _count.value++;
-  }
+  // Step 3
+  void increment() => _count.value++;
 
   @override
   void onDisable() {
@@ -115,7 +118,7 @@ class HomeView extends SuperWidget<HomeController> { // Step 4
   const HomeView({super.key});
 
   @override // Initialize the Widget Controller
-  HomeController initController() => HomeController();
+  HomeController initController() => homeController;
 
   @override
   Widget build(BuildContext context) {
@@ -126,8 +129,7 @@ class HomeView extends SuperWidget<HomeController> { // Step 4
         // its builder method and rebuilds only when the state changes.
         child: SuperBuilder( // Step 5
           builder: (context) {
-            // controller is the instance getter for the Controller of
-            // the widget
+            // controller is the Widget Controller reference
             return Text(
               '${controller.count}',
               style: Theme.of(context).textTheme.displayLarge,
@@ -144,6 +146,7 @@ class HomeView extends SuperWidget<HomeController> { // Step 4
   }
 }
 ```
+
 By separating the logic into the `HomeController` and the UI into the `HomeView`, the application achieves a clear separation of concerns between the business logic layer and the presentational layer. The `HomeView` widget is responsible for rendering the UI based on the state provided by the `HomeController`, while the `HomeController` handles the underlying logic and state management for the counter functionality.
 
 <br>
@@ -516,9 +519,8 @@ Super.create<T>(T instance, {bool lazy = false});
 ### delete
 
 Deletes the instance of a dependency from the manager.
-If autoDispose is set to false, [force] must be set to true to delete resources.
 ```dart
-Super.delete<T>({String? key, bool force = false});
+Super.delete<T>({String? key});
 ```
 
 <br>
@@ -526,9 +528,8 @@ Super.delete<T>({String? key, bool force = false});
 ### deleteAll
 
 Deletes all instances of dependencies from the manager.
-If autoDispose is set to false, [force] must be set to true to delete resources.
 ```dart
-Super.deleteAll({bool force = false});
+Super.deleteAll();
 ```
 
 <br>

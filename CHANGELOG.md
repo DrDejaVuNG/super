@@ -1,3 +1,8 @@
+## 1.1.3
+- Minor bug fixes.
+- Minor code optimizations
+- Updated example project
+
 ## 1.1.2
 
 - Minor code optimizations.
@@ -27,7 +32,7 @@
 
 ## 1.0.1
 
-- Temporarily removed homepage and doumentaton from pubspec.yaml.
+- Temporarily removed homepage and documentation from pubspec.yaml.
 
 ## 1.0.0
 

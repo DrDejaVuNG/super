@@ -51,7 +51,7 @@ abstract class SuperWidget<T extends SuperController> extends Widget {
   // ignore: library_private_types_in_public_api
   _SuperElement<T> createElement() => _SuperElement<T>(this, controller);
 
-  /// The controller for the widget.
+  /// The widget controller reference.
   ///
   /// This getter provides access to the associated controller
   /// for the widget. The controller is initialized and managed

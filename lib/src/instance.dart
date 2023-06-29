@@ -1,18 +1,16 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_super/flutter_super.dart';
-import 'package:flutter_super/src/core/logger.dart';
 
 /// A class that manages the instances of dependencies.
 class InstanceManager {
-  static const _code = 'super';
   static final Map<String, dynamic> _instances = {};
   static List<Object> _mocks = [];
-  static bool _isScoped = false;
+  static bool _scoped = false;
   static bool _testMode = false;
   static bool? _autoDispose;
 
   /// Check the scoped state of the framework.
-  static bool get scoped => _isScoped;
+  static bool get scoped => _scoped;
 
   /// Generates the key based on the type to register an instance
   /// in the `_instances` map.
@@ -23,17 +21,14 @@ class InstanceManager {
   /// Creates a singleton instance of a dependency and registers it
   /// with the manager.
   static void create<T>(T instance, {bool lazy = false}) {
-    if (!_isScoped) {
-      Super.log(
-        'SuperApp not found, Wrap the top level Widget with SuperApp.',
-        logType: LogType.error,
-      );
+    if (!_scoped) {
       throw FlutterError(
         'SuperApp not found, Wrap the root widget of your app '
         'with [SuperApp] to enable the Super framework.',
       );
     }
     final key = _instKey<T>();
+
     if (lazy) {
       _instances[key] = () => instance;
       return;
@@ -57,11 +52,10 @@ class InstanceManager {
 
       if (inst is SuperController) inst.start();
       return inst as T;
-    } else {
-      throw FlutterError(
-        '"$T" not found. You have to invoke "Super.init($T())".',
-      );
     }
+    throw FlutterError(
+      '"$T" not found. You have to invoke "Super.init($T())".',
+    );
   }
 
   /// Initializes and retrieves the instance of a dependency, or creates
@@ -107,33 +101,24 @@ class InstanceManager {
   static void delete<T>({String? key, bool force = false}) {
     if (_autoDispose != null && !_autoDispose! && !force) return;
     final newKey = key ?? _instKey<T>();
-
-    if (!_instances.containsKey(newKey)) {
-      Super.log(
-        '$newKey has already been removed.',
-        logType: LogType.warning,
-      );
-      return;
-    }
-
+    if (!_instances.containsKey(newKey)) return;
     final inst = _instances[newKey];
 
     if (inst is SuperController) inst.stop();
-
     if (inst is Rx) inst.dispose();
 
     _instances.remove(newKey);
-    Super.log('$newKey has been terminated.', logType: LogType.warning);
+    Super.log(
+      '$newKey dependency was deleted.',
+      warning: true,
+    );
   }
 
   /// Deletes all instances of dependencies from the manager.
-  /// If autoDispose is set to false, [force] must be set to
-  /// true to delete resources.
-  static void deleteAll({bool force = false}) {
-    if (_autoDispose != null && !_autoDispose! && !force) return;
+  static void deleteAll() {
     final keys = _instances.keys.toList();
     for (final key in keys) {
-      delete<void>(key: key, force: force);
+      delete<void>(key: key, force: true);
     }
     _instances.clear();
   }
@@ -146,16 +131,10 @@ class InstanceManager {
     required bool autoDispose,
     List<Object>? mocks,
   }) {
-    // Scope
-    _isScoped = true;
-
-    // Test Mode
+    _scoped = true;
     _testMode = testMode;
-
-    // Auto Dispose
     _autoDispose = autoDispose;
 
-    // Mocks
     if (mocks != null && mocks.isNotEmpty) {
       _mocks = List.of(mocks);
     }
@@ -164,21 +143,11 @@ class InstanceManager {
   /// Deactivate the Super framework
   ///
   /// Not intended for use outside the [Super] library
-  static void deactivate(String code) {
-    if (code != _code) return;
-    // Delete all instances managed by the InstanceManager.
+  static void deactivate() {
     deleteAll();
-
-    // Reset the scoped state of the framework.
-    _isScoped = false;
-
-    // Reset mode of the framework
+    _scoped = false;
     _testMode = false;
-
-    // Reset Auto Dispose
     _autoDispose = null;
-
-    // Reset mocks
     _mocks = [];
   }
 }

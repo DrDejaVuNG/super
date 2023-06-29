@@ -43,6 +43,9 @@ class MyApp extends StatelessWidget {
   }
 }
 
+/// Inject Dependency for global access (It can easily be mocked later).
+HomeController get homeController => Super.init(HomeController()); 
+
 /// HomeController is a controller class that extends SuperController. 
 /// It manages the state and logic for the counter functionality in the 
 /// application.
@@ -52,9 +55,8 @@ class HomeController extends SuperController { // Step 2
 
   int get count => _count.value;
 
-  void increment() { // Step 3
-    _count.value++;
-  }
+  // Step 3
+  void increment() => _count.value++;
 
   @override
   void onDisable() {
@@ -73,7 +75,7 @@ class HomeView extends SuperWidget<HomeController> { // Step 4
   const HomeView({super.key});
 
   @override
-  HomeController initController() => HomeController();
+  HomeController initController() => homeController;
 
   @override
   Widget build(BuildContext context) {
@@ -84,8 +86,7 @@ class HomeView extends SuperWidget<HomeController> { // Step 4
         // its builder method and rebuilds only when the state changes.
         child: SuperBuilder( // Step 5
           builder: (context) {
-            // controller is the instance getter for the Controller of
-            // the widget
+            // controller is the Widget Controller reference
             return Text(
               '${controller.count}',
               style: Theme.of(context).textTheme.displayLarge,

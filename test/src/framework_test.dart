@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_super/flutter_super.dart';
+import 'package:flutter_super/src/instance.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 class HomeController extends SuperController {
@@ -18,6 +19,7 @@ void main() {
       await tester.pumpWidget(
         SuperApp(
           mocks: [MockHomeController()],
+          enableLog: true,
           testMode: true,
           child: Container(),
         ),
@@ -77,32 +79,19 @@ void main() {
       );
     });
 
-    testWidgets('resources are not disposed when autoDispose is false',
-        (WidgetTester tester) async {
-      await tester.pumpWidget(
-        SuperApp(
-          mocks: [MockHomeController()],
-          testMode: true,
-          autoDispose: false,
-          child: Container(),
-        ),
+    test('resources are not disposed when autoDispose is false', () {
+      InstanceManager.activate(
+        autoDispose: false,
+        testMode: true,
+        mocks: [MockHomeController()],
       );
-
-      // Ensure that the Super framework is activated
-      expect(Super.isScoped, true);
 
       final controller = Super.init(HomeController());
 
       // Verify mock dependencies are inserted
       expect(controller.name == 'Name', true);
 
-      // Dispose the SuperApp widget
-      await tester.pumpWidget(
-        Container(),
-      );
-
-      // Ensure that the Super framework is deactivated
-      expect(Super.isScoped, false);
+      InstanceManager.delete<HomeController>();
 
       // Expect controller to not be disposed
       expect(Super.of<HomeController>(), controller);

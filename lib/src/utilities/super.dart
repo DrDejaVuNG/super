@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_super/src/core/interface.dart';
 import 'package:flutter_super/src/core/logger.dart';
 import 'package:flutter_super/src/instance.dart';
@@ -5,24 +6,26 @@ import 'package:flutter_super/src/instance.dart';
 /// Enables access to functionality through Super
 extension SuperExt on SuperInterface {
   /* ========================= App ========================= */
-
   /// Check the scoped state of the framework.
   bool get isScoped => InstanceManager.scoped;
 
-  // /// Activate the Super framework
-  // ///
-  // /// Not for use outside the [Super] library
-  // void activate({
-  //   required bool autoDispose,
-  //   required bool testMode,
-  //   List<Object>? mocks,
-  // }) {
-  //   InstanceManager.activate(
-  //     autoDispose: autoDispose,
-  //     mocks: mocks,
-  //     testMode: testMode,
-  //   );
-  // }
+  /// Activate the Super framework
+  ///
+  /// Not for use outside the [Super] library
+  // ignore: use_setters_to_change_properties
+  void activate({
+    // required bool autoDispose,
+    required bool enableLog,
+    // required bool testMode,
+    // List<Object>? mocks,
+  }) {
+    _enableLog = enableLog;
+    // InstanceManager.activate(
+    //   autoDispose: autoDispose,
+    //   mocks: mocks,
+    //   testMode: testMode,
+    // );
+  }
 
   // /// Deactivate the Super framework
   // ///
@@ -32,10 +35,18 @@ extension SuperExt on SuperInterface {
   // }
 
 /* ========================= Logger ========================= */
+  static bool _enableLog = kDebugMode;
 
   /// Create logs using the logger from the Super framework
-  void log(String msg, {LogType logType = LogType.info}) =>
-      logger(msg, logType: logType);
+  void log(
+    String msg, {
+    bool warning = false,
+  }) =>
+      logger(
+        msg,
+        _enableLog,
+        warning: warning,
+      );
 
   /* ========================= Instance ========================= */
 
@@ -55,14 +66,9 @@ extension SuperExt on SuperInterface {
       );
 
   /// Deletes the instance of a dependency from the manager.
-  /// If autoDispose is set to false, [force] must be set to
-  /// true to delete resources.
-  void delete<T>({String? key, bool force = false}) =>
-      InstanceManager.delete<T>(key: key, force: force);
+  void delete<T>({String? key}) =>
+      InstanceManager.delete<T>(key: key, force: true);
 
   /// Deletes all instances of dependencies from the manager.
-  /// If autoDispose is set to false, [force] must be set to
-  /// true to delete resources.
-  void deleteAll({bool force = false}) =>
-      InstanceManager.deleteAll(force: force);
+  void deleteAll() => InstanceManager.deleteAll();
 }
