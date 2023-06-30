@@ -336,7 +336,7 @@ The [SuperConsumer] widget takes a [builder] function, which is called whenever 
 Example usage:
 
 ```dart
-final counter = CounterNotifier();
+CounterNotifier get counterNotifier => Super.init(CounterNotifier());
 
 // ...
 
@@ -348,7 +348,46 @@ SuperConsumer<int>(
 )
 ```
 
-In the above example, a [SuperConsumer] widget is created and given a `CounterNotifier` object called counter. Whenever the state of counter changes, the  builder function is called with the latest state, and it returns a [Text] widget displaying the count.
+In the above example, a [SuperConsumer] widget is created and given a `CounterNotifier` object called counterNotifier. Whenever the state of the counterNotifier changes, the  builder function is called with the latest state, and it returns a [Text] widget displaying the count.
+
+#### Asynchronous State
+
+The [SuperConsumer] widget can also be used for 
+asynchronous state.
+
+The optional [loading] parameter can be used to specify a widget
+to be displayed while an RxNotifier is in loading state.
+
+Example usage:
+
+```dart
+CounterNotifier get counterNotifier => Super.init(CounterNotifier());
+
+class CounterNotifier extends RxNotifier<int> {
+  @override
+  int watch() {
+    return 0; // Initial state
+  }
+
+  Future<void> getData() async {
+    toggleLoading(); // set loading to true
+    state = await Future.delayed(const Duration(seconds: 3), () => 5);
+  }
+}
+
+SuperConsumer<int>(
+  rx: counter,
+  loading: const CircularProgressIndicator();
+  builder: (context, state) {
+    return Text('Count: $state');
+  },
+)
+```
+
+As seen above, a [SuperConsumer] widget is created and given
+a [RxNotifier] object called counterNotifier. When the widget is built, if the RxNotifier is in loading state, the loading widget will be displayed.
+When the asynchronous method completes and the state is updated, the
+builder function is called with the state.
 
 <br>
 
@@ -457,6 +496,8 @@ The `RxNotifier` class provides a foundation for creating reactive notifiers tha
 Example usage:
 
 ```dart
+CounterNotifier get counterNotifier => Super.init(CounterNotifier());
+
 class CounterNotifier extends RxNotifier<int> {
   @override
   int watch() {
@@ -467,11 +508,34 @@ class CounterNotifier extends RxNotifier<int> {
     state++; // Update the state
   }
 }
-
-final counter = CounterNotifier();
 ```
 
-It is best used for global state i.e state used in multiple controllers but it could also be used for a single controller to abstract a state and its events e.g if a state has a lot of events, rather than complicating your controller, you could use an RxNotifier for that singular state instead.
+#### Asynchronous State
+
+An `RxNotifier` can also be used for asynchronous state. 
+
+By default the loading state is set to false so that none asynchronous 
+state can be utilized.
+
+Example usage:
+
+```dart
+BooksNotifier get booksNotifier => Super.init(BooksNotifier());
+
+class BooksNotifier extends RxNotifier<List<Book>> {
+  @override
+  List<Book> watch() {
+    return []; // Initial state
+  }
+
+  void getBooks() async {
+    toggleLoading();
+    state = await booksRepo.getBooks(); // Update the state
+  }
+}
+```
+
+It is best used for global state i.e state used in multiple controllers but it could also be used for a single controller to abstract a state and its events e.g if a state has a lot of events, rather than complicating the controller, an RxNotifier could be used for that singular state instead.
 
 **Note:** When using the RxNotifier class, it is important to call the `dispose()` method on the object when it is no longer needed to prevent memory leaks. This can be done using the onDisable method of your controller.
 

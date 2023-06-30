@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter_super/src/core/interface.dart';
 import 'package:flutter_super/src/core/logger.dart';
 import 'package:flutter_super/src/instance.dart';
@@ -6,36 +5,11 @@ import 'package:flutter_super/src/instance.dart';
 /// Enables access to functionality through Super
 extension SuperExt on SuperInterface {
   /* ========================= App ========================= */
+
   /// Check the scoped state of the framework.
   bool get isScoped => InstanceManager.scoped;
 
-  /// Activate the Super framework
-  ///
-  /// Not for use outside the [Super] library
-  // ignore: use_setters_to_change_properties
-  void activate({
-    // required bool autoDispose,
-    required bool enableLog,
-    // required bool testMode,
-    // List<Object>? mocks,
-  }) {
-    _enableLog = enableLog;
-    // InstanceManager.activate(
-    //   autoDispose: autoDispose,
-    //   mocks: mocks,
-    //   testMode: testMode,
-    // );
-  }
-
-  // /// Deactivate the Super framework
-  // ///
-  // /// Not for use outside the [Super] library
-  // void deactivate(String code) {
-  //   InstanceManager.deactivate(code);
-  // }
-
 /* ========================= Logger ========================= */
-  static bool _enableLog = kDebugMode;
 
   /// Create logs using the logger from the Super framework
   void log(
@@ -44,7 +18,6 @@ extension SuperExt on SuperInterface {
   }) =>
       logger(
         msg,
-        _enableLog,
         warning: warning,
       );
 

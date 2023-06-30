@@ -1,5 +1,7 @@
 // ignore_for_file: invalid_use_of_protected_member
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_super/flutter_super.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -8,6 +10,11 @@ class CounterNotifier extends RxNotifier<int> {
   @override
   int watch() {
     return 0; // Initial state
+  }
+
+  Future<void> getData() async {
+    toggleLoading();
+    state = await Future.delayed(const Duration(seconds: 3), () => 5);
   }
 }
 
@@ -67,6 +74,33 @@ void main() {
 
       // Verify that the builder function is called with the updated value
       expect(find.text('Value: 84'), findsOneWidget);
+    });
+
+    testWidgets('Displays loading widget when RxNotifier is in loading state',
+        (WidgetTester tester) async {
+      final counterNotifier = CounterNotifier();
+
+      // Attempt to update the rx value
+      unawaited(counterNotifier.getData());
+
+      await tester.pumpWidget(
+        MaterialApp(
+          home: SuperConsumer<int>(
+            rx: counterNotifier,
+            loading: const CircularProgressIndicator(),
+            builder: (context, state) => Text('Value: $state'),
+          ),
+        ),
+      );
+
+      // Verify that the loading widget is displayed
+      expect(find.byType(CircularProgressIndicator), findsOneWidget);
+
+      // Rebuild the widget
+      await tester.pump(const Duration(seconds: 3));
+
+      // Verify that the builder function is called with the updated value
+      expect(find.text('Value: 5'), findsOneWidget);
     });
 
     testWidgets('Calls builder function when rx changes',

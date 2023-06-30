@@ -12,6 +12,7 @@ void main() {
         testMode: true,
         autoDispose: true,
         mocks: [],
+        enableLog: true,
       );
       TestWidgetsFlutterBinding.ensureInitialized();
     });

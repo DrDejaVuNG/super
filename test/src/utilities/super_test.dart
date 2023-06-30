@@ -9,6 +9,7 @@ void main() {
       InstanceManager.activate(
         testMode: true,
         autoDispose: true,
+        enableLog: true,
       );
     });
 

@@ -10,6 +10,11 @@ class TestNotifier extends RxNotifier<int> {
   void increment() {
     state++; // Update the state
   }
+
+  Future<void> getData() async {
+    toggleLoading();
+    state = await Future.delayed(const Duration(seconds: 2), () => 5);
+  }
 }
 
 void main() {
@@ -47,6 +52,30 @@ void main() {
         ..state = 0; // Set the same state
 
       expect(listenerCalls, equals(0));
+    });
+
+    test('loading state is updated when toggleLoading() method is called', () {
+      expect(testNotifier.loading, isFalse);
+
+      testNotifier.toggleLoading();
+
+      expect(testNotifier.loading, isTrue);
+
+      testNotifier.toggleLoading();
+    });
+
+    test('should notify listeners when the state is changed asynchronously',
+        () async {
+      var listenerCalls = 0;
+
+      testNotifier.addListener(() {
+        listenerCalls++;
+      });
+
+      await testNotifier.getData();
+
+      expect(testNotifier.state, equals(5));
+      expect(listenerCalls, equals(1));
     });
 
     test('should have a string representation of the runtime type and state',

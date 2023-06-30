@@ -27,6 +27,9 @@ part 'rx_t.dart';
 /// In The Library**
 // coverage:ignore-start
 abstract class Rx {
+  /// Rx Constructor
+  Rx();
+
   int _count = 0;
   static final List<VoidCallback?> _emptyListeners =
       List<VoidCallback?>.filled(0, null);
@@ -306,6 +309,9 @@ final class RxMerge extends Rx {
 /// **Unauthorised Usage Could Create Interference With Other APIs
 /// In The Library**
 final class RxListener {
+  /// RxListener Constructor
+  RxListener(); // coverage:ignore-line
+
   /// Indicates whether the listener is currently active.
   static bool isListening = false;
 

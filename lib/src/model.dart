@@ -8,7 +8,7 @@ import 'package:flutter/foundation.dart';
 ///
 /// Example usage:
 /// ```dart
-/// class UserModel extends SuperModel {
+/// class UserModel with SuperModel {
 ///   final int id;
 ///   final String name;
 ///

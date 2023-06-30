@@ -7,4 +7,7 @@ SuperInterface get Super => SuperInterface();
 
 /// The "Super" framework provides various features and functionality
 /// by defining extensions on the "SuperInterface" class.
-final class SuperInterface {}
+final class SuperInterface {
+  /// SuperInterface Constructor
+  SuperInterface();
+}

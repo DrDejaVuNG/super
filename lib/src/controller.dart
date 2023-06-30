@@ -50,15 +50,17 @@ import 'package:flutter_super/src/instance.dart';
 /// controller, ensuring that the state is only modified through defined
 /// methods within the controller (e.g., `increment()` in the example).
 mixin class SuperController {
+  /// SuperController Constructor
+  SuperController();
+
   bool _alive = false;
   BuildContext? _context;
 
   /// The [BuildContext] associated with the controller.
   ///
   /// It represents the context of the first widget that uses the controller
-  /// or the immediate widget that initializes the controller after the
-  /// original widget is removed from the widget tree when autoDispose is
-  /// set to false.
+  /// or the immediate widget that initializes the controller after the original
+  ///  widget is removed from the widget tree when autoDispose is set to false.
   /// This context is set when the `initContext()` method is called.
   ///
   /// Note: Avoid using the `BuildContext` in the `onEnable()` method

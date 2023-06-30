@@ -14,22 +14,59 @@ import 'package:flutter_super/flutter_super.dart';
 ///
 /// Example usage:
 /// ```dart
-/// final counter = RxNotifier<int>(0);
+/// CounterNotifier get counterNotifier = Super.init(CounterNotifier());
 ///
 /// // ...
 ///
 /// SuperConsumer<int>(
-///   rx: counter,
+///   rx: counterNotifier,
 ///   builder: (context, state) {
 ///     return Text('Count: $state');
 ///   },
 /// )
 /// ```
-///
 /// In the above example, a [SuperConsumer] widget is created and given
-/// a [RxNotifier<int>] object called counter. Whenever the state of
-/// counter changes, the  builder function is called with the latest state,
-/// and it returns a [Text] widget displaying the count.
+/// a [RxNotifier<int>] object called counterNotifier. Whenever the state
+/// of the counterNotifier changes, the  builder function is called with
+/// the latest state, and it returns a [Text] widget displaying the count.
+///
+/// ### Asynchronous State
+///
+/// The [SuperConsumer] widget can also be used for
+/// asynchronous state.
+///
+/// The optional [loading] parameter can be used to specify a widget
+/// to be displayed while an RxNotifier is in loading state.
+///
+/// Example usage:
+/// ```dart
+/// CounterNotifier get counterNotifier = Super.init(CounterNotifier());
+///
+/// class CounterNotifier extends RxNotifier<int> {
+///   @override
+///   int watch() {
+///     return 0; // Initial state
+///   }
+///
+///   Future<void> getData() async {
+///     toggleLoading(); // set loading to true
+///     state = await Future.delayed(const Duration(seconds: 3), () => 5);
+///   }
+/// }
+///
+/// SuperConsumer<int>(
+///   rx: counterNotifier,
+///   loading: const CircularProgressIndicator();
+///   builder: (context, state) {
+///     return Text('Count: $state');
+///   },
+/// )
+/// ```
+/// As seen above, a [SuperConsumer] widget is created and given
+/// a [RxNotifier] object called counterNotifier. When the widget is built,
+/// if the RxNotifier is in loading state, the loading widget will be
+/// displayed. When the asynchronous method completes and the state is
+/// updated, the builder function is called with the state.
 ///
 /// See also:
 ///
@@ -43,11 +80,16 @@ class SuperConsumer<T> extends StatefulWidget {
   const SuperConsumer({
     required this.builder,
     required this.rx,
+    this.loading,
     super.key,
   });
 
   /// The [Rx] object to be consumed and listened to for changes.
   final Rx rx;
+
+  /// A widget to be displayed while an RxNotifier is in
+  /// loading state.
+  final Widget? loading;
 
   /// The function that defines the widget tree to be built when the
   /// [Rx] object changes.
@@ -63,52 +105,45 @@ class SuperConsumer<T> extends StatefulWidget {
 
 class _SuperConsumerState<T> extends State<SuperConsumer<T>> {
   late T _state;
-
-  @override
-  void initState() {
-    super.initState();
-    _initValue();
-    // Add the listener to the rx during initialization.
-    widget.rx.addListener(_handleChange);
-  }
+  bool _loading = false;
 
   @override
   void didUpdateWidget(SuperConsumer<T> oldWidget) {
     super.didUpdateWidget(oldWidget);
-
     // Check if the rx has changed and update the listener accordingly.
     if (widget.rx != oldWidget.rx) {
       oldWidget.rx.removeListener(_handleChange);
-      widget.rx.addListener(_handleChange);
     }
   }
 
   void _initValue() {
-    // Obtain the initial state from the rx.
     final rx = widget.rx;
     if (rx is RxT<T>) {
       _state = rx.value;
     }
     if (rx is RxNotifier<T>) {
       _state = rx.state;
+      _loading = rx.loading;
     }
+    widget.rx.addListener(_handleChange);
   }
 
   @override
   void dispose() {
-    // Remove the listener from the rx when disposing the widget.
     widget.rx.removeListener(_handleChange);
     super.dispose();
   }
 
   void _handleChange() {
-    // Trigger a rebuild of the widget whenever the rx changes value.
     setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
     _initValue();
+    if (_loading) {
+      return widget.loading ?? const CircularProgressIndicator.adaptive();
+    }
     return widget.builder(context, _state);
   }
 }

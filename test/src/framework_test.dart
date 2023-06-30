@@ -84,6 +84,7 @@ void main() {
         autoDispose: false,
         testMode: true,
         mocks: [MockHomeController()],
+        enableLog: true,
       );
 
       final controller = Super.init(HomeController());

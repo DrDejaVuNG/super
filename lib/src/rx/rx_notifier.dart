@@ -61,6 +61,7 @@ abstract class RxNotifier<T> extends Rx {
   }
 
   late T _state;
+  bool _loading = false;
 
   /// Retrieves the initial state for the notifier.
   ///
@@ -85,6 +86,29 @@ abstract class RxNotifier<T> extends Rx {
     return _state;
   }
 
+  /// The loading state of the notifier.
+  ///
+  /// This is useful when working with asynchronous state.
+  /// By default it is set to false so that none asynchronous state
+  /// can be utilized.
+  ///
+  /// Example:
+  ///
+  /// ```dart
+  /// class BooksNotifier extends RxNotifier<List<Book>> {
+  ///   @override
+  ///   List<Book> watch() {
+  ///     return []; // Initial state
+  ///   }
+  ///
+  ///   void getBooks() async {
+  ///     toggleLoading();
+  ///     state = await booksRepo.getBooks(); // Update the state
+  ///   }
+  /// }
+  /// ```
+  bool get loading => _loading;
+
   /// Sets the new state for the notifier.
   ///
   /// The `state` argument represents the new state value for the notifier.
@@ -102,9 +126,28 @@ abstract class RxNotifier<T> extends Rx {
   @visibleForTesting
   set state(T state) {
     if ('$_state' == '$state') return;
+    if (loading == true) toggleLoading();
     _state = state;
     _notifyListeners();
   }
+
+  /// Toggles the loading state of the notifier. By default the
+  /// loading state is false.
+  ///
+  /// Example:
+  ///
+  /// ```dart
+  /// void getList() async {
+  ///   toggleLoading(); // set loading to true
+  ///
+  ///   state = await dataRepo.getData; // Update the state
+  /// }
+  /// ```
+  /// **Note**: There is no need to call it a second time, when the state
+  /// is updated the loading state will be set to false.
+  @protected
+  @visibleForTesting
+  void toggleLoading() => _loading = !_loading;
 
   @override
   String toString() => '$runtimeType($state)';

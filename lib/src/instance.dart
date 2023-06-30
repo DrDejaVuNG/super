@@ -3,11 +3,18 @@ import 'package:flutter_super/flutter_super.dart';
 
 /// A class that manages the instances of dependencies.
 class InstanceManager {
+  /// Instance Manager Constructor
+  InstanceManager(); // coverage:ignore-line
+
   static final Map<String, dynamic> _instances = {};
   static List<Object> _mocks = [];
   static bool _scoped = false;
   static bool _testMode = false;
+  static bool _enableLog = kDebugMode;
   static bool? _autoDispose;
+
+  /// Enable Logs in the Super Framework
+  static bool get enableLog => _enableLog;
 
   /// Check the scoped state of the framework.
   static bool get scoped => _scoped;
@@ -128,11 +135,13 @@ class InstanceManager {
   /// Not intended for use outside the [Super] library
   static void activate({
     required bool testMode,
+    required bool enableLog,
     required bool autoDispose,
     List<Object>? mocks,
   }) {
     _scoped = true;
     _testMode = testMode;
+    _enableLog = enableLog;
     _autoDispose = autoDispose;
 
     if (mocks != null && mocks.isNotEmpty) {
