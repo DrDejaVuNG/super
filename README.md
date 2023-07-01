@@ -46,9 +46,17 @@ import 'package:flutter_super/flutter_super.dart';
 
 ## Usage
 
-### Counter App
+### Beginner Counter App
+
+![](https://github.com/DrDejaVuNG/images/blob/main/images/flutter_super/counter_app_novice.png?raw=true)
+
+<br>
+
+### Professional Counter App
 
 ![](https://github.com/DrDejaVuNG/images/blob/main/images/flutter_super/counter_app.png?raw=true)
+
+<br>
 
 ### Counter App Test
 
@@ -341,7 +349,7 @@ CounterNotifier get counterNotifier => Super.init(CounterNotifier());
 // ...
 
 SuperConsumer<int>(
-  rx: counter,
+  rx: counterNotifier,
   builder: (context, state) {
     return Text('Count: $state');
   },
@@ -376,7 +384,7 @@ class CounterNotifier extends RxNotifier<int> {
 }
 
 SuperConsumer<int>(
-  rx: counter,
+  rx: counterNotifier,
   loading: const CircularProgressIndicator();
   builder: (context, state) {
     return Text('Count: $state');
@@ -536,6 +544,8 @@ class BooksNotifier extends RxNotifier<List<Book>> {
 ```
 
 It is best used for global state i.e state used in multiple controllers but it could also be used for a single controller to abstract a state and its events e.g if a state has a lot of events, rather than complicating the controller, an RxNotifier could be used for that singular state instead.
+
+**Important:** Unlike in the example above, it is important to make use of an error handling approach such as a try catch block or the .result extension when dealing with asynchronous data, this is so as to handle exceptions which may be thrown from the asynchronous method.
 
 **Note:** When using the RxNotifier class, it is important to call the `dispose()` method on the object when it is no longer needed to prevent memory leaks. This can be done using the onDisable method of your controller.
 

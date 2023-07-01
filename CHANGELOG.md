@@ -1,20 +1,30 @@
+## 1.2.1
+
+- Update README.md
+
 ## 1.2.0
+
 - feat: New loading state for RxNotifiers
 - feat: SuperConsumers can now display a loading widget while an RxNotifier is in loading state.
 
 ## 1.1.5-dev.3
+
 - v1.2.0 pre-release
 
 ## 1.1.5-dev.2
+
 - Minor bug fixes
 
 ## 1.1.5-dev.1
+
 - Minor bug fixes
 
 ## 1.1.4
+
 - Update Documentation
 
 ## 1.1.3
+
 - Minor bug fixes.
 - Minor code optimizations
 - Updated example project
