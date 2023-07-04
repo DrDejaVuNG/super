@@ -2,13 +2,13 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_super/flutter_super.dart';
-import 'package:flutter_super/src/instance.dart';
+import 'package:flutter_super/src/injection.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  group('InstanceManager', () {
+  group('Injection', () {
     setUp(() {
-      InstanceManager.activate(
+      Injection.activate(
         testMode: true,
         autoDispose: true,
         mocks: [],
@@ -17,26 +17,26 @@ void main() {
       TestWidgetsFlutterBinding.ensureInitialized();
     });
 
-    tearDown(InstanceManager.deactivate);
+    tearDown(Injection.deactivate);
 
     test('create() should register a singleton instance', () {
       final instance = MockRx();
       final lazyInstance = MockController();
 
-      InstanceManager.create<MockRx>(instance);
+      Injection.create<MockRx>(instance);
 
-      expect(InstanceManager.of<MockRx>(), instance);
+      expect(Injection.of<MockRx>(), instance);
 
-      InstanceManager.create<MockController>(lazyInstance, lazy: true);
+      Injection.create<MockController>(lazyInstance, lazy: true);
 
-      expect(InstanceManager.of<MockController>(), lazyInstance);
+      expect(Injection.of<MockController>(), lazyInstance);
     });
 
     test('create() should throw an error if SuperApp is not found', () {
-      InstanceManager.deactivate();
+      Injection.deactivate();
 
       expect(
-        () => InstanceManager.create<String>('example'),
+        () => Injection.create<String>('example'),
         throwsA(isA<FlutterError>()),
       );
     });
@@ -44,44 +44,44 @@ void main() {
     test('of() should retrieve an instance from the manager', () {
       const instance = 'example';
 
-      InstanceManager.create<String>(instance);
+      Injection.create<String>(instance);
 
-      expect(InstanceManager.of<String>(), instance);
+      expect(Injection.of<String>(), instance);
     });
 
-    test('of() should invoke start() on SuperController instances', () {
+    test('of() should invoke enable() on SuperController instances', () {
       final instance = MockController();
 
-      InstanceManager.create<MockController>(instance);
+      Injection.create<MockController>(instance);
 
-      expect(instance.startCalled, false);
+      expect(instance.enableCalled, false);
 
-      InstanceManager.of<MockController>();
+      Injection.of<MockController>();
 
-      expect(instance.startCalled, true);
+      expect(instance.enableCalled, true);
     });
 
     test('of() should register and retrieve lazy instances', () {
       const lazyInstance = 10;
 
-      InstanceManager.create<int>(lazyInstance, lazy: true);
+      Injection.create<int>(lazyInstance, lazy: true);
 
-      expect(InstanceManager.of<int>(), lazyInstance);
+      expect(Injection.of<int>(), lazyInstance);
     });
 
     test('of() should recursively register and retrieve instances', () {
       final instance = MockController();
 
-      InstanceManager.create<MockController>(instance);
+      Injection.create<MockController>(instance);
 
-      final mockInstance = InstanceManager.of<MockController>();
+      final mockInstance = Injection.of<MockController>();
 
       expect(mockInstance, instance);
     });
 
     test('of() should throw an error if type T is not found', () {
       expect(
-        () => InstanceManager.of<String>(),
+        () => Injection.of<String>(),
         throwsA(isA<FlutterError>()),
       );
     });
@@ -89,138 +89,138 @@ void main() {
     test('init() should retrieve an instance or create a new one', () {
       const instance = 'example';
 
-      InstanceManager.create<String>(instance);
+      Injection.create<String>(instance);
       // String key already exists
-      expect(InstanceManager.init<String>('other'), instance);
-      expect(InstanceManager.init<int>(10), 10);
+      expect(Injection.init<String>('other'), instance);
+      expect(Injection.init<int>(10), 10);
     });
 
     test('init() should create a new instance if it does not exist', () {
       const instance = 'example';
 
-      expect(InstanceManager.init<String>(instance), instance);
-      expect(InstanceManager.of<String>(), instance);
+      expect(Injection.init<String>(instance), instance);
+      expect(Injection.of<String>(), instance);
     });
 
     test('delete() should delete an instance from the manager', () {
       const instance = 'example';
 
-      InstanceManager.create<String>(instance);
+      Injection.create<String>(instance);
 
-      expect(InstanceManager.of<String>(), instance);
+      expect(Injection.of<String>(), instance);
 
-      InstanceManager.delete<String>();
+      Injection.delete<String>();
 
-      expect(() => InstanceManager.of<String>(), throwsA(isA<FlutterError>()));
+      expect(() => Injection.of<String>(), throwsA(isA<FlutterError>()));
     });
 
-    test('delete() should stop SuperController instances', () {
+    test('delete() should disable SuperController instances', () {
       final controller = MockController();
 
-      InstanceManager.create<MockController>(controller);
+      Injection.create<MockController>(controller);
 
-      expect(controller.stopCalled, false);
+      expect(controller.disableCalled, false);
 
-      InstanceManager.delete<MockController>();
+      Injection.delete<MockController>();
 
-      expect(controller.stopCalled, true);
+      expect(controller.disableCalled, true);
     });
 
     test('delete() should dispose Rx instances', () {
       final rxInstance = MockRx();
 
-      InstanceManager.create<Rx>(rxInstance);
+      Injection.create<Rx>(rxInstance);
 
       expect(rxInstance.disposeCalled, false);
 
-      InstanceManager.delete<Rx>();
+      Injection.delete<Rx>();
 
       expect(rxInstance.disposeCalled, true);
     });
 
     test('deleteAll() should delete all instances from the manager', () {
-      InstanceManager.create<String>('example');
-      InstanceManager.create<int>(42);
-      InstanceManager.create<Rx>(MockRx());
+      Injection.create<String>('example');
+      Injection.create<int>(42);
+      Injection.create<Rx>(MockRx());
 
-      expect(InstanceManager.of<String>(), 'example');
-      expect(InstanceManager.of<int>(), 42);
-      expect(InstanceManager.of<Rx>(), isA<MockRx>());
+      expect(Injection.of<String>(), 'example');
+      expect(Injection.of<int>(), 42);
+      expect(Injection.of<Rx>(), isA<MockRx>());
 
-      InstanceManager.deleteAll();
+      Injection.deleteAll();
 
       expect(
-        () => InstanceManager.of<String>(),
+        () => Injection.of<String>(),
         throwsA(isA<FlutterError>()),
       );
       expect(
-        () => InstanceManager.of<int>(),
+        () => Injection.of<int>(),
         throwsA(isA<FlutterError>()),
       );
       expect(
-        () => InstanceManager.of<Rx>(),
+        () => Injection.of<Rx>(),
         throwsA(isA<FlutterError>()),
       );
     });
 
-    test('deleteAll() should stop SuperController instances', () {
+    test('deleteAll() should disable SuperController instances', () {
       final controller1 = MockController();
       final controller2 = MockController();
 
-      InstanceManager.create<MockController>(controller1);
-      InstanceManager.create<SuperController>(controller2);
+      Injection.create<MockController>(controller1);
+      Injection.create<SuperController>(controller2);
 
-      expect(controller1.stopCalled, false);
-      expect(controller2.stopCalled, false);
+      expect(controller1.disableCalled, false);
+      expect(controller2.disableCalled, false);
 
-      InstanceManager.deleteAll();
+      Injection.deleteAll();
 
-      expect(controller1.stopCalled, true);
-      expect(controller2.stopCalled, true);
+      expect(controller1.disableCalled, true);
+      expect(controller2.disableCalled, true);
     });
 
     test('deleteAll() should dispose Rx instances', () {
       final rxInstance1 = MockRx();
       final rxInstance2 = MockRx();
 
-      InstanceManager.create<MockRx>(rxInstance1);
-      InstanceManager.create<Rx>(rxInstance2);
+      Injection.create<MockRx>(rxInstance1);
+      Injection.create<Rx>(rxInstance2);
 
       expect(rxInstance1.disposeCalled, false);
       expect(rxInstance2.disposeCalled, false);
 
-      InstanceManager.deleteAll();
+      Injection.deleteAll();
 
       expect(rxInstance1.disposeCalled, true);
       expect(rxInstance2.disposeCalled, true);
     });
 
     test('activate() should set the scoped state', () {
-      expect(InstanceManager.scoped, true);
+      expect(Injection.scoped, true);
     });
 
     test('deactivate() should reset the scoped state', () {
-      InstanceManager.deactivate();
+      Injection.deactivate();
 
-      expect(InstanceManager.scoped, false);
+      expect(Injection.scoped, false);
     });
   });
 }
 
 class MockController extends SuperController {
-  bool startCalled = false;
-  bool stopCalled = false;
+  bool enableCalled = false;
+  bool disableCalled = false;
 
   @override
-  void start() {
-    super.start();
-    startCalled = true;
+  void enable() {
+    super.enable();
+    enableCalled = true;
   }
 
   @override
-  void stop() {
-    stopCalled = true;
-    super.stop();
+  void disable() {
+    disableCalled = true;
+    super.disable();
   }
 }
 

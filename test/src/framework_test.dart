@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_super/flutter_super.dart';
-import 'package:flutter_super/src/instance.dart';
+import 'package:flutter_super/src/injection.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 class HomeController extends SuperController {
@@ -80,7 +80,7 @@ void main() {
     });
 
     test('resources are not disposed when autoDispose is false', () {
-      InstanceManager.activate(
+      Injection.activate(
         autoDispose: false,
         testMode: true,
         mocks: [MockHomeController()],
@@ -92,7 +92,7 @@ void main() {
       // Verify mock dependencies are inserted
       expect(controller.name == 'Name', true);
 
-      InstanceManager.delete<HomeController>();
+      Injection.delete<HomeController>();
 
       // Expect controller to not be disposed
       expect(Super.of<HomeController>(), controller);

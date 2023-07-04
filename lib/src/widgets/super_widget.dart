@@ -108,7 +108,7 @@ abstract class _ControllerElement<T extends SuperController>
 
   @override
   void unmount() {
-    controller.stop();
+    controller.disable();
     super.unmount();
   }
 }

@@ -1,5 +1,5 @@
 <p align="center" height="100">
-<img src="https://github.com/DrDejaVuNG/flutter_super/blob/main/screenshots/logo.png?raw=true" height="150" alt="Super" />
+<img src="https://github.com/DrDejaVuNG/flutter_super/blob/main/screenshots/logo.png?raw=true" height="120" alt="Super" />
 </p>
 
 <p align="center">
@@ -25,9 +25,56 @@ and streamline the development of reactive and scalable applications.
 - Widget builders for building reactive UI components
 - Intuitive testing (no setup/teardown required), dedicated testing library [super_test](https://pub.dev/packages/super_test)
 
-<br>
+---
 
-## Getting started
+## Table of Contents
+
+- [Features](#features)
+- [Table of Contents](#table-of-contents)
+- [Getting Started](#getting-started)
+- [Usage](#usage)
+  - [Beginner Counter App](#beginner-counter-app)
+  - [Professional Counter App](#professional-counter-app)
+  - [Counter App Test](#counter-app-test)
+  - [Counter App Breakdown](#counter-app-breakdown)
+- [Super Framework APIs](#super-framework-apis)
+  - [SuperApp](#superapp)
+  - [SuperController](#supercontroller)
+  - [SuperModel](#supermodel)
+- [Widgets in the Super Framework](#widgets-in-the-super-framework)
+  - [SuperWidget](#superwidget)
+  - [SuperBuilder](#superbuilder)
+  - [SuperConsumer](#superconsumer)
+    - [Asynchronous State](#asynchronous-state)
+  - [SuperListener](#superlistener)
+  - [AsyncBuilder](#asyncbuilder)
+- [Rx Types](#rx-types)
+  - [RxT](#rxt)
+    - [RxT SubTypes](#rxt-subtypes)
+  - [RxNotifier](#rxnotifier)
+    - [Asynchronous State](#asynchronous-state-1)
+  - [Rx Collections](#rx-collections)
+- [Dependency Injection](#dependency-injection)
+  - [of](#of)
+  - [init](#init)
+  - [create](#create)
+  - [delete](#delete)
+  - [deleteAll](#deleteall)
+- [Useful APIs](#useful-apis)
+  - [context.read](#contextread)
+  - [context.watch](#contextwatch)
+  - [Error Handling](#error-handling)
+- [Additional Information](#additional-information)
+  - [Super Structure](#super-structure)
+  - [API Reference](#api-reference)
+- [Requirements](#requirements)
+- [Maintainers](#maintainers)
+- [Dev Note](#dev-note)
+- [Credits](#credits)
+
+---
+
+## Getting Started
 
 Add Super to your pubspec.yaml file:
 
@@ -66,7 +113,7 @@ import 'package:flutter_super/flutter_super.dart';
 
 Lets break down the Counter App Example.
 
-### main.dart
+### Counter App Breakdown
 
 The `main.dart` file serves as the entry point for the application. It sets up the necessary framework for the project by wrapping the root widget with `SuperApp`, which enables the  `Super` framework.
 
@@ -182,6 +229,8 @@ The [autoDispose] parameter is an optional boolean value that determines whether
 By default, [autoDispose] is set to `true`, enabling automatic disposal.
 Set [autoDispose] to `false` if you want to manually handle the disposal of resources in your application.
 
+The [enableLog] property takes an optional boolean value that enables or disables logging in the Super framework.
+
 Example usage:
 
 ```dart
@@ -191,6 +240,7 @@ SuperApp(
   MockDatabase(),
   ],
   testMode: true,
+  enableLog: true,
   autoDispose: true,
   child: const MyApp(),
 );
@@ -442,11 +492,11 @@ The [future] parameter represents an asynchronous computation that will trigger 
 
 The [stream] parameter represents an asynchronous data stream that will trigger a rebuild when new data is available.
 
+The [initialData] parameter represents the initial data that will be used to create the snapshots until a non-null [future] or [stream] has completed.
+
 The [loading] parameter represents a widget to display while the asynchronous computation is in progress. Note: The [loading] widget will not be displayed if [initialData] is not null.
 
 The [error] parameter represents a widget builder that constructs an error widget when an error occurs in the asynchronous computation.
-
-The [initialData] parameter represents the initial data that will be used to create the snapshots until a non-null [future] or [stream] has completed.
 
 Example usage:
 
@@ -537,7 +587,7 @@ class BooksNotifier extends RxNotifier<List<Book>> {
   }
 
   void getBooks() async {
-    toggleLoading();
+    toggleLoading(); // set loading to true
     state = await booksRepo.getBooks(); // Update the state
   }
 }
@@ -545,7 +595,7 @@ class BooksNotifier extends RxNotifier<List<Book>> {
 
 It is best used for global state i.e state used in multiple controllers but it could also be used for a single controller to abstract a state and its events e.g if a state has a lot of events, rather than complicating the controller, an RxNotifier could be used for that singular state instead.
 
-**Important:** Unlike in the example above, it is important to make use of an error handling approach such as a try catch block or the .result extension when dealing with asynchronous data, this is so as to handle exceptions which may be thrown from the asynchronous method.
+**Important:** Unlike in the example above, it is important to make use of an error handling approach such as a try catch block or the .result extension when dealing with asynchronous requests, this is so as to handle exceptions which may be thrown from the asynchronous method.
 
 **Note:** When using the RxNotifier class, it is important to call the `dispose()` method on the object when it is no longer needed to prevent memory leaks. This can be done using the onDisable method of your controller.
 
@@ -565,7 +615,7 @@ These are similar to RxT but do not require the use of .value, they extend the f
 
 ### of
 
-Retrieves the instance of a dependency from the manager and starts the controller if the dependency extends `SuperController`.
+Retrieves the instance of a dependency from the manager and enables the controller if the dependency extends `SuperController`.
 ```dart
 Super.of<T>();
 ```
@@ -594,7 +644,7 @@ Super.create<T>(T instance, {bool lazy = false});
 
 Deletes the instance of a dependency from the manager.
 ```dart
-Super.delete<T>({String? key});
+Super.delete<T>();
 ```
 
 <br>
@@ -609,6 +659,51 @@ Super.deleteAll();
 <br>
 
 ## Useful APIs
+
+### context.read
+
+Works exactly like `Super.of<T>()` but with BuildContext and is familiar
+```dart
+context.read<T>();
+```
+
+<br>
+
+### context.watch
+
+This returns the state of an Rx object i.e RxT or RxNotifier,
+and rebuilds the widget when the state changes.
+```dart
+context.watch<T>(Rx rx);
+```
+
+Example usage:
+
+```dart
+class HomeView extends StatelessWidget {
+  const HomeView({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final count = 0.rx; // Quick example
+    int state = context.watch(count);
+    return Scaffold(
+      body: Center(
+        child: Text(
+          '$state',
+           style: const TextStyle(fontSize: 25),
+        ),
+      ),
+    );
+  }
+}
+```
+
+This can be used instead of the SuperBuilder/SuperConsumer widgets.
+It is worth noting however that, unlike those APIs which rebuild only
+the widget in their builder methods, this will rebuild the entire widget.
+
+<br>
 
 ### Error Handling
 
@@ -651,20 +746,15 @@ void main() {
 
 <br>
 
-### context.read
-
-Works exactly like `Super.of<T>()` but with BuildContext and is familiar
-```dart
-context.read<T>();
-```
-
-<br>
-
 ## Additional Information
 
 ### Super Structure
 
 For a clean way to structure your  projects, check out [Super Structure](https://github.com/DrDejaVuNG/flutter_super/blob/main/SuperStructure.md).
+
+<br>
+
+### API Reference
 
 For more information on all the APIs and more, check out the [API reference](https://pub.dev/documentation/flutter_super/latest).
 

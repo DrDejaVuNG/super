@@ -1,10 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_super/flutter_super.dart';
+import 'package:flutter_super/src/core/logger.dart';
 
 /// A class that manages the instances of dependencies.
-class InstanceManager {
+class Injection {
   /// Instance Manager Constructor
-  InstanceManager(); // coverage:ignore-line
+  Injection(); // coverage:ignore-line
 
   static final Map<String, dynamic> _instances = {};
   static List<Object> _mocks = [];
@@ -44,7 +45,7 @@ class InstanceManager {
   }
 
   /// Retrieves the instance of a dependency from the manager
-  /// and starts the controller if the dependency extends `SuperController`.
+  /// and enables the controller if the dependency extends `SuperController`.
   static T of<T>() {
     final key = _instKey<T>();
     if (_instances.containsKey(key)) {
@@ -57,7 +58,7 @@ class InstanceManager {
         return of<T>();
       }
 
-      if (inst is SuperController) inst.start();
+      if (inst is SuperController) inst.enable();
       return inst as T;
     }
     throw FlutterError(
@@ -107,16 +108,16 @@ class InstanceManager {
   /// true to delete resources.
   static void delete<T>({String? key, bool force = false}) {
     if (_autoDispose != null && !_autoDispose! && !force) return;
-    final newKey = key ?? _instKey<T>();
-    if (!_instances.containsKey(newKey)) return;
-    final inst = _instances[newKey];
+    final instKey = key ?? _instKey<T>();
+    if (!_instances.containsKey(instKey)) return;
+    final inst = _instances[instKey];
 
-    if (inst is SuperController) inst.stop();
+    if (inst is SuperController) inst.disable();
     if (inst is Rx) inst.dispose();
 
-    _instances.remove(newKey);
-    Super.log(
-      '$newKey dependency was deleted.',
+    _instances.remove(instKey);
+    logger(
+      '$instKey dependency was deleted.',
       warning: true,
     );
   }

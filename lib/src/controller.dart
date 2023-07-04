@@ -2,8 +2,8 @@
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_super/flutter_super.dart';
-import 'package:flutter_super/src/instance.dart';
+import 'package:flutter_super/src/core/logger.dart';
+import 'package:flutter_super/src/injection.dart';
 
 /* =========================== SuperController =========================== */
 
@@ -87,7 +87,7 @@ mixin class SuperController {
   /// controller.
   @mustCallSuper
   @nonVirtual
-  void start() {
+  void enable() {
     if (_alive) return;
     onEnable();
     _alive = true;
@@ -106,7 +106,7 @@ mixin class SuperController {
   /// This method should not be overridden.
   @mustCallSuper
   @nonVirtual
-  void stop() {
+  void disable() {
     if (!_alive) return;
     _alive = false;
     onDisable();
@@ -129,7 +129,7 @@ mixin class SuperController {
   @mustCallSuper
   @visibleForTesting
   void onEnable() {
-    Super.log('$runtimeType was enabled.');
+    logger('$runtimeType was enabled.');
     WidgetsBinding.instance.addPostFrameCallback((_) => onAlive());
   }
 
@@ -164,8 +164,8 @@ mixin class SuperController {
   @visibleForTesting
   void onDisable() {
     _context = null;
-    Super.log('$runtimeType was disabled.');
+    logger('$runtimeType was disabled.');
     final key = runtimeType;
-    InstanceManager.delete<void>(key: key.toString());
+    Injection.delete<void>(key: key.toString());
   }
 }

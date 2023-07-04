@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_super/src/instance.dart';
+import 'package:flutter_super/src/injection.dart';
 
 /// A stateful widget that represents the root of the Super framework.
 final class SuperApp extends StatefulWidget {
@@ -120,7 +120,7 @@ class _SuperAppState extends State<SuperApp> {
   void initState() {
     super.initState();
     // Activate the Super framework
-    InstanceManager.activate(
+    Injection.activate(
       autoDispose: widget.autoDispose,
       mocks: widget.mocks,
       testMode: widget.testMode,
@@ -131,7 +131,7 @@ class _SuperAppState extends State<SuperApp> {
   @override
   void dispose() {
     // Deactivate the Super framework
-    InstanceManager.deactivate();
+    Injection.deactivate();
     super.dispose();
   }
 

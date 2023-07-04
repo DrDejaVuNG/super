@@ -29,35 +29,35 @@ class MyController extends SuperController {
 void main() {
   group('SuperController', () {
     setUp(TestWidgetsFlutterBinding.ensureInitialized);
-    test('start() should initialize the controller', () {
+    test('enable() should initialize the controller', () {
       final controller = MyController();
 
       expect(controller.alive, false);
 
-      controller.start();
+      controller.enable();
 
       expect(controller.alive, true);
     });
 
-    test('start() should call onEnable()', () {
+    test('enable() should call onEnable()', () {
       final controller = MyController();
 
       expect(controller.onEnableCalled, false);
 
-      controller.start();
+      controller.enable();
 
       expect(controller.onEnableCalled, true);
     });
 
-    test('stop() should disable the controller', () {
+    test('disable() should disable the controller', () {
       final controller = MyController();
 
-      controller.start();
+      controller.enable();
 
       expect(controller.alive, true);
       expect(controller.onDisableCalled, false);
 
-      controller.stop();
+      controller.disable();
 
       expect(controller.alive, false);
       expect(controller.onDisableCalled, true);
@@ -66,7 +66,7 @@ void main() {
     test('onEnable() should call onAlive() in the next frame', () {
       final controller = MyController();
 
-      controller.start();
+      controller.enable();
 
       expect(controller.onAliveCalled, false);
 
@@ -84,8 +84,8 @@ void main() {
       );
 
       controller
-        ..start()
-        ..stop();
+        ..enable()
+        ..disable();
 
       expect(
         () => Super.of<MyController>(),

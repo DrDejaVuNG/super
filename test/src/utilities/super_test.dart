@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_super/flutter_super.dart';
-import 'package:flutter_super/src/instance.dart';
+import 'package:flutter_super/src/injection.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('SuperExt', () {
     setUp(() {
-      InstanceManager.activate(
+      Injection.activate(
         testMode: true,
         autoDispose: true,
         enableLog: true,
@@ -17,6 +17,8 @@ void main() {
       Super.create<String>('Hello');
 
       expect(Super.of<String>(), 'Hello');
+
+      Super.log('Test Complete');
     });
 
     test('SuperExt - deleteAll', () {

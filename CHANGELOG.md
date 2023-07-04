@@ -1,3 +1,19 @@
+## 1.2.5
+
+- feat: New context.watch API. Access the state of an Rx Object and trigger a rebuild without using builders.
+
+## 1.2.2-dev.3
+
+- v1.2.5 pre-release
+
+## 1.2.2-dev.2
+
+- v1.2.5 pre-release
+
+## 1.2.2-dev.1
+
+- v1.2.5 pre-release
+
 ## 1.2.1
 
 - Update README.md
