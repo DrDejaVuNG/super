@@ -85,7 +85,7 @@ class SuperConsumer<T> extends StatefulWidget {
   });
 
   /// The [Rx] object to be consumed and listened to for changes.
-  final Rx rx;
+  final Rx<T> rx;
 
   /// A widget to be displayed while an RxNotifier is in
   /// loading state.

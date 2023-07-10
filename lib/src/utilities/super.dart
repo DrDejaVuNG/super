@@ -17,7 +17,7 @@ extension SuperExt on SuperInterface {
   /* ========================= Instance ========================= */
 
   /// Retrieves the instance of a dependency from the manager
-  /// and starts the controller if the dependency extends `SuperController`.
+  /// and enables the controller if the dependency extends `SuperController`.
   T of<T>() => Injection.of<T>();
 
   /// Initializes and retrieves the instance of a dependency,

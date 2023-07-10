@@ -1,3 +1,11 @@
+## 1.2.8
+
+- Formal release of dev channel.
+
+## 1.2.6-dev.1
+
+- Type inference added for context.watch method.
+
 ## 1.2.5
 
 - feat: New context.watch API. Access the state of an Rx Object and trigger a rebuild without using builders.

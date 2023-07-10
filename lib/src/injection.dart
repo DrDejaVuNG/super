@@ -4,9 +4,6 @@ import 'package:flutter_super/src/core/logger.dart';
 
 /// A class that manages the instances of dependencies.
 class Injection {
-  /// Instance Manager Constructor
-  Injection(); // coverage:ignore-line
-
   static final Map<String, dynamic> _instances = {};
   static List<Object> _mocks = [];
   static bool _scoped = false;
@@ -36,7 +33,6 @@ class Injection {
       );
     }
     final key = _instKey<T>();
-
     if (lazy) {
       _instances[key] = () => instance;
       return;
@@ -62,7 +58,7 @@ class Injection {
       return inst as T;
     }
     throw FlutterError(
-      '"$T" not found. You have to invoke "Super.init($T())".',
+      'Failed to retrieve $T dependency. Call "Super.init($T())" instead.',
     );
   }
 

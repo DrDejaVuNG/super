@@ -57,7 +57,7 @@ class MySuperWidget extends SuperWidget<MyController> {
   MyController initController() => myController;
   @override
   Widget build(BuildContext context) {
-    final count = context.watch<int>(controller.num);
+    final count = context.watch(controller.num);
     return Text('Value: $count');
   }
 }
@@ -69,7 +69,7 @@ class ASuperWidget extends SuperWidget<MyController> {
   MyController initController() => myController;
   @override
   Widget build(BuildContext context) {
-    final num = context.watch<int>(controller.notifier);
+    final num = context.watch(controller.notifier);
     return Text('Value: $num');
   }
 }

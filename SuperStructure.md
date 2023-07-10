@@ -14,21 +14,19 @@ Designed By: [Seyon Anko](https://github.com/DrDejaVuNG)
             - /api:  Directory for API services.
             - /database:  Directory for local databases.
             - /json:  Directory containing local JSON data.
+            - /models:  Directory for data models.
+            - /repositories:  Directory for data repositories.
               
         - /interface:  Directory for the interface, which enables user interaction with the app's data.
             - /modules:  Directory for modules, which are bundles of tools required to create an interface.
                 - /moduleName:  Directory for a specific module.
                     - /components:  Directory for local widgets and other components specific to the module.
                     - /controllers:  Directory for module-specific controllers.
-                    - /models:  Directory for module-specific models.
                     - /notifiers:  Directory for local notifiers. (optional)
-                    - /repositories:  Directory for module-specific repositories.
                     - /views:  Directory for module-specific views.
                     
             - /shared:  Directory for shared resources.
                 - /notifiers:  Directory for global notifiers.
-                - /models:  Directory for shared models.
-                - /repositories:  Directory for shared repositories.
                 - /widgets:  Directory for reusable widgets used by multiple modules.
 
     - main.dart: Entry point to the application.
@@ -70,8 +68,10 @@ Designed By: [Seyon Anko](https://github.com/DrDejaVuNG)
 
         - /locales
         # Contains language translation files.
+
             - en-AU.dart
             # English (Australia) translation file.
+            
             - en-GB.dart
             # English (United Kingdom) translation file.
 
@@ -87,10 +87,8 @@ Designed By: [Seyon Anko](https://github.com/DrDejaVuNG)
         - /api
         # Directory for API services, such as Firebase.
 
-            - /firebase
-
-                - firebase_client.dart
-                    # File for initializing the connection to the Firebase API client.
+           - firebase_client.dart
+                # File for initializing the connection to the Firebase API client.
 
         - /database
         # Directory for local databases, such as states and files.
@@ -102,9 +100,19 @@ Designed By: [Seyon Anko](https://github.com/DrDejaVuNG)
 
         - /json
         # Contains local JSON data.
+
         # For example:
             - enDictionary.json
             # JSON file containing an English dictionary with words and definitions.
+        
+        - /models
+        # Contains models for various data objects.
+
+        - /repositories
+        # Contains API service repositories, such as auth_repo.dart.
+        # Repositories mediate the communication between controllers and services.
+        # They contain functions that request data from the API client.
+        # For example, using Firebase Auth service, it would contain functions for email/password login and signup.
 
     - /interface
     # The interface acts as a bridge between the user and the data, enabling user interaction with the app.
@@ -123,17 +131,8 @@ Designed By: [Seyon Anko](https://github.com/DrDejaVuNG)
                 - /controllers
                 # Contains local controllers that handle app data interaction and state updates.
 
-                - /models
-                # Contains models specific to the authentication module.
-
                 - /notifiers (optional)
                 # Contains local notifiers for the authentication module.
-
-                - /repositories
-                # Contains API service repositories, such as auth_repo.dart.
-                # Repositories mediate the communication between controllers and services.
-                # They contain functions that request data from the API client.
-                # For example, using Firebase Auth service, it would contain functions for email/password login and signup.
 
                 - /views
                 # Contains view files for the authentication module.
@@ -147,16 +146,9 @@ Designed By: [Seyon Anko](https://github.com/DrDejaVuNG)
             - /notifiers
             # Contains global notifiers used for parts of the app that require global state, like themes and settings.
 
-            - /models
-            # Contains shared models.
-
-            - /repositories
-            # Contains shared repositories.
-
             - /widgets
             # Contains widgets shared across multiple modules.  
 
 - main.dart  
 # Entry point of the application.
 ```
-

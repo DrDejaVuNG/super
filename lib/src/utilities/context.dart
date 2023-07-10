@@ -21,7 +21,7 @@ extension ContextExt on BuildContext {
   ///   @override
   ///   Widget build(BuildContext context) {
   ///     final count = 0.rx; // Quick example
-  ///     int state = context.watch(count);
+  ///     final state = context.watch(count);
   ///     return Scaffold(
   ///       body: Center(
   ///         child: Text(
@@ -37,7 +37,7 @@ extension ContextExt on BuildContext {
   /// This can be used instead of the SuperBuilder/SuperConsumer widgets.
   /// It is worth noting however that, unlike those APIs which rebuild only
   /// the widget in their builder methods, this will rebuild the entire widget.
-  T watch<T>(Rx rx) {
+  T watch<T>(Rx<T> rx) {
     final element = this as Element;
     void rebuild() {
       if (element.mounted) {

@@ -129,11 +129,11 @@ void main() {
     test('delete() should dispose Rx instances', () {
       final rxInstance = MockRx();
 
-      Injection.create<Rx>(rxInstance);
+      Injection.create<Rx<dynamic>>(rxInstance);
 
       expect(rxInstance.disposeCalled, false);
 
-      Injection.delete<Rx>();
+      Injection.delete<Rx<dynamic>>();
 
       expect(rxInstance.disposeCalled, true);
     });
@@ -141,11 +141,11 @@ void main() {
     test('deleteAll() should delete all instances from the manager', () {
       Injection.create<String>('example');
       Injection.create<int>(42);
-      Injection.create<Rx>(MockRx());
+      Injection.create<Rx<dynamic>>(MockRx());
 
       expect(Injection.of<String>(), 'example');
       expect(Injection.of<int>(), 42);
-      expect(Injection.of<Rx>(), isA<MockRx>());
+      expect(Injection.of<Rx<dynamic>>(), isA<MockRx>());
 
       Injection.deleteAll();
 
@@ -158,7 +158,7 @@ void main() {
         throwsA(isA<FlutterError>()),
       );
       expect(
-        () => Injection.of<Rx>(),
+        () => Injection.of<Rx<dynamic>>(),
         throwsA(isA<FlutterError>()),
       );
     });
@@ -184,7 +184,7 @@ void main() {
       final rxInstance2 = MockRx();
 
       Injection.create<MockRx>(rxInstance1);
-      Injection.create<Rx>(rxInstance2);
+      Injection.create<Rx<dynamic>>(rxInstance2);
 
       expect(rxInstance1.disposeCalled, false);
       expect(rxInstance2.disposeCalled, false);
@@ -224,7 +224,7 @@ class MockController extends SuperController {
   }
 }
 
-class MockRx extends Rx {
+class MockRx extends Rx<dynamic> {
   bool disposeCalled = false;
 
   @override

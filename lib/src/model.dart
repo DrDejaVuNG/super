@@ -25,14 +25,10 @@ mixin SuperModel {
   /// that should be used for equality checking.
   List<Object?> get props;
 
-  // This is a cute little trick of mine that I'm quite proud of,
-  // by overriding the toString method to have it ouput the Type and
-  // the props i.e Type(props), we are therefore able to compare both strings
-  // in order to determine if there exists a difference between both Objects.
   @override
   @nonVirtual
   bool operator ==(dynamic other) {
-    return (toString() == other.toString());
+    return toString() == other.toString();
   }
 
   @override

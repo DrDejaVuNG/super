@@ -36,7 +36,7 @@ part of 'rx.dart';
 /// prevent memory leaks.
 /// This can be done using the onDisable method of your controller.
 /// {@endtemplate}
-final class RxMap<K, V> extends Rx with MapMixin<K, V> {
+final class RxMap<K, V> extends Rx<Map<K, V>> with MapMixin<K, V> {
   /// {@macro rx_map}
   RxMap([Map<K, V>? map]) {
     if (kFlutterMemoryAllocationsEnabled && !_creationDispatched) {

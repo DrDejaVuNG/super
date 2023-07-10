@@ -74,7 +74,7 @@ class SuperListener<T> extends StatefulWidget {
 }
 
 class _SuperListenerState<T> extends State<SuperListener<T>> {
-  RxMerge? _rx;
+  RxMerge<dynamic>? _rx;
   late T _listen;
   late BuildContext _context;
 

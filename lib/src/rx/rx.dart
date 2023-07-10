@@ -22,11 +22,8 @@ part 'rx_t.dart';
 /// **Note:** This is essentially a [ChangeNotifier] with some adjustments.
 ///
 /// **Not Intended For Use Outside The Super Library.**
-///
-/// **Unauthorised Usage Could Create Interference With Other APIs
-/// In The Library**
 // coverage:ignore-start
-abstract class Rx {
+abstract class Rx<T> {
   /// Rx Constructor
   Rx();
 
@@ -42,7 +39,7 @@ abstract class Rx {
 
   /// Used by subclasses to assert that the [Rx] has not yet been
   /// disposed.
-  static bool debugAssertNotDisposed(Rx rx) {
+  static bool debugAssertNotDisposed(Rx<dynamic> rx) {
     assert(
       () {
         if (rx._debugDisposed) {
@@ -203,7 +200,7 @@ abstract class Rx {
               'while dispatching notifications for $runtimeType',
             ),
             informationCollector: () => <DiagnosticsNode>[
-              DiagnosticsProperty<Rx>(
+              DiagnosticsProperty<Rx<T>>(
                 'The $runtimeType sending notification was',
                 this,
                 style: DiagnosticsTreeStyle.errorProperty,
@@ -257,11 +254,9 @@ abstract class Rx {
 
 /// RxMerge
 ///
-/// **Not Intended For Use Outside The Super Library.**
-///
-/// **Unauthorised Usage Could Create Interference With Other APIs
-/// In The Library**
-final class RxMerge extends Rx {
+/// The RxMerge class can be used to create a single Rx object from a merge
+/// of other Rx objects.
+final class RxMerge<T> extends Rx<T> {
   /// Creates a RxMerge instance with the specified list of [Rx] objects.
   ///
   /// The children parameter is a list of [Rx] objects that will be
@@ -270,13 +265,12 @@ final class RxMerge extends Rx {
 
   /// The children parameter is a list of [Rx] objects that will be
   /// merged together to act as a single [Rx].
-  final List<Rx?> children;
+  final List<Rx<T>?> children;
 
   /// Adds the specified [listener] to all the merged [Rx] objects.
   ///
-  /// The [listener] will be called whenevwer any of the merged
-  /// [Rx] objects notify
-  /// about a change.
+  /// The [listener] will be called whenever any of the merged
+  /// [Rx] objects notify about a change.
   @override
   void addListener(VoidCallback listener) {
     for (final child in children) {
@@ -306,8 +300,8 @@ final class RxMerge extends Rx {
 ///
 /// **Not Intended For Use Outside The Super Library.**
 ///
-/// **Unauthorised Usage Could Create Interference With Other APIs
-/// In The Library**
+/// **Usage Could Create Interference With Other APIs In
+/// The Library**
 final class RxListener {
   /// RxListener Constructor
   RxListener(); // coverage:ignore-line
@@ -316,7 +310,7 @@ final class RxListener {
   static bool isListening = false;
 
   /// List of registered [Rx] objects.
-  static final List<Rx> _rxList = [];
+  static final List<Rx<dynamic>> _rxList = [];
 
   /// Starts listening for changes in [Rx] objects.
   ///
@@ -331,7 +325,7 @@ final class RxListener {
   /// Returns a list of [Rx] objects that have been captured while
   /// the listener was active.
   /// If no [Rx] objects have been captured, a [FlutterError] is thrown.
-  static List<Rx> getRxList() {
+  static List<Rx<dynamic>> getRxList() {
     isListening = false;
     final newRxList = List.of(_rxList);
     _rxList.clear();
@@ -349,7 +343,7 @@ final class RxListener {
   ///
   /// Returns a [RxMerge] instance that merges all the captured
   /// [Rx] objects into a single [Rx].
-  static RxMerge listenedRx() {
+  static RxMerge<dynamic> listenedRx() {
     final rx = RxMerge(getRxList());
     return rx;
   }
@@ -358,7 +352,7 @@ final class RxListener {
   ///
   /// If the listener is active, the [rx] object will be added to
   /// the list of captured [Rx] objects.
-  static void _read(Rx rx) {
+  static void _read(Rx<dynamic> rx) {
     if (!isListening) return;
     _rxList.add(rx);
   }

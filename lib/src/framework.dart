@@ -121,10 +121,10 @@ class _SuperAppState extends State<SuperApp> {
     super.initState();
     // Activate the Super framework
     Injection.activate(
-      autoDispose: widget.autoDispose,
       mocks: widget.mocks,
       testMode: widget.testMode,
       enableLog: widget.enableLog,
+      autoDispose: widget.autoDispose,
     );
   }
 

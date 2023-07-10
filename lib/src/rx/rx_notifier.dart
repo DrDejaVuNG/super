@@ -46,7 +46,7 @@ part of 'rx.dart';
 /// prevent memory leaks.
 /// This can be done using the onDisable method of your controller.
 /// {@endtemplate}
-abstract class RxNotifier<T> extends Rx {
+abstract class RxNotifier<T> extends Rx<T> {
   /// {@macro rx_notifier}
   RxNotifier() {
     if (kFlutterMemoryAllocationsEnabled && !_creationDispatched) {

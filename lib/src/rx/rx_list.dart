@@ -36,7 +36,7 @@ part of 'rx.dart';
 /// prevent memory leaks.
 /// This can be done using the onDisable method of your controller.
 /// {@endtemplate}
-final class RxList<T> extends Rx with ListMixin<T> {
+final class RxList<T> extends Rx<List<T>> with ListMixin<T> {
   /// {@macro rx_list}
   RxList([List<T>? list]) {
     if (kFlutterMemoryAllocationsEnabled && !_creationDispatched) {

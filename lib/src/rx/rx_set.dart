@@ -30,7 +30,7 @@ part of 'rx.dart';
 /// memory leaks.
 /// This can be done using the onDisable method of your controller.
 /// {@endtemplate}
-final class RxSet<T> extends Rx with SetMixin<T> {
+final class RxSet<T> extends Rx<Set<T>> with SetMixin<T> {
   /// {@macro rx_set}
   RxSet([Set<T>? set]) {
     if (kFlutterMemoryAllocationsEnabled && !_creationDispatched) {

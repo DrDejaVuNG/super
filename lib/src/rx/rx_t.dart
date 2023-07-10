@@ -32,7 +32,7 @@ part of 'rx.dart';
 /// method on the object when it is no longer needed to prevent memory leaks.
 /// This can be done using the onDisable method of your controller.
 /// {@endtemplate}
-final class RxT<T> extends Rx {
+final class RxT<T> extends Rx<T> {
   /// {@macro rx_t}
   RxT(this._value) {
     if (kFlutterMemoryAllocationsEnabled) {
