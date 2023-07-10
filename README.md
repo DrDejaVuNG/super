@@ -19,11 +19,11 @@ and streamline the development of reactive and scalable applications.
 
 ## Features
 
-- Reactive state management
-- Simple dependency injection
-- Lifecycle management for widget controllers
-- Widget builders for building reactive UI components
-- Intuitive testing (no setup/teardown required), dedicated testing library [super_test](https://pub.dev/packages/super_test)
+- Reactive state management.
+- Simple dependency injection.
+- Lifecycle management for widget controllers.
+- Widget builders for building reactive UI components.
+- Intuitive testing (no setup/teardown required), dedicated testing library [super_test](https://pub.dev/packages/super_test).
 
 ---
 
@@ -240,7 +240,7 @@ SuperApp(
   MockDatabase(),
   ],
   testMode: true,
-  enableLog: true,
+  enableLog: kDebugMode,
   autoDispose: true,
   child: const MyApp(),
 );
@@ -443,7 +443,7 @@ SuperConsumer<int>(
 ```
 
 As seen above, a [SuperConsumer] widget is created and given
-a [RxNotifier] object called counterNotifier. When the widget is built, if the RxNotifier is in loading state, the loading widget will be displayed.
+an [RxNotifier] object called counterNotifier. When the widget is built, if the RxNotifier is in loading state, the loading widget will be displayed.
 When the asynchronous method completes and the state is updated, the
 builder function is called with the state.
 
@@ -686,7 +686,7 @@ class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final count = 0.rx; // Quick example
-    int state = context.watch(count);
+    final state = context.watch(count);
     return Scaffold(
       body: Center(
         child: Text(
