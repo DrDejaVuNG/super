@@ -1,5 +1,5 @@
 <p align="center" height="100">
-<img src="https://github.com/DrDejaVuNG/super/tree/main/screenshots/logo.png?raw=true" height="120" alt="Super" />
+<img src="https://github.com/DrDejaVuNG/super/blob/main/screenshots/logo.png?raw=true" height="120" alt="Super" />
 </p>
 
 <p align="center">
@@ -7,7 +7,7 @@
 <a href="https://pub.dev/packages/flutter_super/score"><img src="https://img.shields.io/pub/points/flutter_super?logo=dart" alt="Pub points"></a>
 <a href="https://pub.dev/packages/very_good_analysis"><img src="https://img.shields.io/badge/style-very_good_analysis-B22C89.svg" alt="verygoodanalysis"></a>
 <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/github/license/DrDejaVuNG/super" alt="License: MIT"></a>
-<img src="https://github.com/DrDejaVuNG/super/tree/main/packages/flutter_super/coverage_badge.svg" alt="Coverage" />
+<img src="https://github.com/DrDejaVuNG/super/blob/main/packages/flutter_super/coverage_badge.svg" alt="Coverage" />
 </p>
 
 ---
@@ -95,13 +95,13 @@ import 'package:flutter_super/flutter_super.dart';
 
 ### Beginner Counter App
 
-![](https://github.com/DrDejaVuNG/images/blob/main/images/flutter_super/counter_app_novice.png?raw=true)
+![](https://raw.githubusercontent.com/DrDejaVuNG/images/main/images/flutter_super/counter_app_novice.png)
 
 <br>
 
 ### Professional Counter App
 
-![](https://github.com/DrDejaVuNG/images/blob/main/images/flutter_super/counter_app.png?raw=true)
+![](https://raw.githubusercontent.com/DrDejaVuNG/images/main/images/flutter_super/counter_app.png)
 
 <br>
 
@@ -750,7 +750,7 @@ void main() {
 
 ### Super Structure
 
-For a clean way to structure your projects, check out [Super Structure](https://github.com/DrDejaVuNG/super/tree/main/packages/flutter_super/SuperStructure.md).
+For a clean way to structure your projects, check out [Super Structure](https://github.com/DrDejaVuNG/super/blob/main/packages/flutter_super/SuperStructure.md).
 
 <br>
 

@@ -1,5 +1,5 @@
 <p align="center" height="100">
-<img src="https://github.com/DrDejaVuNG/super/tree/main/screenshots/logo.png?raw=true" height="120" alt="Super" />
+<img src="https://github.com/DrDejaVuNG/super/blob/main/screenshots/logo.png?raw=true" height="120" alt="Super" />
 </p>
 
 <p align="center">
@@ -7,7 +7,7 @@
 <a href="https://pub.dev/packages/dart_super/score"><img src="https://img.shields.io/pub/points/dart_super?logo=dart" alt="Pub points"></a>
 <a href="https://pub.dev/packages/very_good_analysis"><img src="https://img.shields.io/badge/style-very_good_analysis-B22C89.svg" alt="verygoodanalysis"></a>
 <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/github/license/DrDejaVuNG/super" alt="License: MIT"></a>
-<img src="https://github.com/DrDejaVuNG/super/tree/main/packages/dart_super/coverage_badge.svg" alt="Coverage" />
+<img src="https://github.com/DrDejaVuNG/super/blob/main/packages/dart_super/coverage_badge.svg" alt="Coverage" />
 </p>
 
 ---
