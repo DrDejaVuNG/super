@@ -14,7 +14,7 @@ part of 'rx.dart';
 /// be called and the listener will be automatically removed.
 ///
 /// Example:
-/// 
+///
 /// ```dart
 /// RxInt count = 0.rx;
 ///
@@ -27,20 +27,20 @@ part of 'rx.dart';
 /// }
 ///
 /// void main() {
-///   rxCallback(() {
+///   rxWatch(() {
 ///     printCount();
 ///   }, stopWhen: () => count.state >= 10);
 /// }
-/// 
+///
 /// increment();
 /// ```
 ///
-/// In the above example, the `rxCallback` is used to execute 
-/// the `printCount` function while listening to changes in the 
+/// In the above example, the `rxWatch` is used to execute
+/// the `printCount` function while listening to changes in the
 /// `count` Rx object.
-/// The callback function will be repeatedly called until the 
+/// The callback function will be repeatedly called until the
 /// `stopWhen` condition returns true (when the count reaches 10).
-void rxCallback(VoidCallback callback, {bool Function()? stopWhen}) {
+void rxWatch(VoidCallback callback, {bool Function()? stopWhen}) {
   RxListener.listen();
   callback();
   final rx = RxListener.listenedRx();

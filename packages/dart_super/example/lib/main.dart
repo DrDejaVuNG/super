@@ -9,7 +9,7 @@ void main() {
 
   // The method used in the addListener method will be called
   // every time the state changes.
-  rxCallback(() => print(count.state), stopWhen: () => count.state > 3);
+  rxWatch(() => print(count.state), stopWhen: () => count.state > 3);
 
   // Increment the state
   count.state++; // prints '1'

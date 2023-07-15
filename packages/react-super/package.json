@@ -1,0 +1,33 @@
+{
+  "name": "react-ts-super",
+  "description": "Reactive state management framework for scalable react applications.",
+  "version": "1.0.0",
+  "author": "DrDejaVu",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DrDejaVuNG/super",
+    "directory": "packages/react-super"
+  },
+  "keywords": [
+    "react",
+    "hooks",
+    "state",
+    "reactive",
+    "state management",
+    "dependency injection"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/DrDejaVuNG/super/issues"
+  },
+  "homepage": "https://drdejavu.ng/",
+  "dependencies": {
+    "react": "^18.2.0",
+    "ts-super": "^1.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.14"
+  }
+}

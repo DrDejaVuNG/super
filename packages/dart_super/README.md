@@ -7,7 +7,7 @@
 <a href="https://pub.dev/packages/dart_super/score"><img src="https://img.shields.io/pub/points/dart_super?logo=dart" alt="Pub points"></a>
 <a href="https://pub.dev/packages/very_good_analysis"><img src="https://img.shields.io/badge/style-very_good_analysis-B22C89.svg" alt="verygoodanalysis"></a>
 <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/github/license/DrDejaVuNG/flutter_super" alt="License: MIT"></a>
-<img src="https://github.com/DrDejaVuNG/super/blob/main/packages/dart_super/coverage_badge.svg" alt="Coverage" />
+<img src="https://raw.githubusercontent.com/DrDejaVuNG/super/fbe3c231bff2644b1a3d8dbabf964526dc862cbf/packages/dart_super/coverage_badge.svg" alt="Coverage" />
 </p>
 
 ---
@@ -90,7 +90,7 @@ void main() {
 
   // The method used in the addListener method will be called
   // every time the state changes.
-  rxCallback(() => print(count.state), stopWhen: () => count.state > 3);
+  rxWatch(() => print(count.state), stopWhen: () => count.state > 3);
 
   // Increment the state
   count.state++; // prints '1'
@@ -100,7 +100,7 @@ void main() {
 }
 ```
 
-By using the rxCallback method on the state object, we will be able to listen to changes in the state. When the state changes the given callback  will be called.
+By using the rxWatch method on the state object, we will be able to listen to changes in the state. When the state changes the given callback  will be called.
 
 <br>
 
@@ -111,7 +111,7 @@ By using the rxCallback method on the state object, we will be able to listen to
 A mixin class that provides a lifecycle for controllers used in the application.
 
 The `SuperController` mixin class allows you to define the lifecycle of your controller classes.
-It provides methods that are called at specific points in the widget lifecycle, allowing you to initialize resources, handle events, and clean up resources when the controller is no longer needed. 
+It provides methods that are called at specific points in the controller's lifecycle, allowing you to initialize resources, handle events, and clean up resources when the controller is no longer needed. 
 
 Example usage:
 

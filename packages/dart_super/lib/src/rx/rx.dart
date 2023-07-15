@@ -4,7 +4,7 @@ import 'dart:math';
 import 'package:dart_super/src/core/typedefs.dart';
 import 'package:meta/meta.dart';
 
-part 'rx_callback.dart';
+part 'rx_watch.dart';
 part 'rx_list.dart';
 part 'rx_map.dart';
 part 'rx_notifier.dart';

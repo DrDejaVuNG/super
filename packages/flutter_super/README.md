@@ -7,7 +7,7 @@
 <a href="https://pub.dev/packages/flutter_super/score"><img src="https://img.shields.io/pub/points/flutter_super?logo=dart" alt="Pub points"></a>
 <a href="https://pub.dev/packages/very_good_analysis"><img src="https://img.shields.io/badge/style-very_good_analysis-B22C89.svg" alt="verygoodanalysis"></a>
 <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/github/license/DrDejaVuNG/flutter_super" alt="License: MIT"></a>
-<img src="https://github.com/DrDejaVuNG/super/blob/main/packages/flutter_super/coverage_badge.svg" alt="Coverage" />
+<img src="https://raw.githubusercontent.com/DrDejaVuNG/super/fbe3c231bff2644b1a3d8dbabf964526dc862cbf/packages/flutter_super/coverage_badge.svg" alt="Coverage" />
 </p>
 
 ---

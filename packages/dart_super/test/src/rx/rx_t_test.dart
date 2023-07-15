@@ -44,9 +44,21 @@ void main() {
         intListenerCalls++;
       });
 
-      rxDouble.addListener(() {
-        doubleListenerCalls++;
-      });
+      rxWatch(
+        () {
+          rxDouble.state;
+          doubleListenerCalls++;
+        },
+        stopWhen: () => false,
+      );
+
+      rxWatch(
+        () {
+          rxDouble.state;
+          doubleListenerCalls++;
+        },
+        stopWhen: () => true,
+      );
 
       rxString.addListener(() {
         stringListenerCalls++;
@@ -62,7 +74,7 @@ void main() {
       rxBool.state = true;
 
       expect(intListenerCalls, equals(1));
-      expect(doubleListenerCalls, equals(1));
+      expect(doubleListenerCalls, equals(3));
       expect(stringListenerCalls, equals(1));
       expect(boolListenerCalls, equals(1));
     });

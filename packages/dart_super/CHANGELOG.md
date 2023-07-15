@@ -1,6 +1,14 @@
-## 1.2.9-dev.2
+## 1.3.3
 
-- Package corrections
+- Api corrections
+
+## 1.3.2
+
+- Update README.md
+
+## 1.3.0
+
+- Main Release
 
 ## 1.2.9-dev.1
 

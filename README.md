@@ -32,6 +32,7 @@ and streamline the development of reactive and scalable applications.
 - [Packages](#packages)
 - [Quick Samples](#quick-samples)
   - [Flutter](#flutter)
+  - [React](#react)
 - [Maintainers](#maintainers)
 - [Credits](#credits)
 
@@ -41,9 +42,11 @@ and streamline the development of reactive and scalable applications.
 
 | Package                                                                                    | PM                                                                                                                  |
 | ------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------- |
-| [dart_super](https://github.com/DrDejaVuNG/super/tree/main/packages/dart_super)                         | [![pub package](https://img.shields.io/pub/v/dart_super.svg)](https://pub.dev/packages/dart_super)                               |
-| [flutter_super](https://github.com/DrDejaVuNG/super/tree/main/packages/flutter_super)                         | [![pub package](https://img.shields.io/pub/v/flutter_super.svg)](https://pub.dev/packages/flutter_super)                               |
-| [super_test](https://github.com/DrDejaVuNG/super_test)               | [![pub package](https://img.shields.io/pub/v/super_test.svg)](https://pub.dev/packages/super_test)                     |
+| [dart_super](https://github.com/DrDejaVuNG/super/tree/main/packages/dart_super)                         | [![pub](https://img.shields.io/pub/v/dart_super.svg)](https://pub.dev/packages/dart_super)                               |
+| [flutter_super](https://github.com/DrDejaVuNG/super/tree/main/packages/flutter_super)                         | [![pub](https://img.shields.io/pub/v/flutter_super.svg)](https://pub.dev/packages/flutter_super)                               |
+| [js_super](https://github.com/DrDejaVuNG/super/tree/main/packages/js-super)                         | [![npm](https://img.shields.io/npm/v/ts-super.svg)](https://www.npmjs.com/package/ts-super)                               |
+| [react_super](https://github.com/DrDejaVuNG/super/tree/main/packages/react-super)                         | [![npm](https://img.shields.io/npm/v/react-ts-super.svg)](https://www.npmjs.com/package/react-ts-super)                               |
+| [super_test](https://github.com/DrDejaVuNG/super_test)               | [![pub](https://img.shields.io/pub/v/super_test.svg)](https://pub.dev/packages/super_test)                     |
 
 <br>
 
@@ -52,6 +55,10 @@ and streamline the development of reactive and scalable applications.
 ### Flutter 
 
 ![](https://raw.githubusercontent.com/DrDejaVuNG/images/main/images/flutter_super/counter_app.png)
+
+### React
+
+![](https://raw.githubusercontent.com/DrDejaVuNG/images/main/images/react_super/counter_app.png)
 
 <br>
 

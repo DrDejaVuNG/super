@@ -1,3 +1,13 @@
+## 1.3.2
+
+- Update README.md
+
+## 1.3.0
+
+- Breaking Changes.
+  - use .state instead of .value to access the state of an Rx object.
+- Dart classes abstraction to package [dart_super](https://pub.dev/packages/dart_super)
+
 ## 1.2.9-dev.1
 
 - dev channel(Breaking Changes).
