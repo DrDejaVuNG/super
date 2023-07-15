@@ -1,0 +1,29 @@
+name: dart_super
+description: Reactive state management framework for scalable dart applications.
+version: 1.2.9-dev.2
+repository: https://github.com/DrDejaVuNG/super
+issue_tracker: https://github.com/DrDejaVuNG/super/issues
+# homepage: https://drdejavu.ng
+# documentation: https://super.drdejavu.ng
+
+# publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  meta: ^1.9.1
+
+dev_dependencies:
+  lints: ^2.0.0
+  test: ^1.21.0
+  very_good_analysis: ^5.0.0+1
+
+screenshots:
+  - description: Super Logo.
+    path: screenshots/logo.png
+
+topics:
+  - rx
+  - state
+  - reactive
