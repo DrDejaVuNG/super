@@ -1,3 +1,7 @@
+## 1.3.4
+
+- Update README.md
+
 ## 1.3.3
 
 - Api corrections

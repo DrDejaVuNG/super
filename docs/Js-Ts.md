@@ -1,29 +1,5 @@
-<p align="center">React package: <a href="https://www.npmjs.com/package/react-ts-super">react-ts-super</a>
-</p>
-
-<br>
-
-<p align="center" height="100">
-<img src="https://github.com/DrDejaVuNG/super/blob/main/screenshots/logo.png?raw=true" height="120" alt="Super" />
-</p>
-
----
-
-Super is a state management framework for JS that aims to simplify
-and streamline the development of reactive and scalable applications.
-
----
-
-## Features
-
-- Reactive state management.
-- Simple dependency injection.
-
----
-
 ## Table of Contents
 
-- [Features](#features)
 - [Table of Contents](#table-of-contents)
 - [Getting Started](#getting-started)
 - [Usage](#usage)
@@ -40,8 +16,6 @@ and streamline the development of reactive and scalable applications.
   - [create](#create)
   - [delete](#delete)
   - [deleteAll](#deleteall)
-- [Maintainers](#maintainers)
-- [Credits](#credits)
 
 ---
 
@@ -279,13 +253,3 @@ Super.deleteAll();
 ```
 
 <br>
-
-## Maintainers
-
-- [Seyon Anko](https://github.com/DrDejaVuNG)
-
-<br>
-
-## Credits
-
-All credits to God Almighty who guided me through the project.

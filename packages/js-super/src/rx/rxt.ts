@@ -77,4 +77,3 @@ class RxT<T extends Object> extends Rx<T> {
       }
     }
 }
-  

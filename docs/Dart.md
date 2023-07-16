@@ -1,38 +1,5 @@
-<p align="center">Flutter package: <a href="https://pub.dev/packages/flutter_super">flutter_super</a>
-</p>
-
-<br>
-
-<p align="center" height="100">
-<img src="https://github.com/DrDejaVuNG/super/blob/main/screenshots/logo.png?raw=true" height="120" alt="Super" />
-</p>
-
-<p align="center">
-<a href="https://pub.dev/packages/dart_super"><img src="https://img.shields.io/pub/v/dart_super.svg?logo=dart&label=pub&color=blue" alt="Pub"></a>
-<a href="https://pub.dev/packages/dart_super/score"><img src="https://img.shields.io/pub/points/dart_super?logo=dart" alt="Pub points"></a>
-<a href="https://pub.dev/packages/very_good_analysis"><img src="https://img.shields.io/badge/style-very_good_analysis-B22C89.svg" alt="verygoodanalysis"></a>
-<a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/github/license/DrDejaVuNG/flutter_super" alt="License: MIT"></a>
-<img src="https://raw.githubusercontent.com/DrDejaVuNG/super/fbe3c231bff2644b1a3d8dbabf964526dc862cbf/packages/dart_super/coverage_badge.svg" alt="Coverage" />
-</p>
-
----
-
-Super is a state management framework for Dart that aims to simplify
-and streamline the development of reactive and scalable applications.
-
----
-
-## Features
-
-- Reactive state management.
-- Simple dependency injection.
-- Intuitive testing, dedicated testing library [super_test](https://pub.dev/packages/super_test).
-
----
-
 ## Table of Contents
 
-- [Features](#features)
 - [Table of Contents](#table-of-contents)
 - [Getting Started](#getting-started)
 - [Usage](#usage)
@@ -56,10 +23,6 @@ and streamline the development of reactive and scalable applications.
   - [Error Handling](#error-handling)
 - [Additional Information](#additional-information)
   - [API Reference](#api-reference)
-- [Requirements](#requirements)
-- [Maintainers](#maintainers)
-- [Dev Note](#dev-note)
-- [Credits](#credits)
 
 ---
 
@@ -390,35 +353,3 @@ void main() {
 For more information on all the APIs and more, check out the [API reference](https://pub.dev/documentation/dart_super/latest).
 
 <br>
-
-## Requirements
-
-- Dart 3: >= 3.0.0
-
-<br>
-
-## Maintainers
-
-- [Seyon Anko](https://github.com/DrDejaVuNG)
-
-<br>
-
-## Dev Note
-
-With Super, you can build robust and scalable dart applications while maintaining clean and organized code.
-The framework strives to adhere to the high standards in terms of readability, documentation, and usability.
-
-Give Super a try and experience a streamlined approach to state management in Dart!
-
-I hope you find the Super framework as pleasing and easy to work with
-as I intended it to be. If you have any feedback or suggestions for
-improvement, please don't hesitate to reach out. Happy coding!
-
-Best regards,
-DrDejaVu
-
-<br>
-
-## Credits
-
-All credits to God Almighty who guided me through the project.
