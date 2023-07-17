@@ -267,7 +267,7 @@ final class RxMerge<T> extends Rx<T> {
 
   @override
   String toString() {
-    return 'RxMerge([${children.join(", ")}])';
+    return 'RxMerge(${children.join(", ")})';
   }
 }
 

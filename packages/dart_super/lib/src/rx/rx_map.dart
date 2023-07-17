@@ -73,11 +73,13 @@ final class RxMap<K, V> extends Rx<Map<K, V>> with MapMixin<K, V> {
 
   @override
   V? operator [](Object? key) {
+    RxListener._read(this);
     return _map[key];
   }
 
   @override
   void operator []=(K key, V value) {
+    RxListener._read(this);
     _map[key] = value;
     _notifyListeners();
   }

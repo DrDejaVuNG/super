@@ -46,7 +46,7 @@ void rxWatch(VoidCallback callback, {bool Function()? stopWhen}) {
   final rx = RxListener.listenedRx();
 
   void call() {
-    if (stopWhen != null && !stopWhen()) {
+    if (stopWhen == null || !stopWhen()) {
       callback();
       return;
     }

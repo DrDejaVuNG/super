@@ -19,6 +19,8 @@ void main() {
 
       rx1.state = 20;
       rx2.state = 'World';
+      
+      expect(listenerCalled, true);
 
       mergedRx.removeListener(() {
         listenerCalled = true;
@@ -26,7 +28,6 @@ void main() {
 
       expect('${mergedRx.children}', '[$rx1, $rx2]');
       expect(mergedRx.toString(), '${RxMerge<Object>([rx1, rx2])}');
-      expect(listenerCalled, true);
     });
   });
 

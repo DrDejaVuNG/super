@@ -50,16 +50,19 @@ final class RxList<T> extends Rx<List<T>> with ListMixin<T> {
 
   @override
   int get length {
+    RxListener._read(this);
     return _list.length;
   }
 
   @override
   T get first {
+    RxListener._read(this);
     return _list.first;
   }
 
   @override
   T get last {
+    RxListener._read(this);
     return _list.last;
   }
 
@@ -85,6 +88,7 @@ final class RxList<T> extends Rx<List<T>> with ListMixin<T> {
 
   @override
   T get single {
+    RxListener._read(this);
     return _list.single;
   }
 
@@ -195,6 +199,7 @@ final class RxList<T> extends Rx<List<T>> with ListMixin<T> {
 
   @override
   T singleWhere(bool Function(T) test, {T Function()? orElse}) {
+    RxListener._read(this);
     return _list.singleWhere(test, orElse: orElse);
   }
 
@@ -210,6 +215,7 @@ final class RxList<T> extends Rx<List<T>> with ListMixin<T> {
 
   @override
   void forEach(void Function(T) action) {
+    RxListener._read(this);
     _list.forEach(action);
   }
 
@@ -242,6 +248,7 @@ final class RxList<T> extends Rx<List<T>> with ListMixin<T> {
 
   @override
   T operator [](int index) {
+    RxListener._read(this);
     return _list[index];
   }
 

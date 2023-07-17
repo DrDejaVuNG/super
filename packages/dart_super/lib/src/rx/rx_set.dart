@@ -75,11 +75,13 @@ final class RxSet<T> extends Rx<Set<T>> with SetMixin<T> {
 
   @override
   int get length {
+    RxListener._read(this);
     return _set.length;
   }
 
   @override
   T? lookup(Object? element) {
+    RxListener._read(this);
     return _set.lookup(element);
   }
 

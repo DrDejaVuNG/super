@@ -5,7 +5,7 @@ export function rxWatch(callback:VoidCallback, {stopWhen}: {stopWhen?: () => boo
   callback();
   const rx = RxListener.listenedRx();
   function call(): void {
-    if (stopWhen && !stopWhen()) {
+    if (stopWhen == null || !stopWhen()) {
       callback();
       return;
     }
