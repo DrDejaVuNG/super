@@ -223,16 +223,16 @@ It is best used for local state i.e state used in a single controller.
 
 An abstract base class for creating reactive notifiers that manage a state of type `T`.
 
-The `RxNotifier` class provides a foundation for creating reactive notifiers that encapsulate a piece of immutable state and notify their listeners when the state changes. Subclasses of `RxNotifier` must override the `watch` method to provide the initial state and implement the logic for updating the state.
+The `RxNotifier` class provides a foundation for creating reactive notifiers that encapsulate a piece of immutable state and notify their listeners when the state changes. Subclasses of `RxNotifier` must override the `initial` method to provide the initial state and implement the logic for updating the state.
 
 Example usage:
 
 ```dart
-CounterNotifier get counterNotifier => Super.init(CounterNotifier());
+final counterNotifier = Super.init(CounterNotifier());
 
 class CounterNotifier extends RxNotifier<int> {
   @override
-  int watch() {
+  int initial() {
     return 0; // Initial state
   }
 
@@ -260,11 +260,11 @@ state can be utilized.
 Example usage:
 
 ```dart
-BooksNotifier get booksNotifier => Super.init(BooksNotifier());
+final booksNotifier = Super.init(BooksNotifier());
 
 class BooksNotifier extends RxNotifier<List<Book>> {
   @override
-  List<Book> watch() {
+  List<Book> initial() {
     return []; // Initial state
   }
 

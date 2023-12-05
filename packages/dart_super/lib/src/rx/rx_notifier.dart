@@ -7,7 +7,7 @@ part of 'rx.dart';
 /// The `RxNotifier` class provides a foundation for creating reactive notifiers
 /// that encapsulate a piece of immutable state and notify their listeners
 /// when the state changes. Subclasses of `RxNotifier` must override the
-/// `watch` method to provide the initial state and implement the logic
+/// `initial` method to provide the initial state and implement the logic
 /// for updating the state.
 ///
 /// Example usage:
@@ -15,7 +15,7 @@ part of 'rx.dart';
 /// ```dart
 /// class CounterNotifier extends RxNotifier<int> {
 ///   @override
-///   int watch() {
+///   int initial() {
 ///     return 0; // Initial state
 ///   }
 ///
@@ -49,7 +49,7 @@ part of 'rx.dart';
 abstract class RxNotifier<T> extends Rx<T> {
   /// {@macro rx_notifier}
   RxNotifier() {
-    _state = watch();
+    _state = initial();
   }
 
   late T _state;
@@ -65,12 +65,12 @@ abstract class RxNotifier<T> extends Rx<T> {
   ///
   /// ```dart
   /// @override
-  /// int watch() {
+  /// int initial() {
   ///   return 0; // Initial state
   /// }
   /// ```
   @protected
-  T watch();
+  T initial();
 
   /// The current state of the notifier.
   T get state {
@@ -89,7 +89,7 @@ abstract class RxNotifier<T> extends Rx<T> {
   /// ```dart
   /// class BooksNotifier extends RxNotifier<List<Book>> {
   ///   @override
-  ///   List<Book> watch() {
+  ///   List<Book> initial() {
   ///     return []; // Initial state
   ///   }
   ///

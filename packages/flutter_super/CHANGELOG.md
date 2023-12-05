@@ -1,3 +1,40 @@
+## 1.4.0
+
+- Minor code optimizations.
+
+## 1.3.9-test.2
+
+- Testing Analysis on pub.
+
+## 1.3.9-test.1
+
+- Testing Analysis on pub.
+
+## 1.3.8
+
+- Fixed a bug with affecting super_test.
+
+
+## 1.3.7
+
+- Minor bug fix from v1.3.6.
+
+## 1.3.6
+
+- Addition fo SuperAppConfig to the SuperApp widget. It provides new properties e.g onInit, onError etc.
+
+## 1.3.5
+
+- fixed bug in SuperConsumer widget which caused a `dispatching notifications` error due to all previously added listeners not having been removed before the widget is disposed.
+
+## 1.3.4
+
+- .gitignored SuperStructure.md
+
+## 1.3.3
+
+- Updated package dependencies
+
 ## 1.3.2
 
 - Update README.md

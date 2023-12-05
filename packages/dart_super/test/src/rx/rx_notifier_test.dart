@@ -3,7 +3,7 @@ import 'package:test/test.dart';
 
 class TestNotifier extends RxNotifier<int> {
   @override
-  int watch() {
+  int initial() {
     return 0; // Initial state
   }
 

@@ -19,7 +19,7 @@ void main() {
 
       rx1.state = 20;
       rx2.state = 'World';
-      
+
       expect(listenerCalled, true);
 
       mergedRx.removeListener(() {

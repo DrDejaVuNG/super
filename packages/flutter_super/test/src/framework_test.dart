@@ -1,6 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_super/flutter_super.dart';
-import 'package:flutter_super/src/injection.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 class HomeController extends SuperController {
@@ -18,9 +19,11 @@ void main() {
         (WidgetTester tester) async {
       await tester.pumpWidget(
         SuperApp(
-          mocks: [MockHomeController()],
-          enableLog: true,
-          testMode: true,
+          config: SuperAppConfig(
+            mocks: [MockHomeController()],
+            enableLog: true,
+            testMode: true,
+          ),
           child: Container(),
         ),
       );
@@ -45,7 +48,7 @@ void main() {
       // Expect an error when null
       expect(
         () => Super.of<HomeController>(),
-        throwsA(isA<FlutterError>()),
+        throwsA(isA<StateError>()),
       );
     });
 
@@ -53,7 +56,9 @@ void main() {
         (WidgetTester tester) async {
       await tester.pumpWidget(
         SuperApp(
-          mocks: [MockHomeController()],
+          config: SuperAppConfig(
+            mocks: [MockHomeController()],
+          ),
           child: Container(),
         ),
       );
@@ -75,12 +80,38 @@ void main() {
       // Expect controller to be disposed hence an error
       expect(
         () => Super.of<HomeController>(),
-        throwsA(isA<FlutterError>()),
+        throwsA(isA<StateError>()),
+      );
+    });
+
+    testWidgets('error widget is displayed if onInit throws an error',
+        (WidgetTester tester) async {
+      final completer = Completer<dynamic>();
+      await tester.pumpWidget(
+        MaterialApp(
+          home: SuperApp(
+            config: SuperAppConfig(
+              onInit: completer.future,
+              onError: (err, str) => Text(err.toString()),
+            ),
+            child: Container(),
+          ),
+        ),
+      );
+
+      completer.completeError('Error while executing onInit function.');
+
+      await tester.pumpAndSettle();
+
+      // Verify that error text is displayed
+      expect(
+        find.text('Error while executing onInit function.'),
+        findsOneWidget,
       );
     });
 
     test('resources are not disposed when autoDispose is false', () {
-      Injection.activate(
+      Super.activate(
         autoDispose: false,
         testMode: true,
         mocks: [MockHomeController()],
@@ -92,7 +123,7 @@ void main() {
       // Verify mock dependencies are inserted
       expect(controller.name == 'Name', true);
 
-      Injection.delete<HomeController>();
+      Super.delete<HomeController>(force: false);
 
       // Expect controller to not be disposed
       expect(Super.of<HomeController>(), controller);
@@ -103,7 +134,7 @@ void main() {
       // Expect controller to be disposed
       expect(
         () => Super.of<HomeController>(),
-        throwsA(isA<FlutterError>()),
+        throwsA(isA<StateError>()),
       );
     });
   });

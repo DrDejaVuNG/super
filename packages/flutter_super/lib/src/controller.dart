@@ -1,9 +1,10 @@
 // ignore_for_file: no_runtimetype_tostring
 
+import 'package:dart_super/dart_super.dart' as dart;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_super/src/core/logger.dart';
-import 'package:flutter_super/src/injection.dart';
+import 'package:flutter_super/flutter_super.dart';
+import 'package:flutter_super/src/core/globals.dart';
 
 /* =========================== SuperController =========================== */
 
@@ -25,9 +26,7 @@ import 'package:flutter_super/src/injection.dart';
 ///
 ///   int get count => _count.state;
 ///
-///   void increment() {
-///     _count.state++;
-///   }
+///   void increment() => _count.state++;
 ///
 ///   @override
 ///   void onDisable() {
@@ -49,7 +48,7 @@ import 'package:flutter_super/src/injection.dart';
 /// This helps prevent the state from being changed outside of the
 /// controller, ensuring that the state is only modified through defined
 /// methods within the controller (e.g., `increment()` in the example).
-mixin class SuperController {
+mixin class SuperController implements dart.SuperController {
   /// SuperController Constructor
   SuperController();
 
@@ -67,14 +66,18 @@ mixin class SuperController {
   /// to prevent potential issues.
   @protected
   @visibleForTesting
-  BuildContext get context {
+  BuildContext get ctrlContext {
     if (_context != null) return _context!;
     throw FlutterError(
-      'Do not make use of BuildContext in the onEnable() method.',
+      'You must neither '
+      'make use of BuildContext in the onEnable() method, '
+      'nor access this $this BuildContext without first '
+      'connecting the controller to a SuperWidget.',
     );
   }
 
   /// Checks whether the controller is alive.
+  @override
   bool get alive => _alive;
 
   /// This method is called at the exact moment the widget is allocated
@@ -85,6 +88,7 @@ mixin class SuperController {
   /// Once the initialization is done, it sets the [alive] flag to true.
   /// This method ensures that [onEnable] is called only once for the
   /// controller.
+  @override
   @mustCallSuper
   @nonVirtual
   void enable() {
@@ -104,6 +108,7 @@ mixin class SuperController {
   /// It marks the controller as disabled and calls the [onDisable] method.
   ///
   /// This method should not be overridden.
+  @override
   @mustCallSuper
   @nonVirtual
   void disable() {
@@ -120,16 +125,17 @@ mixin class SuperController {
   /// making asynchronous requests, etc.
   ///
   /// It is recommended to call `super.onEnable()` at the beginning
-  /// of the overridden method
-  /// to ensure that the base class's initialization is executed.
+  /// of the overridden method to ensure that the base class's
+  /// initialization is executed.
   ///
   /// After this method is called, the [onAlive] method will be invoked
   /// in the next frame.
+  @override
   @protected
   @mustCallSuper
   @visibleForTesting
   void onEnable() {
-    logger('$runtimeType was enabled.');
+    Super.log('$runtimeType was enabled.');
     WidgetsBinding.instance.addPostFrameCallback((_) => onAlive());
   }
 
@@ -141,6 +147,7 @@ mixin class SuperController {
   ///
   /// Override this method to implement the specific behavior for the
   /// controller.
+  @override
   @protected
   @visibleForTesting
   void onAlive() {}
@@ -154,18 +161,36 @@ mixin class SuperController {
   /// such as TextEditingControllers or AnimationControllers.
   ///
   /// It is recommended to call `super.onDisable()` at the end of
-  /// the overridden method
-  /// to ensure that the base class's cleanup tasks are executed.
+  /// the overridden method to ensure that the base class's cleanup
+  /// tasks are executed.
   ///
   /// This method might also be useful for persisting data on disk
   /// before the controller is disabled.
+  @override
   @protected
   @mustCallSuper
   @visibleForTesting
   void onDisable() {
     _context = null;
-    logger('$runtimeType was disabled.');
+    Super.log('$runtimeType was disabled.');
     final key = runtimeType;
-    Injection.delete<void>(key: key.toString());
+    Super.delete<void>(key: key.toString(), force: false);
+  }
+
+  /// This invokes every callback registered under an ID,
+  /// thereby causing the SuperBuilder widget(s) to rebuild
+  /// without the use of an Rx object.
+  @nonVirtual
+  void rebuild(String id) {
+    if (!rebuildMap.containsKey(id)) {
+      throw StateError(
+        'Rebuild ID Not Found. '
+        'Add $id to a SuperBuilder before calling the rebuild method.',
+      );
+    }
+    final list = rebuildMap[id];
+    for (var i = 0; i < list!.length; i++) {
+      list[i]();
+    }
   }
 }

@@ -25,7 +25,7 @@ class MyController extends SuperController {
   void onEnable() {
     super.onEnable();
     try {
-      buildContext1 = context;
+      buildContext1 = ctrlContext;
     } catch (e) {
       return;
     }
@@ -33,7 +33,7 @@ class MyController extends SuperController {
 
   @override
   void onAlive() {
-    buildContext2 = context;
+    buildContext2 = ctrlContext;
   }
 
   @override
@@ -45,7 +45,7 @@ class MyController extends SuperController {
 
 class CounterNotifier extends RxNotifier<int> {
   @override
-  int watch() {
+  int initial() {
     return 5;
   }
 }

@@ -1,3 +1,28 @@
+## 1.4.1
+
+- Minor Update
+
+## 1.4.0
+
+- New `warning` property for `Super.log()`
+
+## 1.3.9
+
+- Update Documentation
+
+## 1.3.8
+
+- Minor code optimizations
+
+## 1.3.7
+
+- RxNotifier `watch` method renamed to `initial`.
+- Minor code optimizations
+
+## 1.3.6
+
+- Minor code optimizations
+
 ## 1.3.5
 
 - issue #3 Added fix to use Rx collections with flutter SuperBuilder widget.

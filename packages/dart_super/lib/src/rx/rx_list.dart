@@ -81,10 +81,10 @@ final class RxList<T> extends Rx<List<T>> with ListMixin<T> {
     return _list.isNotEmpty;
   }
 
-  // @override
-  // Iterator<T> get iterator {
-  //   return _list.iterator;
-  // }
+  @override
+  Iterator<T> get iterator {
+    return _list.iterator;
+  }
 
   @override
   T get single {

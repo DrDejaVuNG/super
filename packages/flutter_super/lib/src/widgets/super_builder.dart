@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_super/flutter_super.dart';
+import 'package:flutter_super/src/core/globals.dart';
 import 'package:flutter_super/src/core/typedefs.dart';
 
 /// A stateful widget that rebuilds its child widget when the [Rx]
@@ -39,8 +40,8 @@ import 'package:flutter_super/src/core/typedefs.dart';
 /// }
 /// ```
 ///
-/// **Note:** You need to make use of an [Rx] object state in the
-/// builder method, otherwise, it will result in an error.
+/// **Note:** Unless you specify an Id, you need to make use of an [Rx] object
+/// state in the builder method, otherwise, it will result in an error.
 class SuperBuilder extends StatefulWidget {
   /// Creates a SuperBuilder widget.
   ///
@@ -54,8 +55,12 @@ class SuperBuilder extends StatefulWidget {
   const SuperBuilder({
     required this.builder,
     this.buildWhen,
+    this.id,
     super.key,
   });
+
+  /// Marks the widget to be rebuilt using the SuperController rebuild method.
+  final String? id;
 
   /// Called every time the [Rx] object changes state.
   final RxBuilder builder;
@@ -72,11 +77,13 @@ class SuperBuilder extends StatefulWidget {
 
 class _SuperBuilderState extends State<SuperBuilder> {
   RxMerge<dynamic>? _rx;
+  String? id;
 
   @override
   void dispose() {
     // Remove the listener from the rx
     _rx?.removeListener(_handleChange);
+    rebuildMap[id]?.remove(_handleChange);
     super.dispose();
   }
 
@@ -85,15 +92,28 @@ class _SuperBuilderState extends State<SuperBuilder> {
     setState(() {});
   }
 
+  void _init() {
+    id = widget.id;
+    try {
+      _rx = RxListener.listenedRx();
+      _rx?.addListener(_handleChange);
+    } catch (e) {
+      if (id == null) rethrow;
+    }
+    if (id == null) return;
+    if (rebuildMap[id] == null) rebuildMap[id!] = [];
+    rebuildMap[id]?.add(_handleChange);
+  }
+
   @override
   Widget build(BuildContext context) {
     _rx?.removeListener(_handleChange);
+    rebuildMap[id]?.remove(_handleChange);
 
     RxListener.listen();
     final child = widget.builder(context);
 
-    _rx = RxListener.listenedRx();
-    _rx?.addListener(_handleChange);
+    _init();
     return child;
   }
 }

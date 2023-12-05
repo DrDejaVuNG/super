@@ -2,7 +2,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_super/flutter_super.dart';
+import 'package:flutter_super/src/core/globals.dart';
 import 'package:flutter_test/flutter_test.dart';
+
+final controller = ValueController();
+
+class ValueController extends SuperController {}
 
 void main() {
   group('SuperBuilder', () {
@@ -42,6 +47,39 @@ void main() {
 
       // Verify that the builder function is called with the updated value
       expect(find.text('Value: Updated Value'), findsOneWidget);
+    });
+
+    testWidgets('Rebuilds widget when ID is given without an Rx',
+        (WidgetTester tester) async {
+      var value = 0;
+
+      await tester.pumpWidget(
+        MaterialApp(
+          home: SuperBuilder(
+            id: 'value',
+            builder: (context) => ElevatedButton(
+              onPressed: () {
+                value++;
+                controller.rebuild('value');
+              },
+              child: Text('$value'),
+            ),
+          ),
+        ),
+      );
+
+      expect(find.text('0'), findsOneWidget);
+      expect(find.text('1'), findsNothing);
+
+      // Increment the state and re-render
+      await tester.tap(find.byType(ElevatedButton));
+      await tester.pump();
+
+      expect(find.text('1'), findsOneWidget);
+
+      expect(rebuildMap['value']!.isEmpty, false);
+      await tester.pumpWidget(Container());
+      expect(rebuildMap['value']!.isEmpty, true);
     });
 
     testWidgets(

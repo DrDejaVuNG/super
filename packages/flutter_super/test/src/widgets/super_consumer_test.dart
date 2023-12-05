@@ -8,7 +8,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 class CounterNotifier extends RxNotifier<int> {
   @override
-  int watch() {
+  int initial() {
     return 0; // Initial state
   }
 

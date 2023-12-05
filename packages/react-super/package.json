@@ -1,7 +1,7 @@
 {
   "name": "react-ts-super",
   "description": "Reactive state management framework for scalable react applications.",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "author": "DrDejaVu",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -25,7 +25,7 @@
   "homepage": "https://drdejavu.ng/",
   "dependencies": {
     "react": "^18.2.0",
-    "ts-super": "^1.0.0"
+    "ts-super": "^1.0.5"
   },
   "devDependencies": {
     "@types/react": "^18.2.14"

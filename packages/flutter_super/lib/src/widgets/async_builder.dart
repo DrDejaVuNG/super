@@ -145,7 +145,7 @@ class _AsyncBuilderState<T> extends State<AsyncBuilder<T>> {
     if (_snapshot.hasError) {
       return widget.error != null
           ? widget.error!(_snapshot.error!, _snapshot.stackTrace!)
-          : Text(_snapshot.error!.toString());
+          : Center(child: Text(_snapshot.error!.toString()));
     }
     return widget.builder(_snapshot.data);
   }

@@ -100,7 +100,7 @@ mixin class SuperController {
   @visibleForTesting
   void onEnable() {
     logger('$runtimeType was enabled.');
-    Future.delayed(const Duration(milliseconds: 15), onAlive);
+    Future.delayed(const Duration(milliseconds: 20), onAlive);
   }
 
   /// Called one frame after the [onEnable] method.

@@ -1,14 +1,11 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_super/flutter_super.dart';
-import 'package:flutter_super/src/injection.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('SuperExt', () {
     setUp(() {
-      Injection.activate(
+      Super.activate(
         testMode: true,
-        autoDispose: true,
         enableLog: true,
       );
     });
@@ -25,7 +22,7 @@ void main() {
       Super.deleteAll();
       expect(
         () => Super.of<String>(),
-        throwsA(isA<FlutterError>()),
+        throwsA(isA<StateError>()),
       );
     });
   });

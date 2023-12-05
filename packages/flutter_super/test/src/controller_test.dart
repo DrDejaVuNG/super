@@ -80,7 +80,7 @@ void main() {
 
       expect(
         () => Super.of<MyController>(),
-        throwsA(isA<FlutterError>()),
+        throwsA(isA<StateError>()),
       );
 
       controller
@@ -89,7 +89,7 @@ void main() {
 
       expect(
         () => Super.of<MyController>(),
-        throwsA(isA<FlutterError>()),
+        throwsA(isA<StateError>()),
       );
     });
   });

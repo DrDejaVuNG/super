@@ -141,11 +141,11 @@ class MyApp extends StatelessWidget {
 ```
 
 `HomeController` is a controller class that extends `SuperController`. It manages the state and logic for the counter functionality in the application. It declares an `RxInt` object _count to represent the count state and provides a getter method `count` to access the current count state. It also defines an `increment` method to increase the count state by 1. The onDisable method is overridden to dispose of the `_count` object when the controller is disabled.<br>
-After the `HomeController` is defined, we define a getter to inject the dependency so that it can be accessed globally and be mocked easily during testing.
+After the `HomeController` is defined, we define an immutable variable to inject the dependency so that it can be accessed globally and be mocked easily during testing.
 
 ```dart
 /// Inject Dependency for global access (It can easily be mocked later).
-HomeController get homeController => Super.init(HomeController()); 
+final homeController = Super.init(HomeController()); 
 
 /// The SuperController mixin class allows you to define the 
 /// lifecycle of your controller classes based on a [SuperWidget].
@@ -394,7 +394,7 @@ The [SuperConsumer] widget takes a [builder] function, which is called whenever 
 Example usage:
 
 ```dart
-CounterNotifier get counterNotifier => Super.init(CounterNotifier());
+final counterNotifier = Super.init(CounterNotifier());
 
 // ...
 
@@ -419,11 +419,11 @@ to be displayed while an RxNotifier is in loading state.
 Example usage:
 
 ```dart
-CounterNotifier get counterNotifier => Super.init(CounterNotifier());
+final counterNotifier = Super.init(CounterNotifier());
 
 class CounterNotifier extends RxNotifier<int> {
   @override
-  int watch() {
+  int initial() {
     return 0; // Initial state
   }
 
@@ -549,16 +549,16 @@ It is best used for local state i.e state used in a single controller.
 
 An abstract base class for creating reactive notifiers that manage a state of type `T`.
 
-The `RxNotifier` class provides a foundation for creating reactive notifiers that encapsulate a piece of immutable state and notify their listeners when the state changes. Subclasses of `RxNotifier` must override the `watch` method to provide the initial state and implement the logic for updating the state.
+The `RxNotifier` class provides a foundation for creating reactive notifiers that encapsulate a piece of immutable state and notify their listeners when the state changes. Subclasses of `RxNotifier` must override the `initial` method to provide the initial state and implement the logic for updating the state.
 
 Example usage:
 
 ```dart
-CounterNotifier get counterNotifier => Super.init(CounterNotifier());
+final counterNotifier = Super.init(CounterNotifier());
 
 class CounterNotifier extends RxNotifier<int> {
   @override
-  int watch() {
+  int initial() {
     return 0; // Initial state
   }
 
@@ -578,11 +578,11 @@ state can be utilized.
 Example usage:
 
 ```dart
-BooksNotifier get booksNotifier => Super.init(BooksNotifier());
+final booksNotifier = Super.init(BooksNotifier());
 
 class BooksNotifier extends RxNotifier<List<Book>> {
   @override
-  List<Book> watch() {
+  List<Book> initial() {
     return []; // Initial state
   }
 

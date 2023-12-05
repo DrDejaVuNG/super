@@ -14,7 +14,7 @@ import 'package:flutter_super/flutter_super.dart';
 ///
 /// Example usage:
 /// ```dart
-/// CounterNotifier get counterNotifier = Super.init(CounterNotifier());
+/// final counterNotifier = Super.init(CounterNotifier());
 ///
 /// // ...
 ///
@@ -40,11 +40,11 @@ import 'package:flutter_super/flutter_super.dart';
 ///
 /// Example usage:
 /// ```dart
-/// CounterNotifier get counterNotifier = Super.init(CounterNotifier());
+/// final counterNotifier = Super.init(CounterNotifier());
 ///
 /// class CounterNotifier extends RxNotifier<int> {
 ///   @override
-///   int watch() {
+///   int initial() {
 ///     return 0; // Initial state
 ///   }
 ///
@@ -110,7 +110,6 @@ class _SuperConsumerState<T> extends State<SuperConsumer<T>> {
   @override
   void didUpdateWidget(SuperConsumer<T> oldWidget) {
     super.didUpdateWidget(oldWidget);
-    // Check if the rx has changed and update the listener accordingly.
     if (widget.rx != oldWidget.rx) {
       oldWidget.rx.removeListener(_handleChange);
     }
@@ -125,7 +124,9 @@ class _SuperConsumerState<T> extends State<SuperConsumer<T>> {
       _state = rx.state;
       _loading = rx.loading;
     }
-    widget.rx.addListener(_handleChange);
+    rx
+      ..removeListener(_handleChange)
+      ..addListener(_handleChange);
   }
 
   @override

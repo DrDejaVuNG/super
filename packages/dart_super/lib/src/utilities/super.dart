@@ -32,7 +32,7 @@ extension SuperExt on SuperInterface {
 /* ========================= Logger ========================= */
 
   /// Create logs using the logger from the Super framework
-  void log(String msg) => logger(msg, warning: true);
+  void log(String msg, {bool warning = false}) => logger(msg, warning: warning);
 
   /* ========================= Instance ========================= */
 
@@ -52,7 +52,12 @@ extension SuperExt on SuperInterface {
       );
 
   /// Deletes the instance of a dependency from the manager.
-  void delete<T>() => Injection.delete<T>(force: true);
+  void delete<T>({String? key, bool force = true}) {
+    return Injection.delete<T>(
+      key: key,
+      force: force,
+    );
+  }
 
   /// Deletes all instances of dependencies from the manager.
   void deleteAll() => Injection.deleteAll();
