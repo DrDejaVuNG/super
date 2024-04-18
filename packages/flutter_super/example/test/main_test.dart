@@ -7,9 +7,11 @@ import 'package:super_test/super_test.dart';
 // ignore: avoid_relative_lib_imports
 import '../lib/main.dart';
 
-// The Example Counter App Test
 void main() {
-  testWidgets('Update the UI when incrementing the state', (tester) async {
+  group(
+    'Super Counter App Test',
+    () {
+      testWidgets('Update the UI when incrementing the state', (tester) async {
     await tester.pumpWidget(const SuperApp(child: MyApp()));
 
     // The initial state is `0`, as declared in our controller
@@ -33,16 +35,17 @@ void main() {
     expect(find.text('1'), findsNothing);
   });
 
-  testController<HomeController, int>(
+  testRxNotifier<CountNotifier, int>(
     'Outputs [1, 2] when the increment method is called multiple times '
     'with asynchronous act',
-    build: HomeController(),
-    state: (controller) => controller.count,
-    act: (controller) async {
-      controller.increment();
+    build: CountNotifier(),
+    act: (notifier) async {
+      notifier.increment();
       await Future<void>.delayed(const Duration(milliseconds: 10));
-      controller.increment();
+      notifier.increment();
     },
     expect: const <int>[1, 2],
+  );
+    },
   );
 }

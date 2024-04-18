@@ -1,6 +1,5 @@
 // ignore_for_file: no_runtimetype_tostring
 import 'package:dart_super/src/core/logger.dart';
-import 'package:dart_super/src/injection.dart';
 import 'package:meta/meta.dart';
 
 /* =========================== SuperController =========================== */
@@ -130,6 +129,5 @@ mixin class SuperController {
   @visibleForTesting
   void onDisable() {
     logger('$runtimeType was disabled.');
-    Injection.delete<void>(key: '$runtimeType');
   }
 }

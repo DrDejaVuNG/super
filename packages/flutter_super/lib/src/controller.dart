@@ -4,7 +4,6 @@ import 'package:dart_super/dart_super.dart' as dart;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_super/flutter_super.dart';
-import 'package:flutter_super/src/core/globals.dart';
 
 /* =========================== SuperController =========================== */
 
@@ -58,8 +57,9 @@ mixin class SuperController implements dart.SuperController {
   /// The [BuildContext] associated with the controller.
   ///
   /// It represents the context of the first widget that uses the controller
-  /// or the immediate widget that initializes the controller after the original
-  ///  widget is removed from the widget tree when autoDispose is set to false.
+  /// or the immediate widget that initializes the controller after the
+  /// original widget is removed from the widget tree when autoDispose
+  /// is set to false.
   /// This context is set when the `initContext()` method is called.
   ///
   /// Note: Avoid using the `BuildContext` in the `onEnable()` method
@@ -69,9 +69,9 @@ mixin class SuperController implements dart.SuperController {
   BuildContext get ctrlContext {
     if (_context != null) return _context!;
     throw FlutterError(
-      'You must neither '
+      'Error: You must neither '
       'make use of BuildContext in the onEnable() method, '
-      'nor access this $this BuildContext without first '
+      'nor access this $runtimeType BuildContext without first '
       'connecting the controller to a SuperWidget.',
     );
   }
@@ -139,6 +139,16 @@ mixin class SuperController implements dart.SuperController {
     WidgetsBinding.instance.addPostFrameCallback((_) => onAlive());
   }
 
+  /// Called immediately after the [Widget]'s build method is invoked.
+  /// It is [BuildContext] safe and is good place to access route
+  /// arguments or compute other operations on which the Widget depends on.
+  ///
+  /// **Important:** This method is called everytime the [Widget]'s build
+  /// method is invoked.
+  @protected
+  @visibleForTesting
+  void onBuild() {}
+
   /// Called one frame after the [onEnable] method. It is [BuildContext]
   /// safe and is the perfect place to handle
   /// route events, such as showing snackbars, dialogs or perform async
@@ -173,24 +183,5 @@ mixin class SuperController implements dart.SuperController {
   void onDisable() {
     _context = null;
     Super.log('$runtimeType was disabled.');
-    final key = runtimeType;
-    Super.delete<void>(key: key.toString(), force: false);
-  }
-
-  /// This invokes every callback registered under an ID,
-  /// thereby causing the SuperBuilder widget(s) to rebuild
-  /// without the use of an Rx object.
-  @nonVirtual
-  void rebuild(String id) {
-    if (!rebuildMap.containsKey(id)) {
-      throw StateError(
-        'Rebuild ID Not Found. '
-        'Add $id to a SuperBuilder before calling the rebuild method.',
-      );
-    }
-    final list = rebuildMap[id];
-    for (var i = 0; i < list!.length; i++) {
-      list[i]();
-    }
   }
 }

@@ -65,11 +65,13 @@ final class RxSet<T> extends Rx<Set<T>> with SetMixin<T> {
 
   @override
   bool contains(Object? element) {
+    RxListener._read(this);
     return _set.contains(element);
   }
 
   @override
   Iterator<T> get iterator {
+    RxListener._read(this);
     return _set.iterator;
   }
 

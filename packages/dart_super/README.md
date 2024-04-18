@@ -52,8 +52,6 @@ and streamline the development of reactive and scalable applications.
   - [create](#create)
   - [delete](#delete)
   - [deleteAll](#deleteall)
-- [Useful APIs](#useful-apis)
-  - [Error Handling](#error-handling)
 - [Additional Information](#additional-information)
   - [API Reference](#api-reference)
 - [Requirements](#requirements)
@@ -228,7 +226,7 @@ The `RxNotifier` class provides a foundation for creating reactive notifiers tha
 Example usage:
 
 ```dart
-final counterNotifier = Super.init(CounterNotifier());
+CounterNotifier get counterNotifier => Super.init(CounterNotifier());
 
 class CounterNotifier extends RxNotifier<int> {
   @override
@@ -260,7 +258,7 @@ state can be utilized.
 Example usage:
 
 ```dart
-final booksNotifier = Super.init(BooksNotifier());
+BooksNotifier get booksNotifier => Super.init(BooksNotifier());
 
 class BooksNotifier extends RxNotifier<List<Book>> {
   @override
@@ -317,7 +315,7 @@ Super.init<T>(T instance);
 
 Creates a singleton instance of a dependency and registers it with the manager.
 ```dart
-Super.create<T>(T instance, {bool lazy = false});
+Super.create<T>(T instance);
 ```
 
 <br>
@@ -337,51 +335,6 @@ Deletes all instances of dependencies from the manager.
 ```dart
 Super.deleteAll();
 ```
-
-<br>
-
-## Useful APIs
-
-### Error Handling
-
-An extension method for handling the result of a [Future] with success and error callbacks.
-
-The `result` method allows you to provide two callbacks: one for handling the success case when the [Future] completes successfully, and one for handling the error case when an exception occurs.
-
-Example usage:
-
-```dart
-Future<int> fetchNumber() async {
-  // Simulating an asynchronous operation
-  await Future.delayed(Duration(seconds: 2));
-
-  // Simulating an error
-  throw Failure('Failed to fetch number');
-}
-
-void handleSuccess(int number) {
-  print('Fetched number: $number');
-}
-
-void handleError(Failure error) {
-  print('Error occurred: ${error.message}');
-}
-
-void main() {
-  fetchNumber().result(handleError, handleSuccess);
-
-  // or
-
-  final request = fetchNumber();
-
-  request.result<Failure, int>(
-  (e) => print('Error occurred: ${e.message}');  // could replace `e` with error
-  (s) => print('Fetched number: $s');            // could replace `s` with number
-  );
-}
-```
-
-<br>
 
 ## Additional Information
 

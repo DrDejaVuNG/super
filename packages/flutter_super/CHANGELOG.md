@@ -1,3 +1,27 @@
+## 1.4.5
+
+- Code Optimizations
+
+## 1.4.4
+
+- New: AutoDispose can now be set for each individual dependency in Super.create and Super.init.
+
+## 1.4.3
+
+- SuperController onBuild method now called each time the widget's build method is invoked.
+
+## 1.4.2
+
+- onBuild method added to SuperController.
+
+## 1.4.2-dev.1
+
+- v1.4.2 pre release
+
+## 1.4.1
+
+- Code adjustments.
+
 ## 1.4.0
 
 - Minor code optimizations.

@@ -112,13 +112,12 @@ void main() {
 
     test('resources are not disposed when autoDispose is false', () {
       Super.activate(
-        autoDispose: false,
         testMode: true,
         mocks: [MockHomeController()],
         enableLog: true,
       );
 
-      final controller = Super.init(HomeController());
+      final controller = Super.init(HomeController(), autoDispose: false);
 
       // Verify mock dependencies are inserted
       expect(controller.name == 'Name', true);

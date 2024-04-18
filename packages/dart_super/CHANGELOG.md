@@ -1,3 +1,18 @@
+## 1.4.5
+- Code Optimizations
+
+## 1.4.4
+- New: AutoDispose can now be set for each individual dependency in Super.create and Super.init.
+
+## 1.4.3
+- Fixed Warning: The parameter type of '==' operators should not be non-nullable.
+
+## 1.4.2
+- Breaking change: .result method no longer included in the api
+
+## 1.4.2-dev.1
+- v1.4.2 pre release
+
 ## 1.4.1
 
 - Minor Update

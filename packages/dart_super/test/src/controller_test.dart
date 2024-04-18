@@ -66,23 +66,5 @@ void main() {
         expect(controller.onAliveCalled, true);
       });
     });
-
-    test('onDisable() should delete the controller instance', () {
-      final controller = MyController();
-
-      expect(
-        () => Super.of<MyController>(),
-        throwsA(isA<StateError>()),
-      );
-
-      controller
-        ..enable()
-        ..disable();
-
-      expect(
-        () => Super.of<MyController>(),
-        throwsA(isA<StateError>()),
-      );
-    });
   });
 }

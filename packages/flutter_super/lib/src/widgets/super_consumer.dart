@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_super/flutter_super.dart';
 
 /// {@template super_consumer}
-/// A widget that consumes a [Rx] object and rebuilds whenever it changes.
+/// A widget that consumes an [RxT] or [RxNotifier] object and rebuilds
+/// whenever it changes.
 ///
-/// [SuperConsumer] is a StatefulWidget that listens to changes in a [Rx] object
-/// and rebuilds its child widget whenever the [Rx] object's state changes.
+/// [SuperConsumer] is a StatefulWidget that listens to changes in an
+/// [RxT] or [RxNotifier] object and rebuilds its child widget whenever
+/// the [Rx] object's state changes.
 ///
 /// The [SuperConsumer] widget takes a [builder] function, which is
 /// called whenever the [Rx] object changes. The [builder] function receives
@@ -14,7 +16,7 @@ import 'package:flutter_super/flutter_super.dart';
 ///
 /// Example usage:
 /// ```dart
-/// final counterNotifier = Super.init(CounterNotifier());
+/// CounterNotifier get counterNotifier => Super.init(CounterNotifier());
 ///
 /// // ...
 ///
@@ -40,7 +42,7 @@ import 'package:flutter_super/flutter_super.dart';
 ///
 /// Example usage:
 /// ```dart
-/// final counterNotifier = Super.init(CounterNotifier());
+/// CounterNotifier get counterNotifier => Super.init(CounterNotifier());
 ///
 /// class CounterNotifier extends RxNotifier<int> {
 ///   @override

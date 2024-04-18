@@ -68,13 +68,24 @@ abstract class SuperWidget<T extends SuperController> extends Widget {
 
 /// An element that represents a [SuperWidget] and associates it with
 /// a [SuperController].
-class _SuperElement<T extends SuperController> extends _ControllerElement<T> {
+class _SuperElement<T extends SuperController> extends ComponentElement {
   /// Creates an element that uses the given widget as its configuration
   /// and associates it with a controller.
-  _SuperElement(SuperWidget super.widget, super.controller);
+  _SuperElement(SuperWidget super.widget, this.controller) {
+    // Store the created element to be used by the controller
+    controller.initContext(this);
+  }
+
+  /// The controller for the widget.
+  @protected
+  final T controller;
 
   @override
-  Widget build() => (widget as SuperWidget).build(this);
+  Widget build() {
+    // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
+    controller.onBuild();
+    return (widget as SuperWidget).build(this);
+  }
 
   // coverage:ignore-start
   @override
@@ -84,29 +95,10 @@ class _SuperElement<T extends SuperController> extends _ControllerElement<T> {
     rebuild(force: true);
   }
   // coverage:ignore-end
-}
-
-/// An abstract class that represents an element with a [SuperController].
-abstract class _ControllerElement<T extends SuperController>
-    extends ComponentElement {
-  /// Creates an element that uses the given widget as its configuration
-  /// and associates it with a controller.
-  _ControllerElement(super.widget, this.controller);
-
-  /// The controller for the widget.
-  @protected
-  final T controller;
-
-  @override
-  void mount(Element? parent, dynamic newSlot) {
-    super.mount(parent, newSlot);
-    // Store the created element to be used by the controller
-    controller.initContext(this);
-  }
 
   @override
   void unmount() {
-    controller.disable();
+    Super.delete<T>(force: false);
     super.unmount();
   }
 }

@@ -23,10 +23,10 @@ class SuperApp extends StatefulWidget {
   ///       MockDatabase(),
   ///     ],
   ///     testMode: true,
-  ///     autoDispose: true,
-  ///     enableLog: false,
+  ///     enableLog: kDebugMode,
   ///     onInit: asyncFunction,
-  ///     loading: CircularProgressIndicator(),
+  ///     loading: SizedBox(),
+  ///     onError: (err, stk) => SizedBox();
   ///   ),
   ///   child: const MyApp(),
   /// );
@@ -56,7 +56,6 @@ class _SuperAppState extends State<SuperApp> {
       mocks: widget.config.mocks,
       testMode: widget.config.testMode,
       enableLog: widget.config.enableLog,
-      autoDispose: widget.config.autoDispose,
     );
   }
 
@@ -92,7 +91,6 @@ class SuperAppConfig {
   ///       MockDatabase(),
   ///     ],
   ///     testMode: true,
-  ///     autoDispose: true,
   ///     enableLog: false,
   ///     onInit: asyncFunction,
   ///     loading: CircularProgressIndicator(),
@@ -107,7 +105,6 @@ class SuperAppConfig {
     this.loading,
     this.enableLog = false,
     this.testMode = false,
-    this.autoDispose = true,
   });
 
   /// An optional list of objects used for mocking dependencies during testing.
@@ -126,11 +123,6 @@ class SuperAppConfig {
   /// or behaviors specific to the Super framework.
   /// By default, test mode is set to `false`.
   final bool testMode;
-
-  /// An optional boolean value that determines whether the Super framework
-  /// should automatically dispose of controllers, dependencies, and other
-  /// resources when they are no longer needed.
-  final bool autoDispose;
 
   /// An optional callback that runs before the application is initialized.
   final Future<void>? onInit;

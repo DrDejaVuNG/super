@@ -4,20 +4,16 @@ import 'package:dart_super/src/injection.dart';
 
 /// Enables access to functionality through Super
 extension SuperExt on SuperInterface {
-  /* ========================= App ========================= */
-
   /// Activate the Super framework
   void activate({
     bool testMode = false,
     List<Object>? mocks,
     bool enableLog = false,
-    bool autoDispose = true,
   }) {
     Injection.activate(
       mocks: mocks,
       testMode: testMode,
       enableLog: enableLog,
-      autoDispose: autoDispose,
     );
   }
 
@@ -42,14 +38,13 @@ extension SuperExt on SuperInterface {
 
   /// Initializes and retrieves the instance of a dependency,
   /// or creates a new instance if it doesn't exist.
-  T init<T>(T instance) => Injection.init<T>(instance);
+  T init<T>(T instance, {bool autoDispose = true}) =>
+      Injection.init<T>(instance, autoDispose);
 
   /// Creates a singleton instance of a dependency and registers
   /// it with the manager.
-  void create<T>(T instance, {bool lazy = false}) => Injection.create<T>(
-        instance,
-        lazy: lazy,
-      );
+  void create<T>(T instance, {bool autoDispose = true}) =>
+      Injection.create<T>(instance, autoDispose);
 
   /// Deletes the instance of a dependency from the manager.
   void delete<T>({String? key, bool force = true}) {

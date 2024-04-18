@@ -63,7 +63,6 @@ and streamline the development of reactive and scalable applications.
 - [Useful APIs](#useful-apis)
   - [context.read](#contextread)
   - [context.watch](#contextwatch)
-  - [Error Handling](#error-handling)
 - [Additional Information](#additional-information)
   - [Super Structure](#super-structure)
   - [API Reference](#api-reference)
@@ -129,7 +128,6 @@ void main() {
 `MyApp` is the root widget of the application. It is a stateless widget that returns a `MaterialApp` as its child. The `MaterialApp` sets the home view of the application to be `HomeView`.
 
 ```dart
-// Define the root widget of the application
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -140,53 +138,41 @@ class MyApp extends StatelessWidget {
 }
 ```
 
-`HomeController` is a controller class that extends `SuperController`. It manages the state and logic for the counter functionality in the application. It declares an `RxInt` object _count to represent the count state and provides a getter method `count` to access the current count state. It also defines an `increment` method to increase the count state by 1. The onDisable method is overridden to dispose of the `_count` object when the controller is disabled.<br>
-After the `HomeController` is defined, we define an immutable variable to inject the dependency so that it can be accessed globally and be mocked easily during testing.
+`CountNotifier` is an `RxNotifier` class. It manages the state and logic for the counter functionality in the application.<br>
+After the `CountNotifier` is defined, we define a getter to inject the dependency so that it can be accessed globally and be mocked easily during testing.
 
 ```dart
-/// Inject Dependency for global access (It can easily be mocked later).
-final homeController = Super.init(HomeController()); 
+// Inject Dependency for global access (It can easily be mocked later).
+CountNotifier get countNotifier => Super.init(CountNotifier());
 
-/// The SuperController mixin class allows you to define the 
-/// lifecycle of your controller classes based on a [SuperWidget].
-class HomeController extends SuperController { // Step 2
-  // Declare State object
-  final _count = 0.rx; // RxInt(0);
-
-  int get count => _count.state;
-
-  // Step 3
-  void increment() => _count.state++;
-
+// The notifier class manages the state in the application.
+class CountNotifier extends RxNotifier<int> {
+  // Step 2
   @override
-  void onDisable() {
-    _count.dispose(); // Dispose Rx object.
-    super.onDisable();
+  int initial() {
+    return 0;
   }
+
+  void increment() => state++; // Step 3
 }
 ```
 
-`HomeView` is a widget that displays the counter and provides an increment button. It extends `StatelessWidget` to define the `view` and provides the build method to create the widget. A getter is defined called `controller` to access the injected instance of `HomeController`.
+`HomeView` is a widget that displays the count and provides an increment button. It extends `StatelessWidget` to define the `view` and provides the build method to create the widget.
 
 ```dart
-class HomeView extends StatelessWidget { // Step 4
+class HomeView extends StatelessWidget {
+  // Step 4
   const HomeView({super.key});
-
-  // Access the Widget Controller
-  HomeController get controller => homeController;
 
   @override
   Widget build(BuildContext context) {
+    // SuperBuilder listens and rebuilds only when the state changes.
     return Scaffold(
-      appBar: AppBar(title: const Text('Counter example')),
       body: Center(
-        // SuperBuilder is a widget that listens to Rx objects used in
-        // its builder method and rebuilds only when the state changes.
-        child: SuperBuilder( // Step 5
+        child: SuperBuilder(
           builder: (context) {
-            // controller is the Widget Controller reference
             return Text(
-              '${controller.count}',
+              '${countNotifier.state}',
               style: Theme.of(context).textTheme.displayLarge,
             );
           },
@@ -194,7 +180,7 @@ class HomeView extends StatelessWidget { // Step 4
       ),
       floatingActionButton: FloatingActionButton(
         // Increment the count state by calling the increment() method
-        onPressed: () => controller.increment(),
+        onPressed: countNotifier.increment,
         child: const Icon(Icons.add),
       ),
     );
@@ -202,7 +188,7 @@ class HomeView extends StatelessWidget { // Step 4
 }
 ```
 
-By separating the logic into the `HomeController` and the UI into the `HomeView`, the application achieves a clear separation of concerns between the business logic layer and the presentational layer. The `HomeView` widget is responsible for rendering the UI based on the state provided by the `HomeController`, while the `HomeController` handles the underlying logic and state management for the counter functionality.
+By separating the logic into the `CountNotifier` class and the UI into the `HomeView`, the application achieves a clear separation of concerns between the business logic layer and the presentation layer. The `HomeView` widget is responsible for rendering the UI based on the state provided by the `CountNotifier`, while the `CountNotifier` handles the underlying logic and state management for the count functionality.
 
 <br>
 
@@ -212,6 +198,8 @@ By separating the logic into the `HomeController` and the UI into the `HomeView`
 
 A stateful widget that represents the root of the Super framework.
 The [child] parameter is required and represents the main content of the app.
+
+The [config] parameter is an optional [SuperAppConfig] object that allows you to customize the behavior of the Super framework.
 
 The [mocks] parameter is an optional list of objects used for mocking dependencies during testing.
 The `mocks` property provides a way to inject mock objects into the application's dependency graph during testing.
@@ -225,23 +213,23 @@ When [testMode] is set to `true`, the Super framework is activated in test mode.
 Test mode can be used to enable additional testing features or behaviors specific to the Super framework.
 By default, test mode is set to `false`.
 
-The [autoDispose] parameter is an optional boolean value that determines whether the Super framework should automatically dispose of controllers, dependencies, and other resources when they are no longer needed.
-By default, [autoDispose] is set to `true`, enabling automatic disposal.
-Set [autoDispose] to `false` if you want to manually handle the disposal of resources in your application.
-
 The [enableLog] property takes an optional boolean value that enables or disables logging in the Super framework.
 
 Example usage:
 
 ```dart
 SuperApp(
-  mocks: [
-  MockAuthRepo(),
-  MockDatabase(),
-  ],
-  testMode: true,
-  enableLog: kDebugMode,
-  autoDispose: true,
+  config: SuperAppConfig(
+    mocks: [
+      MockAuthRepo(),
+      MockDatabase(),
+    ],
+    testMode: true,
+    enableLog: kDebugMode,
+    onInit: asyncFunction,
+    loading: SizedBox(),
+    onError: (err, stk) => SizedBox();
+  ),
   child: const MyApp(),
 );
 ```
@@ -267,7 +255,7 @@ class SampleController extends SuperController {
 
   @override
   void onAlive() {
-    context.showTextSnackBar('Controller Alive');
+    ctrlContext.showTextSnackBar('Controller Alive');
   }
 
   void increment() {
@@ -387,14 +375,14 @@ SuperBuilder(
 
 ### SuperConsumer
 
-[SuperConsumer] is a StatefulWidget that listens to changes in a [Rx] object and rebuilds its child widget whenever the [Rx] object's state changes.
+[SuperConsumer] is a StatefulWidget that listens to changes in an [RxT] or [RxNotifier] object and rebuilds its child widget whenever the [Rx] object's state changes.
 
 The [SuperConsumer] widget takes a [builder] function, which is called whenever the [Rx] object changes. The [builder] function receives the current [BuildContext] and the latest state of the [Rx] object, and returns the widget tree to be built.
 
 Example usage:
 
 ```dart
-final counterNotifier = Super.init(CounterNotifier());
+CounterNotifier get counterNotifier => Super.init(CounterNotifier());
 
 // ...
 
@@ -419,7 +407,7 @@ to be displayed while an RxNotifier is in loading state.
 Example usage:
 
 ```dart
-final counterNotifier = Super.init(CounterNotifier());
+CounterNotifier get counterNotifier => Super.init(CounterNotifier());
 
 class CounterNotifier extends RxNotifier<int> {
   @override
@@ -554,7 +542,7 @@ The `RxNotifier` class provides a foundation for creating reactive notifiers tha
 Example usage:
 
 ```dart
-final counterNotifier = Super.init(CounterNotifier());
+CounterNotifier get counterNotifier => Super.init(CounterNotifier());
 
 class CounterNotifier extends RxNotifier<int> {
   @override
@@ -578,7 +566,7 @@ state can be utilized.
 Example usage:
 
 ```dart
-final booksNotifier = Super.init(BooksNotifier());
+BooksNotifier get booksNotifier => Super.init(BooksNotifier());
 
 class BooksNotifier extends RxNotifier<List<Book>> {
   @override
@@ -613,6 +601,10 @@ These are similar to RxT but do not require the use of .state, they extend the f
 
 ## Dependency Injection
 
+The [autoDispose] parameter of `create` and `init` is an optional boolean value that determines whether the Super framework should automatically dispose of dependencies when they are no longer needed.
+By default, [autoDispose] is set to `true`, enabling automatic disposal.
+Set [autoDispose] to `false` if you want to manually handle the disposal of resources in your application.
+
 ### of
 
 Retrieves the instance of a dependency from the manager and enables the controller if the dependency extends `SuperController`.
@@ -626,7 +618,7 @@ Super.of<T>();
 
 Initializes and retrieves the instance of a dependency, or creates a new instance if it doesn't exist.
 ```dart
-Super.init<T>(T instance);
+Super.init<T>(T instance, {bool autoDispose = true});
 ```
 
 <br>
@@ -635,7 +627,7 @@ Super.init<T>(T instance);
 
 Creates a singleton instance of a dependency and registers it with the manager.
 ```dart
-Super.create<T>(T instance, {bool lazy = false});
+Super.create<T>(T instance, {bool autoDispose = true});
 ```
 
 <br>
@@ -702,47 +694,6 @@ class HomeView extends StatelessWidget {
 This can be used instead of the SuperBuilder/SuperConsumer widgets.
 It is worth noting however that, unlike those APIs which rebuild only
 the widget in their builder methods, this will rebuild the entire widget.
-
-<br>
-
-### Error Handling
-
-An extension method for handling the result of a [Future] with success and error callbacks.
-
-The `result` method allows you to provide two callbacks: one for handling the success case when the [Future] completes successfully, and one for handling the error case when an exception occurs.
-
-Example usage:
-
-```dart
-Future<int> fetchNumber() async {
-  // Simulating an asynchronous operation
-  await Future.delayed(Duration(seconds: 2));
-
-  // Simulating an error
-  throw Failure('Failed to fetch number');
-}
-
-void handleSuccess(int number) {
-  print('Fetched number: $number');
-}
-
-void handleError(Failure error) {
-  print('Error occurred: ${error.message}');
-}
-
-void main() {
-  fetchNumber().result(handleError, handleSuccess);
-
-  // or
-
-  final request = fetchNumber();
-
-  request.result<Failure, int>(
-  (e) => print('Error occurred: ${e.message}');  // could replace `e` with error
-  (s) => print('Fetched number: $s');            // could replace `s` with number
-  );
-}
-```
 
 <br>
 

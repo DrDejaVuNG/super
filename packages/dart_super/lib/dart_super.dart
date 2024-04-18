@@ -24,6 +24,5 @@ export 'src/controller.dart';
 export 'src/core/interface.dart' show Super;
 export 'src/model.dart';
 export 'src/rx/rx.dart';
-export 'src/utilities/future.dart';
 export 'src/utilities/rx.dart';
 export 'src/utilities/super.dart';

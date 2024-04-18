@@ -4,12 +4,11 @@ import 'package:dart_super/src/rx/rx.dart';
 
 /// A class that manages the instances of dependencies.
 class Injection {
-  static final Map<String, dynamic> _instances = {};
+  static final Map<String, ({bool disp, dynamic inst})> _instances = {};
   static List<Object> _mocks = [];
   static bool _scoped = false;
   static bool _testMode = false;
   static bool _enableLog = false;
-  static bool? _autoDispose;
 
   /// Enable Logs in the Super Framework
   static bool get enableLog => _enableLog;
@@ -25,19 +24,16 @@ class Injection {
 
   /// Creates a singleton instance of a dependency and registers it
   /// with the manager.
-  static void create<T>(T instance, {bool lazy = false}) {
+  static void create<T>(T instance, bool autoDispose) {
     if (!_scoped) {
       throw StateError(
         'SuperApp not found, Wrap the root widget of your app '
         'with [SuperApp] to enable the Super framework.',
       );
     }
+
     final key = _instKey<T>();
-    if (lazy) {
-      _instances[key] = () => instance;
-      return;
-    }
-    _register<T>(instance: instance, key: key);
+    _register<T>(instance: instance, key: key, autoDispose: autoDispose);
   }
 
   /// Retrieves the instance of a dependency from the manager
@@ -45,14 +41,7 @@ class Injection {
   static T of<T>() {
     final key = _instKey<T>();
     if (_instances.containsKey(key)) {
-      var inst = _instances[key];
-
-      if (inst is T Function()) {
-        // register T instance and return it
-        inst = inst();
-        _register(instance: inst, key: key);
-        return of<T>();
-      }
+      final inst = _instances[key]!.inst;
 
       if (inst is SuperController) inst.enable();
       return inst as T;
@@ -64,11 +53,11 @@ class Injection {
 
   /// Initializes and retrieves the instance of a dependency, or creates
   /// a new instance if it doesn't exist.
-  static T init<T>(T inst) {
+  static T init<T>(T inst, bool autoDispose) {
     try {
       return of<T>();
     } catch (e) {
-      create<T>(inst);
+      create<T>(inst, autoDispose);
       return of<T>();
     }
   }
@@ -77,17 +66,18 @@ class Injection {
   static void _register<T>({
     required T instance,
     required String key,
+    required bool autoDispose,
   }) {
     if (_testMode && _mocks.isNotEmpty) {
       for (final item in _mocks) {
         final mock = _registerMock<T>(item);
         if (mock != null) {
-          _instances[key] = mock;
+          _instances[key] = (inst: mock, disp: autoDispose);
           return;
         }
       }
     }
-    _instances[key] = instance;
+    _instances[key] = (inst: instance, disp: autoDispose);
   }
 
   /// Attempts to register a mock instance into the `_instances` map.
@@ -103,15 +93,17 @@ class Injection {
   /// If autoDispose is set to false, [force] must be set to
   /// true to delete resources.
   static void delete<T>({String? key, bool force = false}) {
-    if (_autoDispose != null && !_autoDispose! && !force) return;
     final instKey = key ?? _instKey<T>();
     if (!_instances.containsKey(instKey)) return;
-    final inst = _instances[instKey];
+
+    final inst = _instances[instKey]!.inst;
+    if (!_instances[instKey]!.disp && !force) return;
 
     if (inst is SuperController) inst.disable();
     if (inst is Rx) inst.dispose();
 
     _instances.remove(instKey);
+
     logger(
       '$instKey dependency was deleted.',
       warning: true,
@@ -121,6 +113,7 @@ class Injection {
   /// Deletes all instances of dependencies from the manager.
   static void deleteAll() {
     final keys = _instances.keys.toList();
+
     for (final key in keys) {
       delete<void>(key: key, force: true);
     }
@@ -133,13 +126,11 @@ class Injection {
   static void activate({
     required bool testMode,
     required bool enableLog,
-    required bool autoDispose,
     List<Object>? mocks,
   }) {
     _scoped = true;
     _testMode = testMode;
     _enableLog = enableLog;
-    _autoDispose = autoDispose;
 
     if (mocks != null && mocks.isNotEmpty) {
       _mocks = List.of(mocks);
@@ -153,7 +144,6 @@ class Injection {
     deleteAll();
     _scoped = false;
     _testMode = false;
-    _autoDispose = null;
     _mocks = [];
   }
 }

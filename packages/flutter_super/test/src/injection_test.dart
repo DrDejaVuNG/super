@@ -18,15 +18,10 @@ void main() {
 
     test('create() should register a singleton instance', () {
       final instance = MockRx();
-      final lazyInstance = MockController();
 
       Super.create<MockRx>(instance);
 
       expect(Super.of<MockRx>(), instance);
-
-      Super.create<MockController>(lazyInstance, lazy: true);
-
-      expect(Super.of<MockController>(), lazyInstance);
     });
 
     test('create() should throw an error if SuperApp is not found', () {
@@ -56,14 +51,6 @@ void main() {
       Super.of<MockController>();
 
       expect(instance.enableCalled, true);
-    });
-
-    test('of() should register and retrieve lazy instances', () {
-      const lazyInstance = 10;
-
-      Super.create<int>(lazyInstance, lazy: true);
-
-      expect(Super.of<int>(), lazyInstance);
     });
 
     test('of() should recursively register and retrieve instances', () {

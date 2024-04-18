@@ -27,7 +27,7 @@ mixin SuperModel {
 
   @override
   @nonVirtual
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return toString() == other.toString();
   }
 

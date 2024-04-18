@@ -6,17 +6,23 @@ import 'package:flutter_test/flutter_test.dart';
 
 class MyController extends SuperController {
   bool onEnableCalled = false;
+  bool onBuildCalled = false;
   bool onAliveCalled = false;
   bool onDisableCalled = false;
-  @override
-  void onAlive() {
-    onAliveCalled = true;
-  }
-
   @override
   void onEnable() {
     super.onEnable();
     onEnableCalled = true;
+  }
+
+  @override
+  void onBuild() {
+    onBuildCalled = !onBuildCalled;
+  }
+
+  @override
+  void onAlive() {
+    onAliveCalled = true;
   }
 
   @override

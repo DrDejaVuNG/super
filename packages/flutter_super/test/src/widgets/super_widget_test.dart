@@ -10,6 +10,7 @@ MyController get myController => Super.init(MyController());
 class MyController extends SuperController {
   bool initContextCalled = false;
   bool disableCalled = false;
+  bool onBuildCalled = false;
   BuildContext? buildContext1;
   BuildContext? buildContext2;
   final num = 0.rx;
@@ -29,6 +30,11 @@ class MyController extends SuperController {
     } catch (e) {
       return;
     }
+  }
+
+  @override
+  void onBuild() {
+    onBuildCalled = !onBuildCalled;
   }
 
   @override
@@ -121,6 +127,28 @@ void main() {
       expect(controller.num.hasListeners, isFalse);
     });
 
+    testWidgets('calls onBuild() when build method is called',
+        (WidgetTester tester) async {
+      const widget = MySuperWidget();
+      await tester.pumpWidget(
+        const SuperApp(
+          child: MaterialApp(
+            home: Scaffold(body: widget),
+          ),
+        ),
+      );
+
+      final controller = widget.controller;
+
+      expect(controller.onBuildCalled, true);
+
+      controller.num.state = 1;
+
+      await tester.pump();
+
+      expect(controller.onBuildCalled, false); // Called again
+    });
+
     testWidgets('Disposes the controller', (WidgetTester tester) async {
       const widget = ASuperWidget();
       await tester.pumpWidget(
@@ -136,6 +164,8 @@ void main() {
       expect(find.byType(Text), findsOneWidget);
 
       expect(find.text('Value: 5'), findsOneWidget);
+
+      expect(controller.disableCalled, isFalse);
 
       await tester.pumpWidget(Container());
 

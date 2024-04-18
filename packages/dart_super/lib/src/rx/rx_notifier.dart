@@ -24,7 +24,7 @@ part of 'rx.dart';
 ///   }
 /// }
 ///
-/// final counter = CounterNotifier();
+/// CounterNotifier get counter => Super.init(CounterNotifier());
 ///
 /// // Adding a listener to the notifier
 /// counter.addListener(() {

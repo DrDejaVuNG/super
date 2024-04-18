@@ -92,6 +92,7 @@ final class RxMap<K, V> extends Rx<Map<K, V>> with MapMixin<K, V> {
 
   @override
   Iterable<K> get keys {
+    RxListener._read(this);
     return _map.keys;
   }
 

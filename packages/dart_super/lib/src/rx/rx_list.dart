@@ -68,21 +68,25 @@ final class RxList<T> extends Rx<List<T>> with ListMixin<T> {
 
   @override
   Iterable<T> get reversed {
+    RxListener._read(this);
     return _list.reversed;
   }
 
   @override
   bool get isEmpty {
+    RxListener._read(this);
     return _list.isEmpty;
   }
 
   @override
   bool get isNotEmpty {
+    RxListener._read(this);
     return _list.isNotEmpty;
   }
 
   @override
   Iterator<T> get iterator {
+    RxListener._read(this);
     return _list.iterator;
   }
 
@@ -94,6 +98,7 @@ final class RxList<T> extends Rx<List<T>> with ListMixin<T> {
 
   @override
   Iterable<T> getRange(int start, int end) {
+    RxListener._read(this);
     return _list.getRange(start, end);
   }
 
@@ -194,6 +199,7 @@ final class RxList<T> extends Rx<List<T>> with ListMixin<T> {
 
   @override
   List<T> sublist(int start, [int? end]) {
+    RxListener._read(this);
     return _list.sublist(start, end);
   }
 
@@ -205,11 +211,13 @@ final class RxList<T> extends Rx<List<T>> with ListMixin<T> {
 
   @override
   Iterable<T> skip(int count) {
+    RxListener._read(this);
     return _list.skip(count);
   }
 
   @override
   Iterable<T> skipWhile(bool Function(T) test) {
+    RxListener._read(this);
     return _list.skipWhile(test);
   }
 
@@ -243,6 +251,7 @@ final class RxList<T> extends Rx<List<T>> with ListMixin<T> {
   @override
   List<T> operator +(List<T> other) {
     final newList = _list + other;
+    RxListener._read(this);
     return newList;
   }
 
