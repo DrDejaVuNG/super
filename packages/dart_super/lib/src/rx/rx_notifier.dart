@@ -118,7 +118,7 @@ abstract class RxNotifier<T> extends Rx<T> {
   @visibleForTesting
   set state(T state) {
     if ('$_state' == '$state') return;
-    if (loading == true) toggleLoading();
+    if (loading == true) _loading = false;
     _state = state;
     _notifyListeners();
   }
@@ -139,7 +139,10 @@ abstract class RxNotifier<T> extends Rx<T> {
   /// is updated the loading state will be set to false.
   @protected
   @visibleForTesting
-  void toggleLoading() => _loading = !_loading;
+  void toggleLoading() {
+    _loading = !_loading;
+    _notifyListeners();
+  }
 
   @override
   String toString() => '$runtimeType($state)';

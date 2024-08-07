@@ -1,5 +1,3 @@
-// ignore_for_file: no_runtimetype_tostring
-import 'package:dart_super/src/core/logger.dart';
 import 'package:meta/meta.dart';
 
 /* =========================== SuperController =========================== */
@@ -98,7 +96,6 @@ mixin class SuperController {
   @mustCallSuper
   @visibleForTesting
   void onEnable() {
-    logger('$runtimeType was enabled.');
     Future.delayed(const Duration(milliseconds: 20), onAlive);
   }
 
@@ -127,7 +124,5 @@ mixin class SuperController {
   @protected
   @mustCallSuper
   @visibleForTesting
-  void onDisable() {
-    logger('$runtimeType was disabled.');
-  }
+  void onDisable() {}
 }

@@ -1,3 +1,6 @@
+## 1.4.6
+- Fixed issue where SuperConsumer widget wasn't rebuilt on loading state change
+
 ## 1.4.5
 
 - Code Optimizations

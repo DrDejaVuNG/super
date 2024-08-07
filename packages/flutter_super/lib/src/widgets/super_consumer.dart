@@ -145,7 +145,7 @@ class _SuperConsumerState<T> extends State<SuperConsumer<T>> {
   Widget build(BuildContext context) {
     _initValue();
     if (_loading) {
-      return widget.loading ?? const CircularProgressIndicator.adaptive();
+      return widget.loading ?? const SizedBox.shrink();
     }
     return widget.builder(context, _state);
   }
