@@ -58,7 +58,7 @@ import 'package:flutter_super/flutter_super.dart';
 ///
 /// SuperConsumer<int>(
 ///   rx: counterNotifier,
-///   loading: const CircularProgressIndicator();
+///   loading: () => const CircularProgressIndicator();
 ///   builder: (context, state) {
 ///     return Text('Count: $state');
 ///   },
@@ -91,7 +91,7 @@ class SuperConsumer<T> extends StatefulWidget {
 
   /// A widget to be displayed while an RxNotifier is in
   /// loading state.
-  final Widget? loading;
+  final Widget Function()? loading;
 
   /// The function that defines the widget tree to be built when the
   /// [Rx] object changes.
@@ -119,11 +119,8 @@ class _SuperConsumerState<T> extends State<SuperConsumer<T>> {
 
   void _initValue() {
     final rx = widget.rx;
-    if (rx is RxT<T>) {
-      _state = rx.state;
-    }
+    _state = rx.state;
     if (rx is RxNotifier<T>) {
-      _state = rx.state;
       _loading = rx.loading;
     }
     rx
@@ -145,7 +142,7 @@ class _SuperConsumerState<T> extends State<SuperConsumer<T>> {
   Widget build(BuildContext context) {
     _initValue();
     if (_loading) {
-      return widget.loading ?? const SizedBox.shrink();
+      return widget.loading?.call() ?? const SizedBox.shrink();
     }
     return widget.builder(context, _state);
   }

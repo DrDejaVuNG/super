@@ -49,6 +49,19 @@ final class RxList<T> extends Rx<List<T>> with ListMixin<T> {
   late List<T> _list;
 
   @override
+  List<T> get state {
+    RxListener._read(this);
+    return _list;
+  }
+
+  @override
+  set state(List<T> state) {
+    if ('$_list' == '$state') return;
+    _list = state;
+    _notifyListeners();
+  }
+
+  @override
   int get length {
     RxListener._read(this);
     return _list.length;

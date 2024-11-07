@@ -1,3 +1,9 @@
+## 1.4.8
+- Added state getters and setters for Rx Collections, this makes them compatible with the context.watch and the SuperConsumer Flutter APIs.
+
+## 1.4.7
+- Disabled logging by default;
+
 ## 1.4.6
 - Fixed issue where SuperConsumer widget wasn't rebuilt on loading state change
 

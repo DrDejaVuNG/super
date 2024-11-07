@@ -24,8 +24,8 @@ class SuperApp extends StatefulWidget {
   ///     ],
   ///     testMode: true,
   ///     enableLog: kDebugMode,
-  ///     onInit: asyncFunction,
-  ///     loading: SizedBox(),
+  ///     onInit: initFunc,
+  ///     loading: () => SizedBox(),
   ///     onError: (err, stk) => SizedBox();
   ///   ),
   ///   child: const MyApp(),
@@ -68,11 +68,10 @@ class _SuperAppState extends State<SuperApp> {
 
   @override
   Widget build(BuildContext context) {
-    // Return the child widget as the main content of the app.
     return AsyncBuilder(
       future: widget.config.onInit,
       builder: (_) => widget.child,
-      loading: widget.config.loading ?? const SizedBox(),
+      loading: widget.config.loading,
       error: widget.config.onError,
     );
   }
@@ -128,7 +127,7 @@ class SuperAppConfig {
   final Future<void>? onInit;
 
   /// An optional widget to display while the onInit callback is in progress.
-  final Widget? loading;
+  final Widget Function()? loading;
 
   /// An optional callback that runs if an error occurs during the build phase.
   final AsyncErrorBuilder? onError;

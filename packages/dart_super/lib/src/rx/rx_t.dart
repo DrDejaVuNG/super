@@ -38,18 +38,13 @@ final class RxT<T> extends Rx<T> {
 
   T _state;
 
-  /// The current state of the reactive container.
+  @override
   T get state {
     RxListener._read(this);
     return _state;
   }
 
-  /// Updates the state of the reactive container and notifies listeners.
-  ///
-  /// The `state` argument is the new state to be assigned to the reactive
-  /// container.
-  /// If the new state is the same as the current state, no notifications
-  /// are triggered.
+  @override
   set state(T state) {
     if ('$_state' == '$state') return;
     _state = state;

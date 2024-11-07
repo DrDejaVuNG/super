@@ -219,4 +219,10 @@ class MockRx extends Rx<dynamic> {
     disposeCalled = true;
     super.dispose();
   }
+
+  @override
+  Null get state => null;
+
+  @override
+  set state(dynamic state) {}
 }

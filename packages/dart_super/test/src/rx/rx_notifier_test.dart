@@ -12,7 +12,6 @@ class TestNotifier extends RxNotifier<int> {
   }
 
   Future<void> getData() async {
-    toggleLoading();
     state = await Future.delayed(const Duration(seconds: 2), () => 5);
   }
 }

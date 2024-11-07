@@ -27,6 +27,17 @@ abstract class Rx<T> {
   /// Rx Constructor
   Rx();
 
+  /// The current state of the reactive object.
+  T get state;
+
+  /// Updates the state of the reactive object and notifies listeners.
+  ///
+  /// The `state` argument is the new state to be assigned to the reactive
+  /// container.
+  /// If the new state is the same as the current state, no notifications
+  /// are triggered.
+  set state(T state);
+
   int _count = 0;
   static final List<VoidCallback?> _emptyListeners =
       List<VoidCallback?>.filled(0, null);
@@ -231,7 +242,7 @@ abstract class Rx<T> {
 ///
 /// The RxMerge class can be used to create a single Rx object from a merge
 /// of other Rx objects.
-final class RxMerge<T> extends Rx<T> {
+final class RxMerge<T> {
   /// Creates a RxMerge instance with the specified list of [Rx] objects.
   ///
   /// The children parameter is a list of [Rx] objects that will be
@@ -246,7 +257,6 @@ final class RxMerge<T> extends Rx<T> {
   ///
   /// The [listener] will be called whenever any of the merged
   /// [Rx] objects notify about a change.
-  @override
   void addListener(VoidCallback listener) {
     for (final child in children) {
       child?.addListener(listener);
@@ -258,7 +268,6 @@ final class RxMerge<T> extends Rx<T> {
   /// The [listener] will no longer be called when any of the merged
   /// [Rx] objects
   /// notify about a change.
-  @override
   void removeListener(VoidCallback listener) {
     for (final child in children) {
       child?.removeListener(listener);
@@ -300,13 +309,14 @@ final class RxListener {
   /// Returns a list of [Rx] objects that have been captured while
   /// the listener was active.
   /// If no [Rx] objects have been captured, a [StateError] is thrown.
-  static List<Rx<dynamic>> getRxList() {
+  static List<Rx<T>> getRxList<T>() {
     isListening = false;
-    final newRxList = List.of(_rxList);
+    final newRxList = List<Rx<T>>.from(_rxList);
     _rxList.clear();
     if (newRxList.isNotEmpty) {
       return newRxList;
     }
+
     throw StateError(
       "Couldn't find any Rx object, you need to use "
       'the value of an Rx object in the SuperBuilder or SuperListener '
@@ -318,8 +328,8 @@ final class RxListener {
   ///
   /// Returns a [RxMerge] instance that merges all the captured
   /// [Rx] objects into a single [Rx].
-  static RxMerge<dynamic> listenedRx() {
-    final rx = RxMerge(getRxList());
+  static RxMerge<T> listenedRx<T>() {
+    final rx = RxMerge<T>(getRxList());
     return rx;
   }
 

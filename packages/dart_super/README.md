@@ -146,7 +146,7 @@ class SampleController extends SuperController {
 In the example above, `SampleController` extends `SuperController` and defines a `count` variable that is managed by an `Rx` object. The `increment()` method is used to increment the count state. The `onDisable()` method is overridden to dispose of the `Rx` object when the controller is disabled. <br>
 As seen in the `SampleController` above, a controller may contain multiple states required by it's corresponding widget, however, for the sake of keeping a controller clean and focused, if there exists a state with multiple events, it is recommended to define an `RxNotifier` for that state.
 
-**Important:** It is recommended to define Rx objects as private and only provide a getter for accessing the state.
+**Note:** It is recommended to define Rx objects as private and only provide a getter for accessing the state.
 This helps prevent the state from being changed outside of the controller, ensuring that the state is only modified through defined methods within the controller (e.g., `increment()` in the example).
 
 <br>

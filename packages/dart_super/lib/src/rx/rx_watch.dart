@@ -43,7 +43,7 @@ part of 'rx.dart';
 void rxWatch(VoidCallback callback, {bool Function()? stopWhen}) {
   RxListener.listen();
   callback();
-  final rx = RxListener.listenedRx();
+  final rx = RxListener.listenedRx<dynamic>();
 
   void call() {
     if (stopWhen == null || !stopWhen()) {

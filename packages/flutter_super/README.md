@@ -64,7 +64,6 @@ and streamline the development of reactive and scalable applications.
   - [context.read](#contextread)
   - [context.watch](#contextwatch)
 - [Additional Information](#additional-information)
-  - [Super Structure](#super-structure)
   - [API Reference](#api-reference)
 - [Requirements](#requirements)
 - [Maintainers](#maintainers)
@@ -226,8 +225,8 @@ SuperApp(
     ],
     testMode: true,
     enableLog: kDebugMode,
-    onInit: asyncFunction,
-    loading: SizedBox(),
+    onInit: initFunc,
+    loading: () => SizedBox(),
     onError: (err, stk) => SizedBox();
   ),
   child: const MyApp(),
@@ -278,7 +277,7 @@ class SampleController extends SuperController {
 In the example above, `SampleController` extends `SuperController` and defines a `count` variable that is managed by an `Rx` object. The `increment()` method is used to increment the count state. The `onDisable()` method is overridden to dispose of the `Rx` object when the controller is disabled. <br>
 As seen in the `SampleController` above, a controller may contain multiple states required by it's corresponding widget, however, for the sake of keeping a controller clean and focused, if there exists a state with multiple events, it is recommended to define an `RxNotifier` for that state.
 
-**Important:** It is recommended to define Rx objects as private and only provide a getter for accessing the state.
+**Note:** It is recommended to define Rx objects as private and only provide a getter for accessing the state.
 This helps prevent the state from being changed outside of the controller, ensuring that the state is only modified through defined methods within the controller (e.g., `increment()` in the example).
 
 <br>
@@ -341,7 +340,7 @@ If you have a widget that doesn't require state management or interaction with a
 The [SuperBuilder] widget allows you to rebuild a part of your UI in response to changes in an [Rx] object. 
 It takes a [builder] callback function that receives a [BuildContext] and returns the widget to be built.
 
-The [builder] callback will be invoked whenever the [Rx] object changes its state, triggering a rebuild of 
+The [builder] callback will be invoked whenever any [Rx] object within it changes its state, triggering a rebuild of 
 the widget. The [Rx] object can be accessed within the [builder] callback, allowing you to incorporate its state into your UI.
 
 Example usage:
@@ -375,7 +374,7 @@ SuperBuilder(
 
 ### SuperConsumer
 
-[SuperConsumer] is a StatefulWidget that listens to changes in an [RxT] or [RxNotifier] object and rebuilds its child widget whenever the [Rx] object's state changes.
+[SuperConsumer] is a StatefulWidget that listens to changes in an [Rx] object and rebuilds its child widget whenever the [Rx] object's state changes.
 
 The [SuperConsumer] widget takes a [builder] function, which is called whenever the [Rx] object changes. The [builder] function receives the current [BuildContext] and the latest state of the [Rx] object, and returns the widget tree to be built.
 
@@ -423,7 +422,7 @@ class CounterNotifier extends RxNotifier<int> {
 
 SuperConsumer<int>(
   rx: counterNotifier,
-  loading: const CircularProgressIndicator();
+  loading: () => const CircularProgressIndicator();
   builder: (context, state) {
     return Text('Count: $state');
   },
@@ -494,7 +493,7 @@ AsyncBuilder<int>(
   future: Future.delayed(const Duration(seconds: 2), () => 10),
   builder: (data) => Text('Data: $data'),
   error: (error, stackTrace) => Text('Error: $error'),
-  loading: const CircularProgressIndicator.adaptive(),
+  loading: () => const CircularProgressIndicator.adaptive(),
 ),
 ```
 
@@ -663,8 +662,8 @@ context.read<T>();
 
 ### context.watch
 
-This returns the state of an Rx object i.e RxT or RxNotifier,
-and rebuilds the widget when the state changes.
+This returns the state of an Rx object and rebuilds the widget when the state changes.
+
 ```dart
 context.watch<T>(Rx rx);
 ```
@@ -699,11 +698,11 @@ the widget in their builder methods, this will rebuild the entire widget.
 
 ## Additional Information
 
-### Super Structure
+<!-- ### Super Structure
 
 For a clean way to structure your projects, check out [Super Structure](https://github.com/DrDejaVuNG/super/blob/main/packages/flutter_super/SuperStructure.md).
 
-<br>
+<br> -->
 
 ### API Reference
 

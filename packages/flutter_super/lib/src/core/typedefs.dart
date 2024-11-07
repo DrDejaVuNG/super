@@ -55,4 +55,4 @@ typedef AsyncErrorBuilder = Widget Function(
 /// builder callback for rendering the data received from asynchronous
 /// operations, such as network requests or data loading.
 /// The type parameter [T] represents the type of the data being received.
-typedef AsyncDataBuilder<T> = Widget Function(T? data);
+typedef AsyncDataBuilder<T> = Widget Function(T data);

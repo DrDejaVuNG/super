@@ -87,7 +87,7 @@ void main() {
         MaterialApp(
           home: SuperConsumer<int>(
             rx: counterNotifier,
-            loading: const CircularProgressIndicator(),
+            loading: () => const CircularProgressIndicator(),
             builder: (context, state) => Text('Value: $state'),
           ),
         ),

@@ -12,40 +12,41 @@ void main() {
     'Super Counter App Test',
     () {
       testWidgets('Update the UI when incrementing the state', (tester) async {
-    await tester.pumpWidget(const SuperApp(child: MyApp()));
+        await tester.pumpWidget(const SuperApp(child: MyApp()));
 
-    // The initial state is `0`, as declared in our controller
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+        // The initial state is `0`, as declared in our controller
+        expect(find.text('0'), findsOneWidget);
+        expect(find.text('1'), findsNothing);
 
-    // Increment the state and re-render
-    await tester.tap(find.byType(FloatingActionButton));
-    await tester.pump();
+        // Increment the state and re-render
+        await tester.tap(find.byType(FloatingActionButton));
+        await tester.pump();
 
-    // The state has properly incremented
-    expect(find.text('1'), findsOneWidget);
-    expect(find.text('0'), findsNothing);
-  });
+        // The state has properly incremented
+        expect(find.text('1'), findsOneWidget);
+        expect(find.text('0'), findsNothing);
+      });
 
-  testWidgets('The counter state is not shared between tests', (tester) async {
-    await tester.pumpWidget(const SuperApp(child: MyApp()));
+      testWidgets('The counter state is not shared between tests',
+          (tester) async {
+        await tester.pumpWidget(const SuperApp(child: MyApp()));
 
-    // The state is `0` once again, with no tearDown/setUp needed
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
-  });
+        // The state is `0` once again, with no tearDown/setUp needed
+        expect(find.text('0'), findsOneWidget);
+        expect(find.text('1'), findsNothing);
+      });
 
-  testRxNotifier<CountNotifier, int>(
-    'Outputs [1, 2] when the increment method is called multiple times '
-    'with asynchronous act',
-    build: CountNotifier(),
-    act: (notifier) async {
-      notifier.increment();
-      await Future<void>.delayed(const Duration(milliseconds: 10));
-      notifier.increment();
-    },
-    expect: const <int>[1, 2],
-  );
+      testRxNotifier<CountNotifier, int>(
+        'Outputs [1, 2] when the increment method is called multiple times '
+        'with asynchronous act',
+        build: CountNotifier.new,
+        act: (notifier) async {
+          notifier.increment();
+          await Future<void>.delayed(const Duration(milliseconds: 10));
+          notifier.increment();
+        },
+        expect: () => const <int>[1, 2],
+      );
     },
   );
 }

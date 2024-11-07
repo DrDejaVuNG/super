@@ -42,6 +42,19 @@ final class RxSet<T> extends Rx<Set<T>> with SetMixin<T> {
 
   late Set<T> _set;
 
+  @override
+  Set<T> get state {
+    RxListener._read(this);
+    return _set;
+  }
+
+  @override
+  set state(Set<T> state) {
+    if ('$_set' == '$state') return;
+    _set = state;
+    _notifyListeners();
+  }
+
   /// Creates an `RxSet` with the given `set` as the initial set of values.
   ///
   /// The `set` argument is an optional parameter that represents the initial

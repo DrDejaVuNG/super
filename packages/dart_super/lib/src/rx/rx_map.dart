@@ -48,6 +48,19 @@ final class RxMap<K, V> extends Rx<Map<K, V>> with MapMixin<K, V> {
 
   late Map<K, V> _map;
 
+  @override
+  Map<K, V> get state {
+    RxListener._read(this);
+    return _map;
+  }
+
+  @override
+  set state(Map<K, V> state) {
+    if ('$_map' == '$state') return;
+    _map = state;
+    _notifyListeners();
+  }
+
   /// Creates an `RxMap` from an existing map.
   ///
   /// The `map` argument represents an existing map from which an `RxMap`

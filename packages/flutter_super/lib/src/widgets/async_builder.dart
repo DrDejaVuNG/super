@@ -33,7 +33,7 @@ class AsyncBuilder<T> extends StatefulWidget {
   ///   future: Future.delayed(const Duration(seconds: 2), () => 10),
   ///   builder: (data) => Text('Data: $data'),
   ///   error: (error, stackTrace) => Text('Error: $error'),
-  ///   loading: const CircularProgressIndicator.adaptive(),
+  ///   loading: () => const CircularProgressIndicator.adaptive(),
   /// ),
   /// ```
   const AsyncBuilder({
@@ -66,7 +66,7 @@ class AsyncBuilder<T> extends StatefulWidget {
   /// A widget to display while the asynchronous computation is in
   /// progress. Note: The [loading] widget will not be displayed if
   /// [initialData] is not null.
-  final Widget? loading;
+  final Widget Function()? loading;
 
   /// A widget builder that constructs an error widget when an error
   /// occurs in the asynchronous computation.
@@ -139,15 +139,15 @@ class _AsyncBuilderState<T> extends State<AsyncBuilder<T>> {
     if (_snapshot.connectionState == ConnectionState.waiting &&
         widget.initialData == null) {
       return widget.loading != null
-          ? widget.loading!
-          : const CircularProgressIndicator.adaptive();
+          ? widget.loading!()
+          : const SizedBox.shrink();
     }
     if (_snapshot.hasError) {
       return widget.error != null
           ? widget.error!(_snapshot.error!, _snapshot.stackTrace!)
-          : Center(child: Text(_snapshot.error!.toString()));
+          : const SizedBox.shrink();
     }
-    return widget.builder(_snapshot.data);
+    return widget.builder(_snapshot.data as T);
   }
 
   // coverage:ignore-start

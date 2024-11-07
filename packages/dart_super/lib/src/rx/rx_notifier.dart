@@ -62,7 +62,6 @@ abstract class RxNotifier<T> extends Rx<T> {
   /// when the notifier is created.
   ///
   /// Example:
-  ///
   /// ```dart
   /// @override
   /// int initial() {
@@ -72,7 +71,7 @@ abstract class RxNotifier<T> extends Rx<T> {
   @protected
   T initial();
 
-  /// The current state of the notifier.
+  @override
   T get state {
     RxListener._read(this);
     return _state;
@@ -114,6 +113,7 @@ abstract class RxNotifier<T> extends Rx<T> {
   ///   state++; // Update the state
   /// }
   /// ```
+  @override
   @protected
   @visibleForTesting
   set state(T state) {

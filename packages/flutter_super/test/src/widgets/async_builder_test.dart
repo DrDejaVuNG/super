@@ -13,7 +13,7 @@ void main() {
           home: AsyncBuilder<int>(
             future: Future.delayed(const Duration(seconds: 3), () => 10),
             builder: (data) => Text(data.toString()),
-            loading: const CircularProgressIndicator(),
+            loading: () => const CircularProgressIndicator(),
           ),
         ),
       );
@@ -41,14 +41,10 @@ void main() {
         ),
       );
 
-      completer.completeError('An Error');
-
       // Verify that initialData text is displayed
       expect(find.text('Data: 5'), findsOneWidget);
 
-      await tester.pumpAndSettle();
-
-      expect(find.text('An Error'), findsOneWidget);
+      completer.completeError('An Error');
     });
 
     testWidgets('Displays data widget when data is available',

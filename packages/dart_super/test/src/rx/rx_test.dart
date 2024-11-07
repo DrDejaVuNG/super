@@ -42,7 +42,7 @@ void main() {
 
       final rxObjects = '[${rx1()}, ${rx2()}]';
 
-      final capturedRx = RxListener.listenedRx();
+      final capturedRx = RxListener.listenedRx<dynamic>();
 
       expect(RxListener.isListening, isFalse);
 
