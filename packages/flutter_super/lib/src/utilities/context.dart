@@ -7,7 +7,7 @@ extension ContextExt on BuildContext {
   /// is familiar
   T read<T>() => Super.of<T>();
 
-  /// This returns the state of an Rx object and rebuilds the 
+  /// This returns the state of an Rx object and rebuilds the
   /// widget when the state changes.
   ///
   /// Example usage:
@@ -37,7 +37,7 @@ extension ContextExt on BuildContext {
   /// the widget in their builder methods, this will rebuild the entire widget.
   T watch<T>(Rx<T> rx) {
     final element = this as Element;
-    
+
     void rebuild() {
       if (element.mounted) {
         element.markNeedsBuild();

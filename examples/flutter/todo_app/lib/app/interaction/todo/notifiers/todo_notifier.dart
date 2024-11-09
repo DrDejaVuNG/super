@@ -41,7 +41,7 @@ class TodoNotifier extends RxNotifier<List<TodoModel>> {
   }
 
   void removeTodo(BuildContext context, TodoModel todo) {
-    final list = state;
+    final list = List.of(state);
     list.remove(todo);
     state = list;
 

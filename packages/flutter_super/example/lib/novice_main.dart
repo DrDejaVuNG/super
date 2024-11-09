@@ -16,7 +16,7 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // This returns the state of an Rx object and rebuilds the widget 
+    // This returns the state of an Rx object and rebuilds the widget
     // when the state changes.
     final state = context.watch(count); // Step 3
     return Scaffold(

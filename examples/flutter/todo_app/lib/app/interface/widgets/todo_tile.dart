@@ -2,7 +2,12 @@ import 'package:todo_app/app/domain/domain.dart';
 import 'package:todo_app/app/interaction/interaction.dart';
 import 'package:flutter/material.dart';
 
-class TodoTile extends StatelessWidget { // Uses Controller
+String minutesSinceCreated(DateTime date) {
+  return DateTime.now().difference(date).inMinutes.toString();
+}
+
+// Uses Controller
+class TodoTile extends StatelessWidget {
   const TodoTile({super.key, required this.todo});
 
   final TodoModel todo;
@@ -16,13 +21,14 @@ class TodoTile extends StatelessWidget { // Uses Controller
         leading: Text(todo.id),
         title: Text(todo.title),
         subtitle: Text(todo.text),
-        trailing: Text('Day ${todo.created.day}'),
+        trailing: Text('${minutesSinceCreated(todo.created)} minutes ago'),
       ),
     );
   }
 }
 
-class TodoTile2 extends StatelessWidget { // Uses Notifier
+// Uses Notifier
+class TodoTile2 extends StatelessWidget {
   const TodoTile2({super.key, required this.todo});
 
   final TodoModel todo;
@@ -36,7 +42,7 @@ class TodoTile2 extends StatelessWidget { // Uses Notifier
         leading: Text(todo.id),
         title: Text(todo.title),
         subtitle: Text(todo.text),
-        trailing: Text('Day ${todo.created.day}'),
+        trailing: Text('${minutesSinceCreated(todo.created)} minutes ago'),
       ),
     );
   }

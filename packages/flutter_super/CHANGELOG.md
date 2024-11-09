@@ -1,3 +1,6 @@
+## 1.4.9
+- Solve pub.dev static analysis issue.
+- 
 ## 1.4.8
 - Added state getters and setters for Rx Collections, this makes them compatible with the context.watch and the SuperConsumer APIs.
 
