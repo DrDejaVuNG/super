@@ -28,7 +28,7 @@ extension SuperExt on SuperInterface {
 /* ========================= Logger ========================= */
 
   /// Create logs using the logger from the Super framework
-  void log(Object val, {bool warning = false}) => logger(val, warning: warning);
+  void log(Object? v, {bool warning = false}) => logger(v, warning: warning);
 
   /* ========================= Instance ========================= */
 

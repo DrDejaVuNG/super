@@ -3,59 +3,64 @@ import 'package:flutter/material.dart';
 import 'package:flutter_super/flutter_super.dart';
 
 /// A [StatelessWidget] that provides the base functionality for
-/// widgets that work with a [SuperController].
+/// widgets that work with a [SuperViewModel].
 ///
 /// This widget serves as a foundation for building widgets that
-/// require a controller to manage their state and lifecycle.
+/// require a view model to manage their state and lifecycle.
 /// By extending [SuperWidget] and providing a concrete implementation
-/// of [initController()], you can easily associate a controller
+/// of [initViewModel()], you can easily associate a view model
 /// with the widget.
 ///
-/// **Note:** It is recommended to use one controller per widget to
+/// **Note:** It is recommended to use one view model per widget to
 /// ensure proper encapsulation and separation of concerns.
-/// Each widget should have its own dedicated controller for
+/// Each widget should have its own dedicated view model for
 /// managing its state and lifecycle. This approach promotes
 /// clean and modular code by keeping the responsibilities of
-/// each widget and its associated controller separate.
+/// each widget and its associated view model separate.
 ///
 /// If you have a widget that doesn't require state management
-/// or interaction with a controller, it is best to use a vanilla
-/// [StatelessWidget] instead. Using a controller in a widget that
+/// or interaction with a view model, it is best to use a vanilla
+/// [StatelessWidget] instead. Using a view model in a widget that
 /// doesn't have any state could add unnecessary complexity and overhead.
-abstract class SuperWidget<T extends SuperController> extends Widget {
+abstract class SuperWidget<T extends SuperViewModel> extends Widget {
   /// The key for the widget.
   const SuperWidget({super.key});
 
-  /// Initializes the controller for the widget.
+  /// Initializes the view model for the widget.
   ///
   /// This method is responsible for creating and initializing the
-  /// controller instance associated with the widget. Subclasses must
+  /// view model instance associated with the widget. Subclasses must
   /// override this method and provide a concrete implementation by
-  /// returning an instance of the desired controller class.
+  /// returning an instance of the desired view model class.
   ///
   /// Example:
   ///
   /// ```dart
-  /// class MyWidget extends SuperWidget<MyController> {
+  /// class MyWidget extends SuperWidget<MyViewModel> {
   ///   @override
-  ///   MyController initController() => MyController();
+  ///   MyViewModel initViewModel() => MyViewModel();
   ///
   ///   // Widget implementation...
   /// }
   /// ```
-  T initController();
+  T initViewModel();
 
   @override
   // ignore: library_private_types_in_public_api
-  _SuperElement<T> createElement() => _SuperElement<T>(this, controller);
+  _SuperElement<T> createElement() => _SuperElement<T>(this, ref);
 
-  /// The widget controller reference.
+  /// The widget view model reference.
   ///
-  /// This getter provides access to the associated controller
-  /// for the widget. The controller is initialized and managed
+  /// This getter provides access to the associated view model
+  /// for the widget. The view model is initialized and managed
   /// automatically by the [Super] framework.
   @nonVirtual
-  T get controller => Super.init<T>(initController());
+  T get ref => Super.init<T>(initViewModel());
+
+  /// Deprecated to align with Flutter's MVVM architecture,
+  /// Use ref instead.
+  @Deprecated('Use ref instead')
+  T get controller => ref;
 
   /// Builds the widget based on the given [BuildContext].
   ///
@@ -67,23 +72,23 @@ abstract class SuperWidget<T extends SuperController> extends Widget {
 }
 
 /// An element that represents a [SuperWidget] and associates it with
-/// a [SuperController].
-class _SuperElement<T extends SuperController> extends ComponentElement {
+/// a [SuperViewModel].
+class _SuperElement<T extends SuperViewModel> extends ComponentElement {
   /// Creates an element that uses the given widget as its configuration
-  /// and associates it with a controller.
-  _SuperElement(SuperWidget super.widget, this.controller) {
-    // Store the created element to be used by the controller
-    controller.initContext(this);
+  /// and associates it with a view model.
+  _SuperElement(SuperWidget super.widget, this.ref) {
+    // Store the created element to be used by the view model
+    ref.initContext(this);
   }
 
-  /// The controller for the widget.
+  /// The view model for the widget.
   @protected
-  final T controller;
+  final T ref;
 
   @override
   Widget build() {
     // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
-    controller.onBuild();
+    ref.onBuild();
     return (widget as SuperWidget).build(this);
   }
 

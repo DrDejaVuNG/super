@@ -4,6 +4,13 @@ import 'package:flutter_super/flutter_super.dart';
 
 TodoController get $todoController => Super.init(TodoController());
 
+class MockTodoController extends TodoController {
+  @override
+  void addTodo() {
+    debugPrint('Mock!!!');
+  }
+}
+
 class TodoController extends SuperController {
   final todoList = <TodoModel>[].rx;
 
@@ -30,6 +37,7 @@ class TodoController extends SuperController {
       );
       return;
     }
+
     final todo = TodoModel(
       id: '${todoList.length}',
       title: title.text,

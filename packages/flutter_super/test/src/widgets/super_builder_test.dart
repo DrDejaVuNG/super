@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_super/flutter_super.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-final controller = ValueController();
+final controller = ValueViewModel();
 
-class ValueController extends SuperController {}
+class ValueViewModel extends SuperViewModel {}
 
 void main() {
   group('SuperBuilder', () {

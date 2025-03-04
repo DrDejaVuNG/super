@@ -1,4 +1,6 @@
-class TodoModel {
+import 'package:flutter_super/flutter_super.dart';
+
+class TodoModel with SuperModel {
   TodoModel({
     required this.id,
     required this.title,
@@ -24,4 +26,7 @@ class TodoModel {
       created: created ?? this.created,
     );
   }
+
+  @override
+  List<Object?> get props => [id, title, text, created];
 }

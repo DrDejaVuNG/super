@@ -41,24 +41,24 @@ void main() {
       expect(Super.of<String>(), instance);
     });
 
-    test('of() should invoke enable() on SuperController instances', () {
-      final instance = MockController();
+    test('of() should invoke enable() on SuperViewModel instances', () {
+      final instance = MockViewModel();
 
-      Super.create<MockController>(instance);
+      Super.create<MockViewModel>(instance);
 
       expect(instance.enableCalled, false);
 
-      Super.of<MockController>();
+      Super.of<MockViewModel>();
 
       expect(instance.enableCalled, true);
     });
 
     test('of() should recursively register and retrieve instances', () {
-      final instance = MockController();
+      final instance = MockViewModel();
 
-      Super.create<MockController>(instance);
+      Super.create<MockViewModel>(instance);
 
-      final mockInstance = Super.of<MockController>();
+      final mockInstance = Super.of<MockViewModel>();
 
       expect(mockInstance, instance);
     });
@@ -98,16 +98,16 @@ void main() {
       expect(() => Super.of<String>(), throwsA(isA<StateError>()));
     });
 
-    test('delete() should disable SuperController instances', () {
-      final controller = MockController();
+    test('delete() should disable SuperViewModel instances', () {
+      final ref = MockViewModel();
 
-      Super.create<MockController>(controller);
+      Super.create<MockViewModel>(ref);
 
-      expect(controller.disableCalled, false);
+      expect(ref.disableCalled, false);
 
-      Super.delete<MockController>(force: false);
+      Super.delete<MockViewModel>(force: false);
 
-      expect(controller.disableCalled, true);
+      expect(ref.disableCalled, true);
     });
 
     test('delete() should dispose Rx instances', () {
@@ -148,21 +148,21 @@ void main() {
       );
     });
 
-    test('deleteAll() should disable SuperController instances', () {
-      final controller1 = MockController();
-      final controller2 = MockController();
+    test('deleteAll() should disable SuperViewModel instances', () {
+      final ref1 = MockViewModel();
+      final ref2 = MockViewModel();
 
       Super
-        ..create<MockController>(controller1)
-        ..create<SuperController>(controller2);
+        ..create<MockViewModel>(ref1)
+        ..create<SuperViewModel>(ref2);
 
-      expect(controller1.disableCalled, false);
-      expect(controller2.disableCalled, false);
+      expect(ref1.disableCalled, false);
+      expect(ref2.disableCalled, false);
 
       Super.deleteAll();
 
-      expect(controller1.disableCalled, true);
-      expect(controller2.disableCalled, true);
+      expect(ref1.disableCalled, true);
+      expect(ref2.disableCalled, true);
     });
 
     test('deleteAll() should dispose Rx instances', () {
@@ -194,7 +194,7 @@ void main() {
   });
 }
 
-class MockController extends SuperController {
+class MockViewModel extends SuperViewModel {
   bool enableCalled = false;
   bool disableCalled = false;
 

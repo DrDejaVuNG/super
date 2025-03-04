@@ -21,7 +21,7 @@ and streamline the development of reactive and scalable applications.
 
 - Reactive state management.
 - Simple dependency injection.
-- Lifecycle management for widget controllers.
+- Lifecycle management for widget view models.
 - Widget builders for building reactive UI components.
 - Intuitive testing (no setup/teardown required), dedicated testing library [super_test](https://pub.dev/packages/super_test).
 
@@ -39,7 +39,7 @@ and streamline the development of reactive and scalable applications.
   - [Counter App Breakdown](#counter-app-breakdown)
 - [Super Framework APIs](#super-framework-apis)
   - [SuperApp](#superapp)
-  - [SuperController](#supercontroller)
+  - [SuperViewModel](#superviewmodel)
   - [SuperModel](#supermodel)
 - [Widgets in the Super Framework](#widgets-in-the-super-framework)
   - [SuperWidget](#superwidget)
@@ -235,17 +235,17 @@ SuperApp(
 
 <br>
 
-### SuperController
+### SuperViewModel
 
-A mixin class that provides a lifecycle for controllers used in the application.
+A mixin class that provides a lifecycle for view models used in the application.
 
-The `SuperController` mixin class allows you to define the lifecycle of your controller classes.
-It provides methods that are called at specific points in the widget lifecycle, allowing you to initialize resources, handle events, and clean up resources when the controller is no longer needed. Since it is tied to the widget itself, the BuildContext of the widget is accessible from the controller after it is alive.
+The `SuperViewModel` mixin class allows you to define the lifecycle of your view model classes.
+It provides methods that are called at specific points in the widget lifecycle, allowing you to initialize resources, handle events, and clean up resources when the view model is no longer needed. Since it is tied to the widget itself, the BuildContext of the widget is accessible from the view model after it is alive.
 
 Example usage:
 
 ```dart
-class SampleController extends SuperController {
+class SampleViewModel extends SuperViewModel {
   final _count = 0.rx; // RxInt(0);
   final _loading = false.rx; // RxBool(false);
 
@@ -254,7 +254,7 @@ class SampleController extends SuperController {
 
   @override
   void onAlive() {
-    ctrlContext.showTextSnackBar('Controller Alive');
+    ctrlContext.showTextSnackBar('Model Alive');
   }
 
   void increment() {
@@ -274,11 +274,11 @@ class SampleController extends SuperController {
 }
 ```
 
-In the example above, `SampleController` extends `SuperController` and defines a `count` variable that is managed by an `Rx` object. The `increment()` method is used to increment the count state. The `onDisable()` method is overridden to dispose of the `Rx` object when the controller is disabled. <br>
-As seen in the `SampleController` above, a controller may contain multiple states required by it's corresponding widget, however, for the sake of keeping a controller clean and focused, if there exists a state with multiple events, it is recommended to define an `RxNotifier` for that state.
+In the example above, `SampleViewModel` extends `SuperViewModel` and defines a `count` variable that is managed by an `Rx` object. The `increment()` method is used to increment the count state. The `onDisable()` method is overridden to dispose of the `Rx` object when the view model is disabled. <br>
+As seen in the `SampleViewModel` above, a view model may contain multiple states required by it's corresponding widget, however, for the sake of keeping a view model clean and focused, if there exists a state with multiple events, it is recommended to define an `RxNotifier` for that state.
 
 **Note:** It is recommended to define Rx objects as private and only provide a getter for accessing the state.
-This helps prevent the state from being changed outside of the controller, ensuring that the state is only modified through defined methods within the controller (e.g., `increment()` in the example).
+This helps prevent the state from being changed outside of the view model, ensuring that the state is only modified through defined methods within the view model (e.g., `increment()` in the example).
 
 <br>
 
@@ -313,25 +313,25 @@ _user.state = user2; // Will not trigger a rebuild
 
 ### SuperWidget
 
-A [StatelessWidget] that provides the base functionality for widgets that work with a [SuperController].
+A [StatelessWidget] that provides the base functionality for widgets that work with a [SuperViewModel].
 
-This widget serves as a foundation for building widgets that require a controller to manage their state and lifecycle.
-By extending [SuperWidget] and providing a concrete implementation of [initController()], you can easily associate a controller with the widget. When used with a controller, the controller lifecycle is bound to the widget. It also utilizes a `controller` getter as the widget controller reference.
+This widget serves as a foundation for building widgets that require a view model to manage their state and lifecycle.
+By extending [SuperWidget] and providing a concrete implementation of [initViewModel()], you can easily associate a view model with the widget. When used with a view model, the view model lifecycle is bound to the widget. It also utilizes a `ref` getter as the widget view model reference.
 
 Example Usage:
 
 ```dart
-class MyWidget extends SuperWidget<MyController> {
+class MyWidget extends SuperWidget<MyViewModel> {
   @override
-  MyController initController() => MyController();
+  MyViewModel initViewModel() => MyViewModel();
 
   // Widget implementation...
 }
 ```
 
-**Important:** It is recommended to use one controller per widget to ensure proper encapsulation and separation of concerns. Each widget should have its own dedicated controller for managing its state and lifecycle. This approach promotes clean and modular code by keeping the responsibilities of each widget and its associated controller separate.
+**Important:** It is recommended to use one view model per widget to ensure proper encapsulation and separation of concerns. Each widget should have its own dedicated view model for managing its state and lifecycle. This approach promotes clean and modular code by keeping the responsibilities of each widget and its associated view model separate.
 
-If you have a widget that doesn't require state management or interaction with a controller, it is best to use a vanilla [StatelessWidget] instead. Using a controller in a widget that doesn't have any state could add unnecessary complexity and overhead.
+If you have a widget that doesn't require state management or interaction with a view model, it is best to use a vanilla [StatelessWidget] instead. Using a view model in a widget that doesn't have any state could add unnecessary complexity and overhead.
 
 <br>
 
@@ -363,7 +363,7 @@ Example usage:
 
 ```dart
 SuperBuilder(
-  buildWhen: () => controller.count > 3,
+  buildWhen: () => ref.count > 3,
   builder: (context) {
     // return widget here based on Rx state
   }
@@ -456,7 +456,7 @@ Example usage:
 
 ```dart
 SuperListener<int>(
-  listen: () => controller.count;
+  listen: () => ref.count;
   listenWhen: (count) => count > 5,
   listener: (context) {
     // Handle the state change here
@@ -526,9 +526,9 @@ void increment() {
 - RxBool
 - RxDouble
 
-It is best used for local state i.e state used in a single controller.
+It is best used for local state i.e state used in a single view model.
 
-**Note:** When using the RxT class, it is important to call the `dispose()` method on the object when it is no longer needed to prevent memory leaks. This can be done using the onDisable method of your controller.
+**Note:** When using the RxT class, it is important to call the `dispose()` method on the object when it is no longer needed to prevent memory leaks. This can be done using the onDisable method of your view model.
 
 <br>
 
@@ -580,11 +580,11 @@ class BooksNotifier extends RxNotifier<List<Book>> {
 }
 ```
 
-It is best used for global state i.e state used in multiple controllers but it could also be used for a single controller to abstract a state and its events e.g if a state has a lot of events, rather than complicating the controller, an RxNotifier could be used for that singular state instead.
+It is best used for global state i.e state used in multiple view models but it could also be used for a single view model to abstract a state and its events e.g if a state has a lot of events, rather than complicating the view model, an RxNotifier could be used for that singular state instead.
 
 **Important:** Unlike in the example above, it is important to make use of an error handling approach such as a try catch block or the .result extension when dealing with asynchronous requests, this is so as to handle exceptions which may be thrown from the asynchronous method.
 
-**Note:** When using the RxNotifier class, it is important to call the `dispose()` method on the object when it is no longer needed to prevent memory leaks. This can be done using the onDisable method of your controller.
+**Note:** When using the RxNotifier class, it is important to call the `dispose()` method on the object when it is no longer needed to prevent memory leaks. This can be done using the onDisable method of your view model.
 
 <br>
 
@@ -606,7 +606,7 @@ Set [autoDispose] to `false` if you want to manually handle the disposal of reso
 
 ### of
 
-Retrieves the instance of a dependency from the manager and enables the controller if the dependency extends `SuperController`.
+Retrieves the instance of a dependency from the manager and enables the view model if the dependency extends `SuperViewModel`.
 ```dart
 Super.of<T>();
 ```

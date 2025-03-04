@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_super/flutter_super.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-class HomeController extends SuperController {
+class HomeViewModel extends SuperViewModel {
   String get name => 'Hello';
 }
 
-class MockHomeController extends HomeController {
+class MockHomeViewModel extends HomeViewModel {
   @override
   String get name => 'Name';
 }
@@ -20,7 +20,7 @@ void main() {
       await tester.pumpWidget(
         SuperApp(
           config: SuperAppConfig(
-            mocks: [MockHomeController()],
+            mocks: [MockHomeViewModel()],
             enableLog: true,
             testMode: true,
           ),
@@ -32,10 +32,10 @@ void main() {
       expect(Super.isScoped, true);
 
       // Insert actual dependencies
-      final controller = Super.init(HomeController());
+      final ref = Super.init(HomeViewModel());
 
       // Verify mock dependencies are inserted
-      expect(controller.name == 'Name', true);
+      expect(ref.name == 'Name', true);
 
       // Dispose the SuperApp widget
       await tester.pumpWidget(
@@ -47,7 +47,7 @@ void main() {
 
       // Expect an error when null
       expect(
-        () => Super.of<HomeController>(),
+        () => Super.of<HomeViewModel>(),
         throwsA(isA<StateError>()),
       );
     });
@@ -57,7 +57,7 @@ void main() {
       await tester.pumpWidget(
         SuperApp(
           config: SuperAppConfig(
-            mocks: [MockHomeController()],
+            mocks: [MockHomeViewModel()],
           ),
           child: Container(),
         ),
@@ -67,19 +67,19 @@ void main() {
       expect(Super.isScoped, true);
 
       // Insert actual dependencies
-      final controller = Super.init(HomeController());
+      final ref = Super.init(HomeViewModel());
 
       // Verify mock dependencies are inserted
-      expect(controller.name == 'Name', false);
+      expect(ref.name == 'Name', false);
 
       // Dispose the SuperApp widget
       await tester.pumpWidget(
         Container(),
       );
 
-      // Expect controller to be disposed hence an error
+      // Expect view model to be disposed hence an error
       expect(
-        () => Super.of<HomeController>(),
+        () => Super.of<HomeViewModel>(),
         throwsA(isA<StateError>()),
       );
     });
@@ -113,26 +113,26 @@ void main() {
     test('resources are not disposed when autoDispose is false', () {
       Super.activate(
         testMode: true,
-        mocks: [MockHomeController()],
+        mocks: [MockHomeViewModel()],
         enableLog: true,
       );
 
-      final controller = Super.init(HomeController(), autoDispose: false);
+      final ref = Super.init(HomeViewModel(), autoDispose: false);
 
       // Verify mock dependencies are inserted
-      expect(controller.name == 'Name', true);
+      expect(ref.name == 'Name', true);
 
-      Super.delete<HomeController>(force: false);
+      Super.delete<HomeViewModel>(force: false);
 
-      // Expect controller to not be disposed
-      expect(Super.of<HomeController>(), controller);
+      // Expect view model to not be disposed
+      expect(Super.of<HomeViewModel>(), ref);
 
-      // Delete controller manually
-      Super.delete<HomeController>();
+      // Delete view model manually
+      Super.delete<HomeViewModel>();
 
-      // Expect controller to be disposed
+      // Expect view model to be disposed
       expect(
-        () => Super.of<HomeController>(),
+        () => Super.of<HomeViewModel>(),
         throwsA(isA<StateError>()),
       );
     });

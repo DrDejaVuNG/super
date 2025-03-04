@@ -5,22 +5,22 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_super/flutter_super.dart';
 
-/* =========================== SuperController =========================== */
+/* =========================== SuperViewModel =========================== */
 
-/// A mixin class that provides a lifecycle for controllers used in
+/// A mixin class that provides a lifecycle for view models used in
 /// the application.
 ///
-/// The `SuperController` mixin class allows you to define the lifecycle
-/// of your controller classes.
+/// The `SuperViewModel` mixin class allows you to define the lifecycle
+/// of your view model classes.
 /// It provides methods that are called at specific points in the widget
 /// lifecycle,
 /// allowing you to initialize resources, handle events, and clean up
-/// resources when the controller is no longer needed.
+/// resources when the view model is no longer needed.
 ///
 /// Example usage:
 ///
 /// ```dart
-/// class CounterController extends SuperController {
+/// class CounterViewModel extends SuperViewModel {
 ///   final _count = 0.rx; // RxInt(0);
 ///
 ///   int get count => _count.state;
@@ -35,29 +35,29 @@ import 'package:flutter_super/flutter_super.dart';
 /// }
 /// ```
 ///
-/// In the example above, `CounterController` extends `SuperController`
+/// In the example above, `CounterViewModel` extends `SuperViewModel`
 /// and defines a `count` variable
 /// that is managed by an `Rx` object. The `increment()` method is used
 /// to increment the count state.
 /// The `onDisable()` method is overridden to dispose of the `Rx` object
-/// when the controller is disabled.
+/// when the view model is disabled.
 ///
 /// **Note:** It is recommended to define Rx objects as private and only
 /// provide a getter for accessing the state.
 /// This helps prevent the state from being changed outside of the
-/// controller, ensuring that the state is only modified through defined
-/// methods within the controller (e.g., `increment()` in the example).
-mixin class SuperController implements dart.SuperController {
-  /// SuperController Constructor
-  SuperController();
+/// view model, ensuring that the state is only modified through defined
+/// methods within the view model (e.g., `increment()` in the example).
+mixin class SuperViewModel implements dart.SuperController {
+  /// SuperViewModel Constructor
+  SuperViewModel();
 
   bool _alive = false;
   BuildContext? _context;
 
-  /// The [BuildContext] associated with the controller.
+  /// The [BuildContext] associated with the view model.
   ///
-  /// It represents the context of the first widget that uses the controller
-  /// or the immediate widget that initializes the controller after the
+  /// It represents the context of the first widget that uses the view model
+  /// or the immediate widget that initializes the view model after the
   /// original widget is removed from the widget tree when autoDispose
   /// is set to false.
   /// This context is set when the `initContext()` method is called.
@@ -72,11 +72,11 @@ mixin class SuperController implements dart.SuperController {
       'Error: You must neither '
       'make use of BuildContext in the onEnable() method, '
       'nor access this $runtimeType BuildContext without first '
-      'connecting the controller to a SuperWidget.',
+      'connecting the view model to a SuperWidget.',
     );
   }
 
-  /// Checks whether the controller is alive.
+  /// Checks whether the view model is alive.
   @override
   bool get alive => _alive;
 
@@ -84,10 +84,10 @@ mixin class SuperController implements dart.SuperController {
   /// in memory.
   /// It defines the lifecycle of the subclass and should not be overridden.
   ///
-  /// It internally calls the [onEnable] method to initialize the controller.
+  /// It internally calls the [onEnable] method to initialize the view model.
   /// Once the initialization is done, it sets the [alive] flag to true.
   /// This method ensures that [onEnable] is called only once for the
-  /// controller.
+  /// view model.
   @override
   @mustCallSuper
   @nonVirtual
@@ -97,15 +97,15 @@ mixin class SuperController implements dart.SuperController {
     _alive = true;
   }
 
-  /// Initializes the [BuildContext] associated with the controller.
+  /// Initializes the [BuildContext] associated with the view model.
   @nonVirtual
   void initContext(BuildContext? context) {
     if (_context != null) return;
     _context = context;
   }
 
-  /// This method is called when the controller is removed from memory.
-  /// It marks the controller as disabled and calls the [onDisable] method.
+  /// This method is called when the view model is removed from memory.
+  /// It marks the view model as disabled and calls the [onDisable] method.
   ///
   /// This method should not be overridden.
   @override
@@ -117,11 +117,11 @@ mixin class SuperController implements dart.SuperController {
     onDisable();
   }
 
-  /// This method is called when the controller is accessed for the first time,
-  /// which typically happens when the controller is allocated in memory.
+  /// This method is called when the view model is accessed for the first time,
+  /// which typically happens when the view model is allocated in memory.
   ///
-  /// You can perform initialization tasks for the controller in this method.
-  /// For example, initializing controllers, setting up listeners,
+  /// You can perform initialization tasks for the view model in this method.
+  /// For example, initializing view models, setting up listeners,
   /// making asynchronous requests, etc.
   ///
   /// It is recommended to call `super.onEnable()` at the beginning
@@ -156,18 +156,18 @@ mixin class SuperController implements dart.SuperController {
   /// the widget is built.
   ///
   /// Override this method to implement the specific behavior for the
-  /// controller.
+  /// view model.
   @override
   @protected
   @visibleForTesting
   void onAlive() {}
 
-  /// This method can be used to dispose of resources used by the controller.
+  /// This method can be used to dispose of resources used by the view model.
   ///
   /// Override this method to perform any cleanup tasks before the
-  /// controller is terminated.
+  /// view model is terminated.
   /// For example, closing events, streams, disposing Rx objects
-  /// or controllers that can potentially create memory leaks,
+  /// or view models that can potentially create memory leaks,
   /// such as TextEditingControllers or AnimationControllers.
   ///
   /// It is recommended to call `super.onDisable()` at the end of
@@ -175,7 +175,7 @@ mixin class SuperController implements dart.SuperController {
   /// tasks are executed.
   ///
   /// This method might also be useful for persisting data on disk
-  /// before the controller is disabled.
+  /// before the view model is disabled.
   @override
   @protected
   @mustCallSuper
@@ -185,3 +185,8 @@ mixin class SuperController implements dart.SuperController {
     Super.log('$runtimeType was disabled.');
   }
 }
+
+/// Deprecated to align with Flutter's MVVM architecture,
+/// Use SuperViewModel instead.
+@Deprecated('Use SuperViewModel instead')
+class SuperController extends SuperViewModel {}

@@ -18,7 +18,7 @@
 ///
 /// Best regards,
 /// DrDejaVu
-library dart_super;
+library;
 
 export 'src/controller.dart';
 export 'src/core/interface.dart' show Super;

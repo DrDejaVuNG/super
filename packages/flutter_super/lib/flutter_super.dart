@@ -44,9 +44,9 @@
 library flutter_super;
 
 export 'package:dart_super/dart_super.dart' hide SuperController;
-export 'src/controller.dart';
 export 'src/framework.dart';
 export 'src/utilities/context.dart';
+export 'src/view_model.dart';
 export 'src/widgets/async_builder.dart';
 export 'src/widgets/super_builder.dart';
 export 'src/widgets/super_consumer.dart';

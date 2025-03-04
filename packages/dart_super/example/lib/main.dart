@@ -1,4 +1,3 @@
-// ignore_for_file: avoid_print
 import 'package:dart_super/dart_super.dart';
 
 void main() {
@@ -9,7 +8,7 @@ void main() {
 
   // The method used in the addListener method will be called
   // every time the state changes.
-  rxWatch(() => print(count.state), stopWhen: () => count.state > 3);
+  rxWatch(() => Super.log(count.state), stopWhen: () => count.state > 3);
 
   // Increment the state
   count.state++; // prints '1'

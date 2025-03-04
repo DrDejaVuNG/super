@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_super/flutter_super.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-MyController get myController => Super.init(MyController());
+MyViewModel get myViewModel => Super.init(MyViewModel());
 
-class MyController extends SuperController {
+class MyViewModel extends SuperViewModel {
   bool initContextCalled = false;
   bool disableCalled = false;
   bool onBuildCalled = false;
@@ -56,33 +56,33 @@ class CounterNotifier extends RxNotifier<int> {
   }
 }
 
-class MySuperWidget extends SuperWidget<MyController> {
+class MySuperWidget extends SuperWidget<MyViewModel> {
   const MySuperWidget({super.key});
 
   @override
-  MyController initController() => myController;
+  MyViewModel initViewModel() => myViewModel;
   @override
   Widget build(BuildContext context) {
-    final count = context.watch(controller.num);
+    final count = context.watch(ref.num);
     return Text('Value: $count');
   }
 }
 
-class ASuperWidget extends SuperWidget<MyController> {
+class ASuperWidget extends SuperWidget<MyViewModel> {
   const ASuperWidget({super.key});
 
   @override
-  MyController initController() => myController;
+  MyViewModel initViewModel() => myViewModel;
   @override
   Widget build(BuildContext context) {
-    final num = context.watch(controller.notifier);
+    final num = context.watch(ref.notifier);
     return Text('Value: $num');
   }
 }
 
 void main() {
   group('SuperWidget', () {
-    testWidgets('Initializes the controller', (WidgetTester tester) async {
+    testWidgets('Initializes the view model', (WidgetTester tester) async {
       const widget = MySuperWidget();
       await tester.pumpWidget(
         const SuperApp(
@@ -92,11 +92,11 @@ void main() {
         ),
       );
 
-      final controller = widget.controller;
-      expect(controller, isNotNull);
-      expect(controller.buildContext1, isNull);
-      expect(controller.buildContext2, isNotNull);
-      expect(controller.initContextCalled, isTrue);
+      final ref = widget.ref;
+      expect(ref, isNotNull);
+      expect(ref.buildContext1, isNull);
+      expect(ref.buildContext2, isNotNull);
+      expect(ref.initContextCalled, isTrue);
     });
 
     testWidgets('Builds the widget and updates in response to watch method',
@@ -113,8 +113,8 @@ void main() {
       expect(find.byType(Text), findsOneWidget);
       expect(find.text('Value: 0'), findsOneWidget);
 
-      final controller = widget.controller;
-      controller.num.state = 1;
+      final ref = widget.ref;
+      ref.num.state = 1;
 
       await tester.pump();
 
@@ -122,9 +122,9 @@ void main() {
 
       await tester.pumpWidget(Container());
 
-      expect(controller.num.hasListeners, isTrue);
-      controller.num.state = 2; // remove watch listener
-      expect(controller.num.hasListeners, isFalse);
+      expect(ref.num.hasListeners, isTrue);
+      ref.num.state = 2; // remove watch listener
+      expect(ref.num.hasListeners, isFalse);
     });
 
     testWidgets('calls onBuild() when build method is called',
@@ -138,18 +138,18 @@ void main() {
         ),
       );
 
-      final controller = widget.controller;
+      final ref = widget.ref;
 
-      expect(controller.onBuildCalled, true);
+      expect(ref.onBuildCalled, true);
 
-      controller.num.state = 1;
+      ref.num.state = 1;
 
       await tester.pump();
 
-      expect(controller.onBuildCalled, false); // Called again
+      expect(ref.onBuildCalled, false); // Called again
     });
 
-    testWidgets('Disposes the controller', (WidgetTester tester) async {
+    testWidgets('Disposes the view model', (WidgetTester tester) async {
       const widget = ASuperWidget();
       await tester.pumpWidget(
         const SuperApp(
@@ -159,21 +159,21 @@ void main() {
         ),
       );
 
-      final controller = widget.controller;
+      final ref = widget.ref;
 
       expect(find.byType(Text), findsOneWidget);
 
       expect(find.text('Value: 5'), findsOneWidget);
 
-      expect(controller.disableCalled, isFalse);
+      expect(ref.disableCalled, isFalse);
 
       await tester.pumpWidget(Container());
 
-      expect(controller.disableCalled, isTrue);
+      expect(ref.disableCalled, isTrue);
 
-      expect(controller.notifier.hasListeners, isTrue);
-      controller.notifier.state = 2; // remove watch listener
-      expect(controller.notifier.hasListeners, isFalse);
+      expect(ref.notifier.hasListeners, isTrue);
+      ref.notifier.state = 2; // remove watch listener
+      expect(ref.notifier.hasListeners, isFalse);
     });
   });
 }

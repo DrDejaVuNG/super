@@ -4,7 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_super/flutter_super.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-class MyController extends SuperController {
+class MyViewModel extends SuperViewModel {
   bool onEnableCalled = false;
   bool onBuildCalled = false;
   bool onAliveCalled = false;
@@ -33,68 +33,68 @@ class MyController extends SuperController {
 }
 
 void main() {
-  group('SuperController', () {
+  group('SuperViewModel', () {
     setUp(TestWidgetsFlutterBinding.ensureInitialized);
-    test('enable() should initialize the controller', () {
-      final controller = MyController();
+    test('enable() should initialize the view model', () {
+      final ref = MyViewModel();
 
-      expect(controller.alive, false);
+      expect(ref.alive, false);
 
-      controller.enable();
+      ref.enable();
 
-      expect(controller.alive, true);
+      expect(ref.alive, true);
     });
 
     test('enable() should call onEnable()', () {
-      final controller = MyController();
+      final ref = MyViewModel();
 
-      expect(controller.onEnableCalled, false);
+      expect(ref.onEnableCalled, false);
 
-      controller.enable();
+      ref.enable();
 
-      expect(controller.onEnableCalled, true);
+      expect(ref.onEnableCalled, true);
     });
 
-    test('disable() should disable the controller', () {
-      final controller = MyController();
+    test('disable() should disable the view model', () {
+      final ref = MyViewModel();
 
-      controller.enable();
+      ref.enable();
 
-      expect(controller.alive, true);
-      expect(controller.onDisableCalled, false);
+      expect(ref.alive, true);
+      expect(ref.onDisableCalled, false);
 
-      controller.disable();
+      ref.disable();
 
-      expect(controller.alive, false);
-      expect(controller.onDisableCalled, true);
+      expect(ref.alive, false);
+      expect(ref.onDisableCalled, true);
     });
 
     test('onEnable() should call onAlive() in the next frame', () {
-      final controller = MyController();
+      final ref = MyViewModel();
 
-      controller.enable();
+      ref.enable();
 
-      expect(controller.onAliveCalled, false);
+      expect(ref.onAliveCalled, false);
 
       WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-        expect(controller.onAliveCalled, true);
+        expect(ref.onAliveCalled, true);
       });
     });
 
-    test('onDisable() should delete the controller instance', () {
-      final controller = MyController();
+    test('onDisable() should delete the view model instance', () {
+      final ref = MyViewModel();
 
       expect(
-        () => Super.of<MyController>(),
+        () => Super.of<MyViewModel>(),
         throwsA(isA<StateError>()),
       );
 
-      controller
+      ref
         ..enable()
         ..disable();
 
       expect(
-        () => Super.of<MyController>(),
+        () => Super.of<MyViewModel>(),
         throwsA(isA<StateError>()),
       );
     });

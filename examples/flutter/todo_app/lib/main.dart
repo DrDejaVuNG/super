@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:todo_app/app/interaction/interaction.dart';
 import 'package:todo_app/app/interface/interface.dart';
 import 'package:flutter_super/flutter_super.dart';
 
 void main() {
   runApp(
-    const SuperApp(
-      child: MyApp(),
+    SuperApp(
+      config: SuperAppConfig(
+        // testMode: true,
+        mocks: [
+          MockTodoController(),
+        ],
+      ),
+      child: const MyApp(),
     ),
   );
 }

@@ -148,9 +148,7 @@ final class RxList<T> extends Rx<List<T>> with ListMixin<T> {
   @override
   bool remove(covariant T element) {
     final removed = _list.remove(element);
-    if (removed) {
-      _notifyListeners();
-    }
+    if (removed) _notifyListeners();
     return removed;
   }
 
