@@ -10,7 +10,7 @@ environment:
   sdk: '>=3.0.0 <4.0.0'
 
 dependencies:
-  dart_super: ^1.4.8
+  dart_super: ^1.4.9
   flutter:
     sdk: flutter
 
