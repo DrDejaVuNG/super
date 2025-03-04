@@ -167,7 +167,7 @@ mixin class SuperViewModel implements dart.SuperController {
   /// Override this method to perform any cleanup tasks before the
   /// view model is terminated.
   /// For example, closing events, streams, disposing Rx objects
-  /// or view models that can potentially create memory leaks,
+  /// or controllers that can potentially create memory leaks,
   /// such as TextEditingControllers or AnimationControllers.
   ///
   /// It is recommended to call `super.onDisable()` at the end of
